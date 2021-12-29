@@ -1,6 +1,8 @@
 import { Col, Row } from "antd";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { load } from "../modules/media";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -19,35 +21,33 @@ const StyledLink = styled(Link)`
 `;
 
 function Mypage() {
-  const [videos, setVideos] = useState([]);
+  const dispatch = useDispatch();
+  const { media, user } = useSelector(({ media, user }) => ({
+    media: media.media,
+    user: user.user,
+  }));
 
   useEffect(() => {
-    setVideos([
-      { id: 1, title: "Video1", thumbnail: "" },
-      { id: 2, title: "Video2", thumbnail: "" },
-      { id: 3, title: "Video3", thumbnail: "" },
-      { id: 4, title: "Video4", thumbnail: "" },
-      { id: 5, title: "Video5", thumbnail: "" },
-      { id: 6, title: "Video6", thumbnail: "" },
-    ]);
-  }, []);
+    dispatch(load(user));
+  }, [dispatch, user]);
 
   return (
     <Container>
       <h2 style={{ fontWeight: "bold" }}>자막이 생성된 미디어</h2>
       <Row gutter={[16, 16]} style={{ marginTop: "30px" }}>
-        {videos.map((video) => (
-          <StyledLink to="/result">
-            <Col id={video.id} style={{ display: "flex", width: 460 }}>
-              <img
-                alt={video.id}
-                height="160"
-                src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fvckff%2FbtqCjeJmBHM%2FtMVpe4aUIMfH4nKS4aO3tK%2Fimg.jpg"
-              />
-              <VideoTitle>{video.title}</VideoTitle>
-            </Col>
-          </StyledLink>
-        ))}
+        {media &&
+          media.map((video) => (
+            <StyledLink to="/result">
+              <Col id={video.id} style={{ display: "flex", width: 460 }}>
+                <img
+                  alt={video.id}
+                  height="160"
+                  src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fvckff%2FbtqCjeJmBHM%2FtMVpe4aUIMfH4nKS4aO3tK%2Fimg.jpg"
+                />
+                <VideoTitle>{video.videoName}</VideoTitle>
+              </Col>
+            </StyledLink>
+          ))}
       </Row>
     </Container>
   );
