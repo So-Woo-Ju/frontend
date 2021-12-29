@@ -18,6 +18,13 @@ const ButtonBox = styled.div`
 const StyledButton = styled(Button)`
   width: 130px;
 `;
+const SocialLoginBox = styled.div`
+  display: flex;
+`;
+const SocialLoginButton = styled.div`
+  cursor: pointer;
+  margin: 10px;
+`;
 
 function Login() {
   const navigate = useNavigate();
@@ -81,6 +88,14 @@ function Login() {
               로그인
             </StyledButton>
           </ButtonBox>
+          <SocialLoginBox>
+            <SocialLoginButton>
+              <img alt="google" src="/google_login.png" width="150" />
+            </SocialLoginButton>
+            <SocialLoginButton>
+              <img alt="kakao" src="/kakao_login.png" width="150" />
+            </SocialLoginButton>
+          </SocialLoginBox>
         </Form.Item>
       </Form>
     </Container>

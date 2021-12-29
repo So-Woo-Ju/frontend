@@ -15,10 +15,6 @@ function App() {
     user: user.user,
   }));
 
-  useEffect(() => {
-    console.log("refresh");
-  });
-
   return (
     <div style={{ height: window.innerHeight }}>
       <Header />

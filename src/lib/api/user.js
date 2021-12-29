@@ -7,7 +7,7 @@ export const doublecheck = ({ email }) => {
 };
 
 export const signup = (user) => {
-  return { data: user };
+  return { data: null };
 };
 
 export const logout = (user) => {
