@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Form, Input, Button } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { signup, doublecheck } from "../modules/user";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -19,11 +21,30 @@ const StyledButton = styled(Button)`
 const StyledCheckButton = styled(Button)`
   float: right;
 `;
+const ErrorMessage = styled.p`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -10px;
+  font-size: 13px;
+  color: red;
+`;
+const CheckMessage = styled.p`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -10px;
+  font-size: 13px;
+  color: gray;
+`;
 
 function Signup() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { check } = useSelector(({ user }) => ({
+    check: user.double,
+  }));
   const [user, setUser] = useState({ email: "", password: "" });
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [doubleErrorMessage, setDoubleErrorMessage] = useState("");
 
   const _handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -31,15 +52,31 @@ function Signup() {
   const _handlePwdChange = (e) => {
     setPasswordConfirm(e.target.value);
   };
+  const _handleDoubleCheck = () => {
+    dispatch(doublecheck(user.email));
+  };
 
   const _handleSubmit = () => {
-    navigate("/login");
+    if (check === false) {
+      dispatch(signup(user));
+      navigate("/login");
+    }
   };
+
+  useEffect(() => {
+    if (check) {
+      setDoubleErrorMessage("이미 사용중인 이메일입니다");
+    } else if (check === false) {
+      setDoubleErrorMessage("사용 가능한 이메일입니다");
+    }
+  }, [check]);
 
   return (
     <Container>
       <Form onFinish={_handleSubmit} autoComplete="off">
-        <StyledCheckButton type="link">중복확인</StyledCheckButton>
+        <StyledCheckButton type="link" onClick={_handleDoubleCheck}>
+          중복확인
+        </StyledCheckButton>
         <Form.Item
           label="이메일"
           name="email"
@@ -58,6 +95,8 @@ function Signup() {
             size="large"
           />
         </Form.Item>
+        {check && <ErrorMessage>{doubleErrorMessage}</ErrorMessage>}
+        {check === false && <CheckMessage>{doubleErrorMessage}</CheckMessage>}
         <Form.Item
           label="비밀번호"
           name="password"

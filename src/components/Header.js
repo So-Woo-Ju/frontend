@@ -1,5 +1,8 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../modules/user";
+import { Button } from "antd";
 import { AiFillHome } from "react-icons/ai";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
@@ -29,12 +32,20 @@ const UserBox = styled(Link)`
     color: gray;
   }
 `;
-const StyledLink = styled(Link)`
+const StyledLogout = styled(Button)`
   font-size: 13px;
   padding: 7px 7px 0 15px;
 `;
 
 function Header() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const _handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
+
   return (
     <Container>
       <LeftBox to="/">
@@ -44,7 +55,9 @@ function Header() {
         <UserBox to="/mypage">
           <Avatar icon={<UserOutlined />} />
         </UserBox>
-        <StyledLink to="/login">logout</StyledLink>
+        <StyledLogout type="link" onClick={_handleLogout}>
+          logout
+        </StyledLogout>
       </RightBox>
     </Container>
   );

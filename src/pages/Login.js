@@ -48,8 +48,8 @@ function Login() {
           ]}
         >
           <Input
-            name="id"
-            value={user.id}
+            name="email"
+            value={user.email}
             onChange={_handleChange}
             size="large"
           />
