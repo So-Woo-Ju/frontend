@@ -77,7 +77,7 @@ function MainPage() {
     } else {
       setEmptyErrorMsg("");
       if (type === 1 || (type === 2 && Url && UrlErrorMsg === "")) {
-        navigate("/");
+        navigate("/loading");
       }
     }
   };
