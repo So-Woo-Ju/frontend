@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../modules/user";
 import { Button } from "antd";
 import { AiFillHome } from "react-icons/ai";
@@ -40,6 +40,7 @@ const StyledLogout = styled(Button)`
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
 
   const _handleLogout = () => {
     dispatch(logout());
@@ -52,12 +53,16 @@ function Header() {
         <AiFillHome size={40} />
       </LeftBox>
       <RightBox>
-        <UserBox to="/mypage">
-          <Avatar icon={<UserOutlined />} />
-        </UserBox>
-        <StyledLogout type="link" onClick={_handleLogout}>
-          logout
-        </StyledLogout>
+        {user && (
+          <>
+            <UserBox to="/mypage">
+              <Avatar icon={<UserOutlined />} />
+            </UserBox>
+            <StyledLogout type="link" onClick={_handleLogout}>
+              logout
+            </StyledLogout>
+          </>
+        )}
       </RightBox>
     </Container>
   );
