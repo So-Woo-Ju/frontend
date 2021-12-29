@@ -29,11 +29,6 @@ const UserBox = styled(Link)`
     color: gray;
   }
 `;
-const StyledUsername = styled.p`
-  font-size: 15px;
-  padding-left: 7px;
-  padding-top: 5px;
-`;
 const StyledLink = styled(Link)`
   font-size: 13px;
   padding: 7px 7px 0 15px;
@@ -48,7 +43,6 @@ function Header() {
       <RightBox>
         <UserBox to="/mypage">
           <Avatar icon={<UserOutlined />} />
-          <StyledUsername>username</StyledUsername>
         </UserBox>
         <StyledLink to="/login">logout</StyledLink>
       </RightBox>

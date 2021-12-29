@@ -22,7 +22,7 @@ const StyledCheckButton = styled(Button)`
 
 function Signup() {
   const navigate = useNavigate();
-  const [user, setUser] = useState({ id: "", password: "" });
+  const [user, setUser] = useState({ email: "", password: "" });
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const _handleChange = (e) => {
@@ -41,20 +41,19 @@ function Signup() {
       <Form onFinish={_handleSubmit} autoComplete="off">
         <StyledCheckButton type="link">중복확인</StyledCheckButton>
         <Form.Item
-          label="아이디"
-          name="userId"
+          label="이메일"
+          name="email"
           rules={[
-            { required: true, message: "아이디를 입력해주세요" },
+            { required: true, message: "이메일을 입력해주세요" },
             {
-              type: "string",
-              min: 5,
-              message: "아이디를 5자 이상 입력해주세요",
+              type: "email",
+              message: "이메일을 정확히 입력해주세요",
             },
           ]}
         >
           <Input
-            name="id"
-            value={user.id}
+            name="email"
+            value={user.email}
             onChange={_handleChange}
             size="large"
           />

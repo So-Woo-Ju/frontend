@@ -10,19 +10,19 @@ const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
 export const login = createRequestThunk(LOGIN, userAPI.login);
 
 const initialState = {
-  login: null,
+  user: null,
 };
 
 export default handleActions(
   {
-    [LOGIN_SUCCESS]: (state, { payload: login }) => ({
+    [LOGIN_SUCCESS]: (state, { payload: user }) => ({
       ...state,
-      login,
+      user,
       error: null,
     }),
     [LOGIN_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      login: null,
+      user: null,
       error,
     }),
   },

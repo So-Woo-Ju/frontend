@@ -22,7 +22,7 @@ const StyledButton = styled(Button)`
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [user, setUser] = useState({ id: "", password: "" });
+  const [user, setUser] = useState({ email: "", password: "" });
 
   const _handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -37,9 +37,15 @@ function Login() {
     <Container>
       <Form onFinish={_handleSubmit} autoComplete="off">
         <Form.Item
-          label="아이디"
-          name="userId"
-          rules={[{ required: true, message: "아이디를 입력해주세요" }]}
+          label="이메일"
+          name="email"
+          rules={[
+            { required: true, message: "이메일을 입력해주세요" },
+            {
+              type: "email",
+              message: "이메일을 정확히 입력해주세요",
+            },
+          ]}
         >
           <Input
             name="id"
