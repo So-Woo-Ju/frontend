@@ -5,6 +5,7 @@ import Loading from "./pages/Loading";
 import ResultPage from "./pages/ResultPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Mypage from "./pages/Mypage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/loading" element={<Loading />} />
         <Route path="/result" element={<ResultPage />} />
+        <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </div>
   );
