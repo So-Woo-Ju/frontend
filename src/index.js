@@ -7,8 +7,12 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "antd/dist/antd.css";
 import rootReducer from "./modules";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk)),
+);
 
 ReactDOM.render(
   <React.StrictMode>

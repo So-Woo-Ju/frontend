@@ -1,1 +1,3 @@
-export const login = (user) => {};
+export const login = (user) => {
+  return { data: user };
+};
