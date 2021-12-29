@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Form, Input, Button } from "antd";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { login } from "../modules/user";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -19,6 +21,7 @@ const StyledButton = styled(Button)`
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [user, setUser] = useState({ id: "", password: "" });
 
   const _handleChange = (e) => {
@@ -26,6 +29,7 @@ function Login() {
   };
 
   const _handleSubmit = () => {
+    dispatch(login(user));
     navigate("/");
   };
 

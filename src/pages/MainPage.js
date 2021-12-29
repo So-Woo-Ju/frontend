@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Radio, Upload, Button, Input } from "antd";
 import styled from "styled-components";
 import { UploadOutlined } from "@ant-design/icons";
@@ -29,6 +30,9 @@ const StyledError = styled.p`
 
 function MainPage() {
   const navigate = useNavigate();
+  const { saveUser } = useSelector(({ user }) => ({
+    saveUser: user.login,
+  }));
   const [lang, setLang] = useState(1);
   const [type, setType] = useState(1);
   const [Url, setUrl] = useState("");
@@ -81,6 +85,10 @@ function MainPage() {
       }
     }
   };
+
+  useEffect(() => {
+    console.log(saveUser);
+  }, [saveUser]);
 
   return (
     <Container>
