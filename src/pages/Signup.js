@@ -58,8 +58,9 @@ function Signup() {
 
   const _handleSubmit = () => {
     if (check === false) {
-      dispatch(signup(user));
-      navigate("/login");
+      dispatch(signup(user)).then(() => {
+        navigate("/login");
+      });
     }
   };
 

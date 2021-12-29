@@ -36,8 +36,9 @@ function Login() {
   };
 
   const _handleSubmit = () => {
-    dispatch(login(user));
-    navigate("/");
+    dispatch(login(user)).then(() => {
+      navigate("/");
+    });
   };
 
   return (
