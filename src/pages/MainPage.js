@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { upload } from "../modules/media";
 import { Radio, Upload, Button, Input } from "antd";
 import styled from "styled-components";
 import { UploadOutlined } from "@ant-design/icons";
@@ -28,6 +30,7 @@ const StyledError = styled.p`
 `;
 
 function MainPage() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [lang, setLang] = useState(1);
   const [type, setType] = useState(1);
@@ -77,6 +80,7 @@ function MainPage() {
     } else {
       setEmptyErrorMsg("");
       if (type === 1 || (type === 2 && Url && UrlErrorMsg === "")) {
+        dispatch(upload());
         navigate("/loading");
       }
     }

@@ -67,3 +67,9 @@ export const load = (user) => {
     ],
   };
 };
+
+export const upload = ({ video }) => {
+  return {
+    data: null,
+  };
+};
