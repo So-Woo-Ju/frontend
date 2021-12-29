@@ -37,7 +37,7 @@ function Mypage() {
       <Row gutter={[16, 16]} style={{ marginTop: "30px" }}>
         {media &&
           media.map((video) => (
-            <StyledLink to="/result">
+            <StyledLink to="/result" key={video.id}>
               <Col id={video.id} style={{ display: "flex", width: 460 }}>
                 <img
                   alt={video.id}

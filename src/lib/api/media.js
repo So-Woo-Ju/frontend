@@ -2,6 +2,7 @@ export const load = (user) => {
   return {
     data: [
       {
+        id: 1,
         src: "",
         userId: "",
         videoName: "제목제목",
@@ -10,6 +11,7 @@ export const load = (user) => {
         videoLanguage: "",
       },
       {
+        id: 2,
         src: "",
         userId: "",
         videoName: "제목제목",
@@ -18,6 +20,7 @@ export const load = (user) => {
         videoLanguage: "",
       },
       {
+        id: 3,
         src: "",
         userId: "",
         videoName: "제목제목",
@@ -26,6 +29,7 @@ export const load = (user) => {
         videoLanguage: "",
       },
       {
+        id: 4,
         src: "",
         userId: "",
         videoName: "제목제목",
@@ -34,6 +38,7 @@ export const load = (user) => {
         videoLanguage: "",
       },
       {
+        id: 5,
         src: "",
         userId: "",
         videoName: "제목제목",
@@ -42,6 +47,7 @@ export const load = (user) => {
         videoLanguage: "",
       },
       {
+        id: 6,
         src: "",
         userId: "",
         videoName: "제목제목",
@@ -50,6 +56,7 @@ export const load = (user) => {
         videoLanguage: "",
       },
       {
+        id: 7,
         src: "",
         userId: "",
         videoName: "제목제목",

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import MainPage from "./pages/MainPage";
@@ -13,6 +14,11 @@ function App() {
   const { user } = useSelector(({ user }) => ({
     user: user.user,
   }));
+
+  useEffect(() => {
+    console.log("refresh");
+  });
+
   return (
     <div style={{ height: window.innerHeight }}>
       <Header />

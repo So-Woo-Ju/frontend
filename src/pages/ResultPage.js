@@ -88,7 +88,7 @@ function ResultPage() {
         >
           <Script>
             {scriptText.map((script) => (
-              <ScriptBox>
+              <ScriptBox key={script.time}>
                 <StyledScriptTime onClick={_handleTimeline}>
                   {script.time}
                 </StyledScriptTime>
