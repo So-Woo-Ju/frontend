@@ -25,10 +25,14 @@ const StyledScriptTime = styled.p`
   color: #1890ff;
   cursor: pointer;
 `;
+const VideoTitle = styled.p`
+  font-size: 20px;
+`;
 
 function ResultPage() {
   const ref = useRef();
   const [videoSrc, setVideoSrc] = useState("");
+  const [title, setTitle] = useState("Video Title");
   const [scriptText, setScriptText] = useState([]);
 
   const _handleTimeline = (e) => {
@@ -77,6 +81,7 @@ function ResultPage() {
           xs={{ span: 24 }}
           md={{ span: 12 }}
         >
+          <VideoTitle>{title}</VideoTitle>
           <video controls width="95%" ref={ref}>
             <source src={videoSrc} type="video/mp4" />
           </video>
