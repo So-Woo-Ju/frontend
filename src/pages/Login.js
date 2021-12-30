@@ -20,12 +20,14 @@ const ButtonBox = styled.div`
 const StyledButton = styled(Button)`
   width: 130px;
 `;
-const SocialLoginBox = styled.div`
-  display: flex;
-`;
 const SocialLoginButton = styled.div`
   cursor: pointer;
-  margin: 10px;
+  margin-top: 10px;
+`;
+const SocialButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 function Login() {
@@ -106,18 +108,19 @@ function Login() {
               로그인
             </StyledButton>
           </ButtonBox>
-          <SocialLoginBox>
+          <SocialButtons>
             <SocialLoginButton>
               <GoogleLogin
+                buttonText="        Sign up with Google       "
                 clientId={config.GOOGLE_CLIENT_ID}
                 onSuccess={_handleGoogleSuccess}
                 onFailure={_handleGoogleFailure}
               />
             </SocialLoginButton>
             <SocialLoginButton onClick={_handleKakaoLogin}>
-              <img alt="kakao" src="/kakao_login.png" width="190" />
+              <img alt="kakao" src="/kakao_login_medium_wide.png" />
             </SocialLoginButton>
-          </SocialLoginBox>
+          </SocialButtons>
         </Form.Item>
       </Form>
     </Container>
