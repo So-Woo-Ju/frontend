@@ -31,6 +31,7 @@ const SocialLoginButton = styled.div`
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { Kakao } = window;
   const [user, setUser] = useState({ email: "", password: "" });
 
   const _handleChange = (e) => {
@@ -42,14 +43,19 @@ function Login() {
       navigate("/");
     });
   };
-  const _handleSuccess = async (res) => {
+  const _handleGoogleSuccess = async (res) => {
     const {
       profileObj: { email },
     } = res;
     dispatch(login({ email, password: null })).then(() => navigate("/"));
   };
-  const _handleFailure = (err) => {
+  const _handleGoogleFailure = (err) => {
     console.log(err);
+  };
+  const _handleKakaoLogin = () => {
+    Kakao.Auth.authorize({
+      redirectUri: config.KAKAO_REDIRECT_URI,
+    });
   };
 
   return (
@@ -104,12 +110,12 @@ function Login() {
             <SocialLoginButton>
               <GoogleLogin
                 clientId={config.GOOGLE_CLIENT_ID}
-                onSuccess={_handleSuccess}
-                onFailure={_handleFailure}
+                onSuccess={_handleGoogleSuccess}
+                onFailure={_handleGoogleFailure}
               />
             </SocialLoginButton>
-            <SocialLoginButton>
-              <img alt="kakao" src="/kakao_login.png" width="150" />
+            <SocialLoginButton onClick={_handleKakaoLogin}>
+              <img alt="kakao" src="/kakao_login.png" width="190" />
             </SocialLoginButton>
           </SocialLoginBox>
         </Form.Item>
