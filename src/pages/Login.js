@@ -3,6 +3,8 @@ import { Form, Input, Button } from "antd";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../modules/user";
+import GoogleLogin from "react-google-login";
+import * as config from "../config";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -39,6 +41,15 @@ function Login() {
     dispatch(login(user)).then(() => {
       navigate("/");
     });
+  };
+  const _handleSuccess = async (res) => {
+    const {
+      profileObj: { email },
+    } = res;
+    dispatch(login({ email, password: null })).then(() => navigate("/"));
+  };
+  const _handleFailure = (err) => {
+    console.log(err);
   };
 
   return (
@@ -91,7 +102,11 @@ function Login() {
           </ButtonBox>
           <SocialLoginBox>
             <SocialLoginButton>
-              <img alt="google" src="/google_login.png" width="150" />
+              <GoogleLogin
+                clientId={config.GOOGLE_CLIENT_ID}
+                onSuccess={_handleSuccess}
+                onFailure={_handleFailure}
+              />
             </SocialLoginButton>
             <SocialLoginButton>
               <img alt="kakao" src="/kakao_login.png" width="150" />
