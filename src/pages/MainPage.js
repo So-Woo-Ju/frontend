@@ -33,6 +33,7 @@ function MainPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [uploadFile, setUploadFile] = useState("");
   const [lang, setLang] = useState(1);
   const [type, setType] = useState(1);
   const [Url, setUrl] = useState("");
@@ -50,7 +51,13 @@ function MainPage() {
       return file.type === "video/mp4" ? true : Upload.LIST_IGNORE;
     },
     onChange: (info) => {
-      console.log(info.fileList);
+      setUploadFile(info.file);
+      /*let reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadFile(info.file);
+        const base64 = reader.result;
+        console.log(base64);
+      };*/
     },
   };
 
@@ -108,7 +115,7 @@ function MainPage() {
       </div>
       <div style={{ marginTop: 20 }}>
         {type === 1 ? (
-          <Upload {...props}>
+          <Upload {...props} maxCount={1}>
             <Button icon={<UploadOutlined />}>
               {lang === 1 ? "업로드" : "Upload"}
             </Button>
