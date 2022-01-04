@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../modules/user";
 import styled from "styled-components";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 
 const Container = styled.div`
   height: 80%;
@@ -99,7 +100,7 @@ function Login() {
           </ButtonBox>
           <SocialButtons>
             <SocialLoginButton onClick={_handleGoogleLogin}>
-              <img alt="google" src="/google_login.png" width={255} />
+              <GoogleLoginButton />
             </SocialLoginButton>
             <SocialLoginButton onClick={_handleKakaoLogin}>
               <img alt="kakao" src="/kakao_login_medium_wide.png" width={250} />
