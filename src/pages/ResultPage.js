@@ -67,7 +67,7 @@ function ResultPage() {
   };
 
   useEffect(() => {
-    setYoutubeSrc("76eyAydNX18");
+    setYoutubeSrc("2SIGU1sC8-Q");
     setTitle("Video Title");
     //setVideoSrc("/video.mp4");
     setScriptText([

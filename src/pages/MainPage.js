@@ -81,10 +81,21 @@ function MainPage() {
         setEmptyErrorMsg("Please enter video title");
       }
     } else {
-      setEmptyErrorMsg("");
-      if (type === 1 || (type === 2 && Url && UrlErrorMsg === "")) {
-        dispatch(upload());
-        navigate("/loading");
+      if (type === 1 && !uploadFile) {
+        if (lang === 1) {
+          setEmptyErrorMsg("영상을 선택해주세요");
+        } else {
+          setEmptyErrorMsg("Please upload video");
+        }
+      } else {
+        setEmptyErrorMsg("");
+        if (
+          (type === 1 && uploadFile) ||
+          (type === 2 && Url && UrlErrorMsg === "")
+        ) {
+          dispatch(upload());
+          navigate("/loading");
+        }
       }
     }
   };
