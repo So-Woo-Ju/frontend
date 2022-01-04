@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { upload } from "../modules/media";
-import { Radio, Upload, Button, Input } from "antd";
+import { Radio, Upload, Button, Input, message } from "antd";
 import styled from "styled-components";
 import { UploadOutlined } from "@ant-design/icons";
 
@@ -32,6 +32,7 @@ const StyledError = styled.p`
 function MainPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [lang, setLang] = useState(1);
   const [type, setType] = useState(1);
   const [Url, setUrl] = useState("");
@@ -41,21 +42,23 @@ function MainPage() {
   const regex =
     /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 
+  const props = {
+    beforeUpload: (file) => {
+      if (file.type !== "video/mp4") {
+        message.error("Please upload video(mp4) file");
+      }
+      return file.type === "video/mp4" ? true : Upload.LIST_IGNORE;
+    },
+    onChange: (info) => {
+      console.log(info.fileList);
+    },
+  };
+
   const _handleChangeLanguage = (e) => {
     setLang(e.target.value);
   };
   const _handleChangeType = (e) => {
     setType(e.target.value);
-  };
-  const _handleUpload = (e) => {
-    if (e.file.status !== "uploading") {
-      console.log(e.file);
-    }
-    if (e.file.status === "done") {
-      console.log("done!");
-    } else {
-      console.log("error!");
-    }
   };
 
   const _handleChangeUrl = (e) => {
@@ -105,7 +108,7 @@ function MainPage() {
       </div>
       <div style={{ marginTop: 20 }}>
         {type === 1 ? (
-          <Upload action="" onChange={_handleUpload}>
+          <Upload {...props}>
             <Button icon={<UploadOutlined />}>
               {lang === 1 ? "업로드" : "Upload"}
             </Button>
