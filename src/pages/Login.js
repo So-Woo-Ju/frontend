@@ -46,6 +46,7 @@ function Login() {
     });
   };
   const _handleGoogleSuccess = async (res) => {
+    console.log(res);
     const {
       profileObj: { email },
     } = res;
