@@ -8,7 +8,6 @@ import Signup from "./pages/Signup";
 import Mypage from "./pages/Mypage";
 import ErrorPage from "./pages/Errorpage";
 import { useSelector } from "react-redux";
-import OAuth from "./pages/oAuth/OAuth";
 
 function App() {
   const { user } = useSelector(({ user }) => ({
@@ -57,7 +56,6 @@ function App() {
             user === null ? <Navigate replace to="/login" /> : <ErrorPage />
           }
         />
-        <Route path="/oauth/kakao" element={<OAuth />} />
         <Route
           path="*"
           element={

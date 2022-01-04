@@ -3,8 +3,6 @@ import { Form, Input, Button } from "antd";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../modules/user";
-import GoogleLogin from "react-google-login";
-import * as config from "../config";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -33,7 +31,6 @@ const SocialButtons = styled.div`
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { Kakao } = window;
   const [user, setUser] = useState({ email: "", password: "" });
 
   const _handleChange = (e) => {
@@ -45,20 +42,11 @@ function Login() {
       navigate("/");
     });
   };
-  const _handleGoogleSuccess = async (res) => {
-    console.log(res);
-    const {
-      profileObj: { email },
-    } = res;
-    dispatch(login({ email, password: null })).then(() => navigate("/"));
-  };
-  const _handleGoogleFailure = (err) => {
-    console.log(err);
+  const _handleGoogleLogin = () => {
+    console.log("구글 로그인 버튼");
   };
   const _handleKakaoLogin = () => {
-    Kakao.Auth.authorize({
-      redirectUri: config.KAKAO_REDIRECT_URI,
-    });
+    console.log("카카오 로그인 버튼");
   };
 
   return (
@@ -110,16 +98,21 @@ function Login() {
             </StyledButton>
           </ButtonBox>
           <SocialButtons>
-            <SocialLoginButton>
-              <GoogleLogin
-                buttonText="        Sign up with Google       "
-                clientId={config.GOOGLE_CLIENT_ID}
-                onSuccess={_handleGoogleSuccess}
-                onFailure={_handleGoogleFailure}
+            <SocialLoginButton onClick={_handleGoogleLogin}>
+              <img
+                alt="google"
+                src="/google_login.png"
+                width={300}
+                height={60}
               />
             </SocialLoginButton>
             <SocialLoginButton onClick={_handleKakaoLogin}>
-              <img alt="kakao" src="/kakao_login_medium_wide.png" />
+              <img
+                alt="kakao"
+                src="/kakao_login_medium_wide.png"
+                width={290}
+                height={50}
+              />
             </SocialLoginButton>
           </SocialButtons>
         </Form.Item>
