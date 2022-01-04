@@ -10,16 +10,23 @@ const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] =
   createRequestActionTypes("user/SIGNUP");
 const [DOUBLECHECK, DOUBLECHECK_SUCCESS, DOUBLECHECK_FAILURE] =
   createRequestActionTypes("user/DOUBLECHECK");
+const [CHECK_NUMBER, CHECK_NUMBER_SUCCESS, CHECK_NUMBER_FAILURE] =
+  createRequestActionTypes("user/CHECK_NUMBER");
 const LOGOUT = "user/LOGOUT";
 
 export const login = createRequestThunk(LOGIN, userAPI.login);
 export const logout = createAction(LOGOUT);
 export const signup = createRequestThunk(SIGNUP, userAPI.signup);
 export const doublecheck = createRequestThunk(DOUBLECHECK, userAPI.doublecheck);
+export const checkNumber = createRequestThunk(
+  CHECK_NUMBER,
+  userAPI.checkNumber,
+);
 
 const initialState = {
   user: null,
   double: null,
+  numberChecked: null,
 };
 
 export default handleActions(
@@ -52,6 +59,16 @@ export default handleActions(
     [DOUBLECHECK_FAILURE]: (state, { payload: error }) => ({
       ...state,
       double: null,
+      error,
+    }),
+    [CHECK_NUMBER_SUCCESS]: (state, { payload: numberChecked }) => ({
+      ...state,
+      numberChecked,
+      error: null,
+    }),
+    [CHECK_NUMBER_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      numberChecked: null,
       error,
     }),
     [LOGOUT]: (state) => ({

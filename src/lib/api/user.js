@@ -3,7 +3,7 @@ export const login = (user) => {
 };
 
 export const doublecheck = ({ email }) => {
-  return { data: false };
+  return { data: true };
 };
 
 export const signup = (user) => {
@@ -12,4 +12,8 @@ export const signup = (user) => {
 
 export const logout = (user) => {
   return { data: null };
+};
+
+export const checkNumber = ({ number }) => {
+  return { data: true };
 };

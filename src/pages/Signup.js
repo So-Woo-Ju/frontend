@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { signup, doublecheck } from "../modules/user";
+import { signup, doublecheck, checkNumber } from "../modules/user";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -39,12 +39,14 @@ const CheckMessage = styled.p`
 function Signup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { check } = useSelector(({ user }) => ({
+  const { check, numberChecked } = useSelector(({ user }) => ({
     check: user.double,
+    numberChecked: user.numberChecked,
   }));
   const [user, setUser] = useState({ email: "", password: "" });
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [doubleErrorMessage, setDoubleErrorMessage] = useState("");
+  const [errorMsg, setErrorMessage] = useState("");
+  const [number, setNumber] = useState("");
 
   const _handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -52,12 +54,20 @@ function Signup() {
   const _handlePwdChange = (e) => {
     setPasswordConfirm(e.target.value);
   };
-  const _handleDoubleCheck = () => {
+  const _handleEmailCheck = () => {
     dispatch(doublecheck(user.email));
+    console.log("메일 인증");
+  };
+  const _checkNumber = () => {
+    dispatch(checkNumber({ number }));
+    console.log("인증 번호 입력");
+  };
+  const _handleNumberChange = (e) => {
+    setNumber(e.target.value);
   };
 
   const _handleSubmit = () => {
-    if (check === false) {
+    if (check === true && numberChecked === true) {
       dispatch(signup(user)).then(() => {
         navigate("/login");
       });
@@ -66,17 +76,17 @@ function Signup() {
 
   useEffect(() => {
     if (check) {
-      setDoubleErrorMessage("이미 사용중인 이메일입니다");
+      setErrorMessage("이미 사용중인 이메일입니다");
     } else if (check === false) {
-      setDoubleErrorMessage("사용 가능한 이메일입니다");
+      setErrorMessage("인증이 완료되었습니다");
     }
   }, [check]);
 
   return (
     <Container>
       <Form onFinish={_handleSubmit} autoComplete="off">
-        <StyledCheckButton type="link" onClick={_handleDoubleCheck}>
-          중복확인
+        <StyledCheckButton type="link" onClick={_handleEmailCheck}>
+          메일인증
         </StyledCheckButton>
         <Form.Item
           label="이메일"
@@ -96,8 +106,23 @@ function Signup() {
             size="large"
           />
         </Form.Item>
-        {check && <ErrorMessage>{doubleErrorMessage}</ErrorMessage>}
-        {check === false && <CheckMessage>{doubleErrorMessage}</CheckMessage>}
+        <StyledCheckButton type="link" onClick={_checkNumber}>
+          인증하기
+        </StyledCheckButton>
+        <Form.Item
+          label="인증번호"
+          name="check"
+          rules={[{ required: true, message: "인증번호를 입력해주세요" }]}
+        >
+          <Input
+            name="check"
+            value={number}
+            onChange={_handleNumberChange}
+            size="large"
+          />
+        </Form.Item>
+        {check && <ErrorMessage>{errorMsg}</ErrorMessage>}
+        {check === false && <CheckMessage>{errorMsg}</CheckMessage>}
         <Form.Item
           label="비밀번호"
           name="password"

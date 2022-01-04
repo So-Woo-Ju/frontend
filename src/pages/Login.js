@@ -102,17 +102,12 @@ function Login() {
               <img
                 alt="google"
                 src="/google_login.png"
-                width={300}
-                height={60}
+                width={255}
+                height={50}
               />
             </SocialLoginButton>
             <SocialLoginButton onClick={_handleKakaoLogin}>
-              <img
-                alt="kakao"
-                src="/kakao_login_medium_wide.png"
-                width={290}
-                height={50}
-              />
+              <img alt="kakao" src="/kakao_login_medium_wide.png" width={250} />
             </SocialLoginButton>
           </SocialButtons>
         </Form.Item>
