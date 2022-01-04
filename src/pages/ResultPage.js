@@ -4,15 +4,16 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
+  width: 100%;
+  height: 100%;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
 `;
 const Script = styled.div`
-  width: 90%;
-  height: 85%;
+  width: 75%;
   border-radius: 5px;
   border: 1px solid lightgrey;
-  margin-left: 5%;
   margin-top: 10px;
   padding: 15px;
   overflow: scroll;
@@ -26,13 +27,16 @@ const StyledScriptTime = styled.p`
   cursor: pointer;
 `;
 const VideoTitle = styled.p`
+  margin-top: 10px;
   font-size: 20px;
 `;
 
 function ResultPage() {
   const ref = useRef();
+  const [youtubeSrc, setYoutubeSrc] = useState("");
+  const [youtubeTime, setYoutubeTime] = useState(0);
   const [videoSrc, setVideoSrc] = useState("");
-  const [title, setTitle] = useState("Video Title");
+  const [title, setTitle] = useState("");
   const [scriptText, setScriptText] = useState([]);
 
   const _handleTimeline = (e) => {
@@ -48,9 +52,24 @@ function ResultPage() {
       ref.current.currentTime = min + sec;
     }
   };
+  const _handleYoutubeTimeline = (e) => {
+    const timeArr = e.target.innerText.split(":");
+    if (timeArr.length === 3) {
+      const hour = Number(timeArr[0]) * 3600;
+      const min = Number(timeArr[1]) * 60;
+      const sec = Number(timeArr[2]);
+      setYoutubeTime(hour + min + sec);
+    } else {
+      const min = Number(timeArr[0]) * 60;
+      const sec = Number(timeArr[1]);
+      setYoutubeTime(min + sec);
+    }
+  };
 
   useEffect(() => {
-    setVideoSrc("/video.mp4");
+    setYoutubeSrc("76eyAydNX18");
+    setTitle("Video Title");
+    //setVideoSrc("/video.mp4");
     setScriptText([
       { time: "0:00", text: "시작해요?" },
       { time: "0:03", text: "어... 안녕, 안녕하세요. 제 이름은 최웅이에요." },
@@ -75,35 +94,35 @@ function ResultPage() {
 
   return (
     <Container>
-      <Row xs={1} md={2}>
-        <Col
-          style={{ marginTop: 20, paddingLeft: "5%" }}
-          xs={{ span: 24 }}
-          md={{ span: 12 }}
-        >
-          <VideoTitle>{title}</VideoTitle>
-          <video controls width="95%" ref={ref}>
-            <source src={videoSrc} type="video/mp4" />
-          </video>
-        </Col>
-        <Col
-          xs={{ span: 24 }}
-          md={{ span: 12 }}
-          style={{ height: window.innerHeight }}
-        >
-          <Script>
-            {scriptText.map((script) => (
-              <ScriptBox key={script.time}>
-                <StyledScriptTime onClick={_handleTimeline}>
-                  {script.time}
-                </StyledScriptTime>
-                &nbsp;&nbsp;
-                <StyledScriptText>{script.text}</StyledScriptText>
-              </ScriptBox>
-            ))}
-          </Script>
-        </Col>
-      </Row>
+      <VideoTitle>{title}</VideoTitle>
+      {youtubeSrc ? (
+        <iframe
+          width="75%"
+          height="100%"
+          src={`https://www.youtube.com/embed/${youtubeSrc}?autoplay=1&start=${youtubeTime}`}
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      ) : (
+        <video controls width="75%" height="100%" ref={ref}>
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+      )}
+      <Script>
+        {scriptText.map((script) => (
+          <ScriptBox key={script.time}>
+            <StyledScriptTime
+              onClick={youtubeSrc ? _handleYoutubeTimeline : _handleTimeline}
+            >
+              {script.time}
+            </StyledScriptTime>
+            &nbsp;&nbsp;
+            <StyledScriptText>{script.text}</StyledScriptText>
+          </ScriptBox>
+        ))}
+      </Script>
     </Container>
   );
 }

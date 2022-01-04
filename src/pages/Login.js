@@ -99,12 +99,7 @@ function Login() {
           </ButtonBox>
           <SocialButtons>
             <SocialLoginButton onClick={_handleGoogleLogin}>
-              <img
-                alt="google"
-                src="/google_login.png"
-                width={255}
-                height={50}
-              />
+              <img alt="google" src="/google_login.png" width={255} />
             </SocialLoginButton>
             <SocialLoginButton onClick={_handleKakaoLogin}>
               <img alt="kakao" src="/kakao_login_medium_wide.png" width={250} />
