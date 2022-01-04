@@ -47,17 +47,10 @@ function MainPage() {
     beforeUpload: (file) => {
       if (file.type !== "video/mp4") {
         message.error("Please upload video(mp4) file");
+      } else {
+        setUploadFile(file);
       }
-      return file.type === "video/mp4" ? true : Upload.LIST_IGNORE;
-    },
-    onChange: (info) => {
-      setUploadFile(info.file);
-      /*let reader = new FileReader();
-      reader.onloadend = () => {
-        setUploadFile(info.file);
-        const base64 = reader.result;
-        console.log(base64);
-      };*/
+      return file.type === "video/mp4" ? false : Upload.LIST_IGNORE;
     },
   };
 
