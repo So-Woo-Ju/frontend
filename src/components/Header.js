@@ -40,7 +40,7 @@ const StyledLogout = styled(Button)`
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector(({ user }) => ({ user: user.user }));
+  const { login } = useSelector(({ user }) => ({ login: user.login }));
 
   const _handleLogout = () => {
     dispatch(logout());
@@ -53,7 +53,7 @@ function Header() {
         <AiFillHome size={40} />
       </LeftBox>
       <RightBox>
-        {user && (
+        {login === true && (
           <>
             <UserBox to="/mypage">
               <Avatar icon={<UserOutlined />} />

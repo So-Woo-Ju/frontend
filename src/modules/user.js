@@ -24,21 +24,21 @@ export const checkNumber = createRequestThunk(
 );
 
 const initialState = {
-  user: null,
+  login: false,
   isSend: null,
   isVerify: null,
 };
 
 export default handleActions(
   {
-    [LOGIN_SUCCESS]: (state, { payload: user }) => ({
+    [LOGIN_SUCCESS]: (state, { payload: login }) => ({
       ...state,
-      user,
+      login,
       error: null,
     }),
     [LOGIN_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      user: null,
+      login: false,
       error,
     }),
     [SIGNUP_SUCCESS]: (state) => ({
@@ -72,7 +72,7 @@ export default handleActions(
     }),
     [LOGOUT]: (state) => ({
       ...state,
-      user: null,
+      login: false,
     }),
   },
   initialState,

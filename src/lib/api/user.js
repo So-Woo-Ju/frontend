@@ -1,11 +1,23 @@
 import axios from "axios";
+import Cookies from "universal-cookie";
 
-export const login = (user) => {
-  return axios.post("http://3.34.255.82/api/v1/auth/login", user, {
-    headers: {
-      "Content-Type": `application/json`,
-    },
-  });
+const cookies = new Cookies();
+
+export const login = async (user) => {
+  return axios
+    .post("http://3.34.255.82/api/v1/auth/login", user, {
+      headers: {
+        "Content-Type": `application/json`,
+      },
+    })
+    .then((res) => {
+      const refresh_token = res.data.data.refreshToken;
+      cookies.set("refresh_token", refresh_token, { sameSite: "strict" });
+      return { data: { data: true } };
+    })
+    .catch(() => {
+      return { data: { data: false } };
+    });
 };
 
 export const mailCheck = ({ email }) => {
@@ -28,8 +40,8 @@ export const signup = (user) => {
   });
 };
 
-export const logout = (user) => {
-  return { data: null };
+export const logout = () => {
+  cookies.remove("refresh_token");
 };
 
 export const checkNumber = ({ email, code }) => {

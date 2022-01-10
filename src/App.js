@@ -10,8 +10,8 @@ import ErrorPage from "./pages/Errorpage";
 import { useSelector } from "react-redux";
 
 function App() {
-  const { user } = useSelector(({ user }) => ({
-    user: user.user,
+  const { login } = useSelector(({ user }) => ({
+    login: user.login,
   }));
 
   return (
@@ -21,48 +21,48 @@ function App() {
         <Route
           path="/"
           element={
-            user === null ? <Navigate replace to="/login" /> : <MainPage />
+            login === true ? <MainPage /> : <Navigate replace to="/login" />
           }
         />
         <Route
           path="/login"
-          element={user === null ? <Login /> : <Navigate replace to="/" />}
+          element={login === true ? <Navigate replace to="/" /> : <Login />}
         />
         <Route
           path="/signup"
-          element={user === null ? <Signup /> : <Navigate replace to="/" />}
+          element={login === true ? <Navigate replace to="/" /> : <Signup />}
         />
         <Route
           path="/loading"
           element={
-            user === null ? <Navigate replace to="/login" /> : <Loading />
+            login === true ? <Loading /> : <Navigate replace to="/login" />
           }
         />
         <Route
           path="/result"
           element={
-            user === null ? <Navigate replace to="/login" /> : <ResultPage />
+            login === true ? <ResultPage /> : <Navigate replace to="/login" />
           }
         />
         <Route
           path="/mypage"
           element={
-            user === null ? <Navigate replace to="/login" /> : <Mypage />
+            login === true ? <Mypage /> : <Navigate replace to="/login" />
           }
         />
         <Route
           path="/error"
           element={
-            user === null ? <Navigate replace to="/login" /> : <ErrorPage />
+            login === true ? <ErrorPage /> : <Navigate replace to="/login" />
           }
         />
         <Route
           path="*"
           element={
-            user === null ? (
-              <Navigate replace to="/login" />
-            ) : (
+            login === true ? (
               <Navigate replace to="/" />
+            ) : (
+              <Navigate replace to="/login" />
             )
           }
         />

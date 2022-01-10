@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, Input, Button } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../modules/user";
 import styled from "styled-components";
@@ -28,11 +28,23 @@ const SocialButtons = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+const ErrorMessage = styled.p`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -10px;
+  font-size: 13px;
+  color: red;
+`;
 
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { isLogin } = useSelector(({ user }) => ({
+    isLogin: user.login,
+  }));
+
   const [user, setUser] = useState({ email: "", password: "" });
+  const [errorMsg, setErrorMsg] = useState("");
 
   const _handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -40,7 +52,12 @@ function Login() {
 
   const _handleSubmit = () => {
     dispatch(login(user)).then(() => {
-      navigate("/");
+      if (isLogin) {
+        setErrorMsg("");
+        navigate("/");
+      } else {
+        setErrorMsg("존재하지 않는 사용자입니다");
+      }
     });
   };
   const _handleGoogleLogin = () => {
@@ -84,6 +101,7 @@ function Login() {
           />
         </Form.Item>
         <Form.Item>
+          <ErrorMessage>{errorMsg}</ErrorMessage>
           <ButtonBox>
             <StyledButton
               type="link"
