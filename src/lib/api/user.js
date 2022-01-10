@@ -13,7 +13,6 @@ export const login = async (user) => {
     .then((res) => {
       const refresh_token = res.data.data.refreshToken;
       const access_token = res.data.data.accessToken;
-      cookies.set("refresh_token", refresh_token);
       cookies.set("access_token", access_token);
       axios.defaults.headers.common[
         "Authorization"
@@ -46,7 +45,6 @@ export const signup = (user) => {
 };
 
 export const logout = () => {
-  cookies.remove("refresh_token");
   cookies.remove("access_token");
   return { data: { data: false } };
 };
@@ -64,7 +62,7 @@ export const checkNumber = ({ email, code }) => {
 };
 
 export const getAccessToken = () => {
-  if (cookies.get("refresh_token")) {
+  if (cookies.get("access_token")) {
     axios
       .post("http://3.34.255.82/api/v1/auth/access-token", {
         headers: {
