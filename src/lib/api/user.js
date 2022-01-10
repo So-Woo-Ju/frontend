@@ -1,15 +1,22 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
+import axiosInstance from './core';
+
 
 const cookies = new Cookies();
 
 export const login = async (user) => {
-  return axios
-    .post("http://3.34.255.82/api/v1/auth/login", user, {
-      headers: {
-        "Content-Type": `application/json`,
-      },
-    })
+  // return axios
+  //   .post("http://3.34.255.82/api/v1/auth/login", user, {
+  //     headers: {
+  //       "Content-Type": `application/json`,
+  //     },
+  //   })
+  return axiosInstance({
+    url: '/auth/login',
+    method: "post",
+    data: user
+  })
     .then((res) => {
       const refresh_token = res.data.data.refreshToken;
       const access_token = res.data.data.accessToken;
