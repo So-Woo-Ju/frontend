@@ -8,8 +8,8 @@ const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
   createRequestActionTypes("user/LOGIN");
 const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] =
   createRequestActionTypes("user/SIGNUP");
-const [DOUBLECHECK, DOUBLECHECK_SUCCESS, DOUBLECHECK_FAILURE] =
-  createRequestActionTypes("user/DOUBLECHECK");
+const [MAILCHECK, MAILCHECK_SUCCESS, MAILCHECK_FAILURE] =
+  createRequestActionTypes("user/MAILCHECK");
 const [CHECK_NUMBER, CHECK_NUMBER_SUCCESS, CHECK_NUMBER_FAILURE] =
   createRequestActionTypes("user/CHECK_NUMBER");
 const LOGOUT = "user/LOGOUT";
@@ -17,7 +17,7 @@ const LOGOUT = "user/LOGOUT";
 export const login = createRequestThunk(LOGIN, userAPI.login);
 export const logout = createAction(LOGOUT);
 export const signup = createRequestThunk(SIGNUP, userAPI.signup);
-export const doublecheck = createRequestThunk(DOUBLECHECK, userAPI.doublecheck);
+export const mailCheck = createRequestThunk(MAILCHECK, userAPI.mailCheck);
 export const checkNumber = createRequestThunk(
   CHECK_NUMBER,
   userAPI.checkNumber,
@@ -25,8 +25,8 @@ export const checkNumber = createRequestThunk(
 
 const initialState = {
   user: null,
-  double: null,
-  numberChecked: null,
+  isSend: null,
+  isVerify: null,
 };
 
 export default handleActions(
@@ -41,9 +41,8 @@ export default handleActions(
       user: null,
       error,
     }),
-    [SIGNUP_SUCCESS]: (state, { payload: user }) => ({
+    [SIGNUP_SUCCESS]: (state) => ({
       ...state,
-      user,
       error: null,
     }),
     [SIGNUP_FAILURE]: (state, { payload: error }) => ({
@@ -51,24 +50,24 @@ export default handleActions(
       user: null,
       error,
     }),
-    [DOUBLECHECK_SUCCESS]: (state, { payload: double }) => ({
+    [MAILCHECK_SUCCESS]: (state, { payload: { isSend } }) => ({
       ...state,
-      double,
+      isSend,
       error: null,
     }),
-    [DOUBLECHECK_FAILURE]: (state, { payload: error }) => ({
+    [MAILCHECK_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      double: null,
+      isSend: null,
       error,
     }),
-    [CHECK_NUMBER_SUCCESS]: (state, { payload: numberChecked }) => ({
+    [CHECK_NUMBER_SUCCESS]: (state, { payload: { isVerify } }) => ({
       ...state,
-      numberChecked,
+      isVerify,
       error: null,
     }),
     [CHECK_NUMBER_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      numberChecked: null,
+      isVerify: null,
       error,
     }),
     [LOGOUT]: (state) => ({

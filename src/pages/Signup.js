@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, notification } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { signup, doublecheck, checkNumber } from "../modules/user";
+import { signup, mailCheck, checkNumber } from "../modules/user";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -28,20 +28,12 @@ const ErrorMessage = styled.p`
   font-size: 13px;
   color: red;
 `;
-const CheckMessage = styled.p`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: -10px;
-  font-size: 13px;
-  color: gray;
-`;
 
 function Signup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { check, numberChecked } = useSelector(({ user }) => ({
-    check: user.double,
-    numberChecked: user.numberChecked,
+  const { isVerify } = useSelector(({ user }) => ({
+    isVerify: user.isVerify,
   }));
   const [user, setUser] = useState({ email: "", password: "" });
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -55,32 +47,51 @@ function Signup() {
     setPasswordConfirm(e.target.value);
   };
   const _handleEmailCheck = () => {
-    dispatch(doublecheck(user.email));
-    console.log("메일 인증");
+    dispatch(mailCheck({ email: user.email }))
+      .then(() => {
+        notification.open({
+          message: "메일 인증번호가 전송되었습니다",
+        });
+      })
+      .catch(() => {
+        notification.open({
+          message: "이미 존재하는 이메일입니다",
+        });
+      });
   };
   const _checkNumber = () => {
-    dispatch(checkNumber({ number }));
-    console.log("인증 번호 입력");
+    dispatch(checkNumber({ email: user.email, code: number }))
+      .then(() => {
+        notification.open({
+          message: "메일 인증이 완료되었습니다",
+        });
+      })
+      .catch(() => {
+        notification.open({
+          message: "유효하지 않은 번호입니다",
+        });
+      });
   };
   const _handleNumberChange = (e) => {
     setNumber(e.target.value);
   };
 
   const _handleSubmit = () => {
-    if (check === true && numberChecked === true) {
-      dispatch(signup(user)).then(() => {
-        navigate("/login");
-      });
+    if (isVerify === true) {
+      dispatch(signup(user))
+        .then(() => {
+          navigate("/login");
+        })
+        .catch(() => {
+          notification.open({
+            message: "회원가입에 실패했습니다",
+            description: "다시 시도해주세요",
+          });
+        });
+    } else {
+      setErrorMessage("메일 인증을 완료해주세요");
     }
   };
-
-  useEffect(() => {
-    if (check) {
-      setErrorMessage("이미 사용중인 이메일입니다");
-    } else if (check === false) {
-      setErrorMessage("인증이 완료되었습니다");
-    }
-  }, [check]);
 
   return (
     <Container>
@@ -121,8 +132,7 @@ function Signup() {
             size="large"
           />
         </Form.Item>
-        {check && <ErrorMessage>{errorMsg}</ErrorMessage>}
-        {check === false && <CheckMessage>{errorMsg}</CheckMessage>}
+        <ErrorMessage>{errorMsg}</ErrorMessage>
         <Form.Item
           label="비밀번호"
           name="password"
