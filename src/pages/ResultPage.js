@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import { Row, Col } from "antd";
 import styled from "styled-components";
 
 const Container = styled.div`
