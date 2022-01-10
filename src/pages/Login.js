@@ -54,11 +54,13 @@ function Login() {
 
   const _handleSubmit = () => {
     dispatch(login(user)).then(() => {
-      if (isLogin) {
-        setErrorMsg("");
-        navigate("/");
-      } else {
-        setErrorMsg("존재하지 않는 사용자입니다");
+      if (isMounted.current) {
+        if (isLogin) {
+          setErrorMsg("");
+          navigate("/");
+        } else {
+          setErrorMsg("존재하지 않는 사용자입니다");
+        }
       }
     });
   };
