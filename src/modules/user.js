@@ -1,4 +1,4 @@
-import { handleActions, createAction } from "redux-actions";
+import { handleActions } from "redux-actions";
 import * as userAPI from "../lib/api/user";
 import createRequestThunk, {
   createRequestActionTypes,
@@ -12,10 +12,11 @@ const [MAILCHECK, MAILCHECK_SUCCESS, MAILCHECK_FAILURE] =
   createRequestActionTypes("user/MAILCHECK");
 const [CHECK_NUMBER, CHECK_NUMBER_SUCCESS, CHECK_NUMBER_FAILURE] =
   createRequestActionTypes("user/CHECK_NUMBER");
-const LOGOUT = "user/LOGOUT";
+const [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAILURE] =
+  createRequestActionTypes("user/LOGOUT");
 
 export const login = createRequestThunk(LOGIN, userAPI.login);
-export const logout = createAction(LOGOUT);
+export const logout = createRequestThunk(LOGOUT, userAPI.logout);
 export const signup = createRequestThunk(SIGNUP, userAPI.signup);
 export const mailCheck = createRequestThunk(MAILCHECK, userAPI.mailCheck);
 export const checkNumber = createRequestThunk(
@@ -70,9 +71,14 @@ export default handleActions(
       isVerify: null,
       error,
     }),
-    [LOGOUT]: (state) => ({
+    [LOGOUT_SUCCESS]: (state, { payload: login }) => ({
       ...state,
-      login: false,
+      login,
+      error: null,
+    }),
+    [LOGOUT_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
     }),
   },
   initialState,

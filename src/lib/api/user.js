@@ -12,7 +12,12 @@ export const login = async (user) => {
     })
     .then((res) => {
       const refresh_token = res.data.data.refreshToken;
-      cookies.set("refresh_token", refresh_token, { sameSite: "strict" });
+      const access_token = res.data.data.accessToken;
+      cookies.set("refresh_token", refresh_token);
+      cookies.set("access_token", access_token);
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${refresh_token}`;
       return { data: { data: true } };
     })
     .catch(() => {
@@ -42,6 +47,8 @@ export const signup = (user) => {
 
 export const logout = () => {
   cookies.remove("refresh_token");
+  cookies.remove("access_token");
+  return { data: { data: false } };
 };
 
 export const checkNumber = ({ email, code }) => {
@@ -54,4 +61,18 @@ export const checkNumber = ({ email, code }) => {
       },
     },
   );
+};
+
+export const getAccessToken = () => {
+  if (cookies.get("refresh_token")) {
+    axios
+      .post("http://3.34.255.82/api/v1/auth/access-token", {
+        headers: {
+          "Content-Type": `application/json`,
+        },
+      })
+      .then((res) => {
+        cookies.set("access_token", res.data.data.accessToken);
+      });
+  }
 };

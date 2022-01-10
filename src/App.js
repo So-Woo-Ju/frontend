@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import MainPage from "./pages/MainPage";
@@ -8,11 +9,16 @@ import Signup from "./pages/Signup";
 import Mypage from "./pages/Mypage";
 import ErrorPage from "./pages/Errorpage";
 import { useSelector } from "react-redux";
+import { getAccessToken } from "./lib/api/user";
 
 function App() {
   const { login } = useSelector(({ user }) => ({
     login: user.login,
   }));
+
+  useEffect(() => {
+    getAccessToken();
+  });
 
   return (
     <div style={{ height: window.innerHeight }}>
