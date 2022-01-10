@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -43,6 +43,8 @@ function Login() {
     isLogin: user.login,
   }));
 
+  const isMounted = useRef(false);
+
   const [user, setUser] = useState({ email: "", password: "" });
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -66,6 +68,11 @@ function Login() {
   const _handleKakaoLogin = () => {
     console.log("카카오 로그인 버튼");
   };
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => (isMounted.current = false);
+  }, []);
 
   return (
     <Container>
