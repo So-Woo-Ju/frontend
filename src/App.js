@@ -8,16 +8,21 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Mypage from "./pages/Mypage";
 import ErrorPage from "./pages/Errorpage";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "./modules/user";
 import { getAccessToken } from "./lib/api/user";
 
 function App() {
+  const dispatch = useDispatch();
   const { login } = useSelector(({ user }) => ({
     login: user.login,
   }));
 
   useEffect(() => {
-    getAccessToken();
+    const res = getAccessToken({ login });
+    if (res) {
+      dispatch(logout());
+    }
   });
 
   return (
