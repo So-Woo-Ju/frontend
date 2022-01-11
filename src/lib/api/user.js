@@ -85,6 +85,9 @@ export const getAccessToken = ({ login }) => {
             "Authorization"
           ] = `Bearer ${refresh_token}`;
         });
+    } else if (cookies.get("refresh_token")) {
+      // refresh token이 만료됐으면
+      return "refresh token expires";
     } else {
       return axios
         .post("http://3.34.255.82/api/v1/auth/access-token", {
@@ -96,9 +99,6 @@ export const getAccessToken = ({ login }) => {
           cookies.set("access_token", res.data.data.accessToken, {
             expires: new Date(Date.now() + 1000 * 60 * 15),
           });
-        })
-        .catch(() => {
-          return "refresh token expires";
         });
     }
   }
