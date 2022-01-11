@@ -15,7 +15,7 @@ export const login = async (user) => {
       const access_token = res.data.data.accessToken;
       cookies.set("access_token", access_token, {
         path: "/",
-        expires: new Date(Date.now() + 1000 * 60),
+        expires: new Date(Date.now() + 1000 * 60 * 15),
       });
       axios.defaults.headers.common[
         "Authorization"
@@ -73,9 +73,6 @@ export const getAccessToken = ({ login }) => {
         },
       })
       .then((res) => {
-        cookies.set("access_token", res.data.data.accessToken, {
-          expires: new Date(Date.now() + 1000 * 60),
-        });
         if (res.data.refresh) {
           // refresh token이 재발급 가능한 기간이면
           axios
@@ -89,12 +86,16 @@ export const getAccessToken = ({ login }) => {
               const access_token = res.data.data.accessToken;
               cookies.set("access_token", access_token, {
                 path: "/",
-                expires: new Date(Date.now() + 1000 * 60),
+                expires: new Date(Date.now() + 1000 * 60 * 15),
               });
               axios.defaults.headers.common[
                 "Authorization"
               ] = `Bearer ${refresh_token}`;
             });
+        } else {
+          cookies.set("access_token", res.data.data.accessToken, {
+            expires: new Date(Date.now() + 1000 * 60 * 15),
+          });
         }
       })
       .catch(() => {
