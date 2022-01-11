@@ -13,7 +13,11 @@ export const login = async (user) => {
     .then((res) => {
       const refresh_token = res.data.data.refreshToken;
       const access_token = res.data.data.accessToken;
-      cookies.set("access_token", access_token);
+      console.log(new Date(Date.now()));
+      cookies.set("access_token", access_token, {
+        path: "/",
+        expires: new Date(Date.now() + 1000 * 60 * 15),
+      });
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${refresh_token}`;
@@ -70,7 +74,9 @@ export const getAccessToken = () => {
         },
       })
       .then((res) => {
-        cookies.set("access_token", res.data.data.accessToken);
+        cookies.set("access_token", res.data.data.accessToken, {
+          expires: new Date(Date.now() + 1000 * 60 * 15),
+        });
       });
   }
 };
