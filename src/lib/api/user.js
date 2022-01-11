@@ -66,40 +66,40 @@ export const checkNumber = ({ email, code }) => {
 
 export const getAccessToken = ({ login }) => {
   if (login && !cookies.get("access_token")) {
-    return axios
-      .post("http://3.34.255.82/api/v1/auth/access-token", {
-        headers: {
-          "Content-Type": `application/json`,
-        },
-      })
-      .then((res) => {
-        if (res.data.refresh) {
-          // refresh token이 재발급 가능한 기간이면
-          axios
-            .post("http://3.34.255.82/api/v1/auth/refresh-token", {
-              headers: {
-                "Content-Type": `application/json`,
-              },
-            })
-            .then((res) => {
-              const refresh_token = res.data.data.refreshToken;
-              const access_token = res.data.data.accessToken;
-              cookies.set("access_token", access_token, {
-                path: "/",
-                expires: new Date(Date.now() + 1000 * 60 * 15),
-              });
-              axios.defaults.headers.common[
-                "Authorization"
-              ] = `Bearer ${refresh_token}`;
-            });
-        } else {
+    if (cookies.get("refresh_token")) {
+      // refresh token이 재발급 가능한 기간이면
+      axios
+        .post("http://3.34.255.82/api/v1/auth/refresh-token", {
+          headers: {
+            "Content-Type": `application/json`,
+          },
+        })
+        .then((res) => {
+          const refresh_token = res.data.data.refreshToken;
+          const access_token = res.data.data.accessToken;
+          cookies.set("access_token", access_token, {
+            path: "/",
+            expires: new Date(Date.now() + 1000 * 60 * 15),
+          });
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${refresh_token}`;
+        });
+    } else {
+      return axios
+        .post("http://3.34.255.82/api/v1/auth/access-token", {
+          headers: {
+            "Content-Type": `application/json`,
+          },
+        })
+        .then((res) => {
           cookies.set("access_token", res.data.data.accessToken, {
             expires: new Date(Date.now() + 1000 * 60 * 15),
           });
-        }
-      })
-      .catch(() => {
-        return "refresh token expires";
-      });
+        })
+        .catch(() => {
+          return "refresh token expires";
+        });
+    }
   }
 };
