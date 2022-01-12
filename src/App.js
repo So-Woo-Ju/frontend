@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import MainPage from "./pages/MainPage";
@@ -9,8 +9,11 @@ import Signup from "./pages/Signup";
 import Mypage from "./pages/Mypage";
 import ErrorPage from "./pages/Errorpage";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "./modules/user";
+import { logout, renewalExpires } from "./modules/user";
 import { getAccessToken } from "./lib/api/user";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 function App() {
   const dispatch = useDispatch();
@@ -19,12 +22,21 @@ function App() {
     tokenExp: user.tokenExp,
   }));
 
+  const [response, setResponse] = useState("");
+
   useEffect(() => {
-    const res = getAccessToken({ login, tokenExp });
-    if (res) {
-      dispatch(logout());
+    setResponse(getAccessToken({ login, tokenExp }));
+  }, [cookies.get("access_token"), cookies.get("refresh_token")]);
+  useEffect(() => {
+    if (response) {
+      console.log(response);
+      if (response.message.includes("expires")) {
+        dispatch(logout());
+      } else if (response.message.includes("renewal")) {
+        dispatch(renewalExpires(response.data));
+      }
     }
-  });
+  }, [dispatch, response]);
 
   return (
     <div style={{ height: window.innerHeight }}>

@@ -65,13 +65,14 @@ export const getAccessToken = ({ login, tokenExp }) => {
     const now = new Date();
     const two_weeks_later = new Date(now.setDate(now.getDate() + 14));
     if (tokenExp < new Date(two_weeks_later).toISOString().split(".")[0]) {
+      let token_exp;
       client({
         url: "/auth/refresh-token",
         method: "post",
       }).then((res) => {
         const refresh_token = res.data.data.refreshToken;
         const access_token = res.data.data.accessToken;
-        const token_exp = res.data.data.tokenExp;
+        token_exp = res.data.data.tokenExp;
         cookies.set("access_token", access_token, {
           path: "/",
           expires: new Date(Date.now() + 1000 * 60 * 15),
@@ -81,8 +82,9 @@ export const getAccessToken = ({ login, tokenExp }) => {
           expires: new Date(token_exp),
         });
       });
+      return { message: "refresh token renewal", data: token_exp };
     } else if (!cookies.get("refresh_token")) {
-      return "refresh token expires";
+      return { message: "refresh token expires" };
     } else {
       client({
         url: "/auth/access-token",

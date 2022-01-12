@@ -1,4 +1,4 @@
-import { handleActions } from "redux-actions";
+import { handleActions, createAction } from "redux-actions";
 import * as userAPI from "../lib/api/user";
 import createRequestThunk, {
   createRequestActionTypes,
@@ -14,6 +14,7 @@ const [CHECK_NUMBER, CHECK_NUMBER_SUCCESS, CHECK_NUMBER_FAILURE] =
   createRequestActionTypes("user/CHECK_NUMBER");
 const [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAILURE] =
   createRequestActionTypes("user/LOGOUT");
+const RENEWAL_EXPIRES = "user/RENEWAL_EXPIRES";
 
 export const login = createRequestThunk(LOGIN, userAPI.login);
 export const logout = createRequestThunk(LOGOUT, userAPI.logout);
@@ -23,6 +24,7 @@ export const checkNumber = createRequestThunk(
   CHECK_NUMBER,
   userAPI.checkNumber,
 );
+export const renewalExpires = createAction(RENEWAL_EXPIRES);
 
 const initialState = {
   login: false,
@@ -81,6 +83,10 @@ export default handleActions(
     [LOGOUT_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
+    }),
+    [RENEWAL_EXPIRES]: (state, { payload: tokenExp }) => ({
+      ...state,
+      tokenExp,
     }),
   },
   initialState,
