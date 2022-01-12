@@ -1,6 +1,5 @@
 import Cookies from "universal-cookie";
 import client from "./client";
-import axios from "axios";
 
 const cookies = new Cookies();
 
@@ -85,7 +84,6 @@ export const getAccessToken = ({ login, tokenExp }) => {
     } else if (!cookies.get("refresh_token")) {
       return "refresh token expires";
     } else {
-      console.log("호출");
       client({
         url: "/auth/access-token",
         method: "post",
