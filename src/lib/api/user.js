@@ -1,5 +1,5 @@
-import axios from "axios";
 import Cookies from "universal-cookie";
+import axios from "axios";
 
 const cookies = new Cookies();
 
@@ -13,14 +13,18 @@ export const login = async (user) => {
     .then((res) => {
       const refresh_token = res.data.data.refreshToken;
       const access_token = res.data.data.accessToken;
+      const token_exp = res.data.data.tokenExp;
       cookies.set("access_token", access_token, {
         path: "/",
         expires: new Date(Date.now() + 1000 * 60 * 15),
       });
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${refresh_token}`;
-      return { data: { data: true } };
+      cookies.set("refresh_token", refresh_token, {
+        path: "/",
+        expires: new Date(token_exp),
+      });
+      return {
+        data: { data: { login: true, tokenExp: token_exp } },
+      };
     })
     .catch(() => {
       return { data: { data: false } };
@@ -49,6 +53,7 @@ export const signup = (user) => {
 
 export const logout = () => {
   cookies.remove("access_token");
+  cookies.remove("refresh_token");
   return { data: { data: false } };
 };
 
@@ -64,10 +69,11 @@ export const checkNumber = ({ email, code }) => {
   );
 };
 
-export const getAccessToken = ({ login }) => {
+export const getAccessToken = ({ login, tokenExp }) => {
   if (login && !cookies.get("access_token")) {
-    if (cookies.get("refresh_token")) {
-      // refresh token이 재발급 가능한 기간이면
+    const now = new Date();
+    const two_weeks_later = new Date(now.setDate(now.getDate() + 14));
+    if (tokenExp < new Date(two_weeks_later).toISOString().split(".")[0]) {
       axios
         .post("http://3.34.255.82/api/v1/auth/refresh-token", {
           headers: {
@@ -77,19 +83,23 @@ export const getAccessToken = ({ login }) => {
         .then((res) => {
           const refresh_token = res.data.data.refreshToken;
           const access_token = res.data.data.accessToken;
+          const token_exp = res.data.data.tokenExp;
           cookies.set("access_token", access_token, {
             path: "/",
             expires: new Date(Date.now() + 1000 * 60 * 15),
           });
-          axios.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${refresh_token}`;
+          cookies.set("refresh_token", refresh_token, {
+            path: "/",
+            expires: new Date(token_exp),
+          });
         });
-    } else if (cookies.get("refresh_token")) {
-      // refresh token이 만료됐으면
+    } else if (!cookies.get("refresh_token")) {
       return "refresh token expires";
     } else {
-      return axios
+      axios.defaults.headers.common["Authorization"] = `Bearer ${cookies.get(
+        "refresh_token",
+      )}`;
+      axios
         .post("http://3.34.255.82/api/v1/auth/access-token", {
           headers: {
             "Content-Type": `application/json`,

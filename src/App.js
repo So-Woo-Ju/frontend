@@ -14,12 +14,13 @@ import { getAccessToken } from "./lib/api/user";
 
 function App() {
   const dispatch = useDispatch();
-  const { login } = useSelector(({ user }) => ({
+  const { login, tokenExp } = useSelector(({ user }) => ({
     login: user.login,
+    tokenExp: user.tokenExp,
   }));
 
   useEffect(() => {
-    const res = getAccessToken({ login });
+    const res = getAccessToken({ login, tokenExp });
     if (res) {
       dispatch(logout());
     }

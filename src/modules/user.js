@@ -28,13 +28,15 @@ const initialState = {
   login: false,
   isSend: null,
   isVerify: null,
+  tokenExp: null,
 };
 
 export default handleActions(
   {
-    [LOGIN_SUCCESS]: (state, { payload: login }) => ({
+    [LOGIN_SUCCESS]: (state, { payload: data }) => ({
       ...state,
-      login,
+      login: data.login,
+      tokenExp: data.tokenExp,
       error: null,
     }),
     [LOGIN_FAILURE]: (state, { payload: error }) => ({
