@@ -4,7 +4,7 @@ import axios from "axios";
 const cookies = new Cookies();
 
 const client = axios.create({
-  baseURL: "http://3.34.255.82/api/v1",
+  baseURL: "http://ec2-3-34-255-82.ap-northeast-2.compute.amazonaws.com/api/v1",
   timeout: 10000,
   headers: { "Content-Type": "application/json" },
 });

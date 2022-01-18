@@ -29,7 +29,6 @@ function App() {
   }, [cookies.get("access_token"), cookies.get("refresh_token")]);
   useEffect(() => {
     if (response) {
-      console.log(response);
       if (response.message.includes("expires")) {
         dispatch(logout());
       } else if (response.message.includes("renewal")) {

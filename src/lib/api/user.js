@@ -30,6 +30,32 @@ export const login = async (user) => {
     });
 };
 
+export const kakaoLogin = () => {
+  return client({
+    url: "/auth/kakao",
+    method: "get",
+  })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log("에러 : ", err);
+    });
+};
+
+export const googleLogin = () => {
+  return client({
+    url: "/auth/google",
+    method: "get",
+  })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log("에러 : ", err);
+    });
+};
+
 export const mailCheck = ({ email }) => {
   return client({
     url: "/auth/send-email",

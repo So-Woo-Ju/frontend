@@ -15,6 +15,10 @@ const [CHECK_NUMBER, CHECK_NUMBER_SUCCESS, CHECK_NUMBER_FAILURE] =
 const [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAILURE] =
   createRequestActionTypes("user/LOGOUT");
 const RENEWAL_EXPIRES = "user/RENEWAL_EXPIRES";
+const [KAKAO_LOGIN, KAKAO_LOGIN_SUCCESS, KAKAO_LOGIN_FAILURE] =
+  createRequestActionTypes("user/KAKAO_LOGIN");
+const [GOOGLE_LOGIN, GOOGLE_LOGIN_SUCCESS, GOOGLE_LOGIN_FAILURE] =
+  createRequestActionTypes("user/GOOGLE_LOGIN");
 
 export const login = createRequestThunk(LOGIN, userAPI.login);
 export const logout = createRequestThunk(LOGOUT, userAPI.logout);
@@ -25,6 +29,11 @@ export const checkNumber = createRequestThunk(
   userAPI.checkNumber,
 );
 export const renewalExpires = createAction(RENEWAL_EXPIRES);
+export const kakaoLogin = createRequestThunk(KAKAO_LOGIN, userAPI.kakaoLogin);
+export const googleLogin = createRequestThunk(
+  GOOGLE_LOGIN,
+  userAPI.googleLogin,
+);
 
 const initialState = {
   login: false,
@@ -87,6 +96,22 @@ export default handleActions(
     [RENEWAL_EXPIRES]: (state, { payload: tokenExp }) => ({
       ...state,
       tokenExp,
+    }),
+    [KAKAO_LOGIN_SUCCESS]: (state) => ({
+      ...state,
+      error: null,
+    }),
+    [KAKAO_LOGIN_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [GOOGLE_LOGIN_SUCCESS]: (state) => ({
+      ...state,
+      error: null,
+    }),
+    [GOOGLE_LOGIN_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
     }),
   },
   initialState,

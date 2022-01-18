@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../modules/user";
+import { login, kakaoLogin, googleLogin } from "../modules/user";
 import styled from "styled-components";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 
@@ -65,10 +65,10 @@ function Login() {
     });
   };
   const _handleGoogleLogin = () => {
-    console.log("구글 로그인 버튼");
+    dispatch(googleLogin());
   };
   const _handleKakaoLogin = () => {
-    console.log("카카오 로그인 버튼");
+    dispatch(kakaoLogin());
   };
 
   useEffect(() => {
