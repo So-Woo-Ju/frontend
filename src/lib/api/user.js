@@ -26,29 +26,31 @@ export const login = async (user) => {
   });
 };
 
-export const kakaoLogin = () => {
+export const kakaoLogin = (token) => {
   return client({
     url: "/auth/kakao",
-    method: "get",
+    method: "post",
+    data: { kakaoToken: token },
   })
     .then((res) => {
       console.log(res);
     })
     .catch((err) => {
-      console.log("에러 : ", err);
+      console.log(err);
     });
 };
 
-export const googleLogin = () => {
+export const googleLogin = (token) => {
   return client({
     url: "/auth/google",
-    method: "get",
+    method: "post",
+    data: { googleToken: token },
   })
     .then((res) => {
       console.log(res);
     })
     .catch((err) => {
-      console.log("에러 : ", err);
+      console.log(err);
     });
 };
 
