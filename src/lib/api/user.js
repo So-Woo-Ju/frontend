@@ -8,26 +8,22 @@ export const login = async (user) => {
     url: "/auth/login",
     method: "post",
     data: user,
-  })
-    .then((res) => {
-      const refresh_token = res.data.data.refreshToken;
-      const access_token = res.data.data.accessToken;
-      const token_exp = res.data.data.tokenExp;
-      cookies.set("access_token", access_token, {
-        path: "/",
-        expires: new Date(Date.now() + 1000 * 60 * 15),
-      });
-      cookies.set("refresh_token", refresh_token, {
-        path: "/",
-        expires: new Date(token_exp),
-      });
-      return {
-        data: { data: { login: true, tokenExp: token_exp } },
-      };
-    })
-    .catch(() => {
-      return { data: { data: false } };
+  }).then((res) => {
+    const refresh_token = res.data.data.refreshToken;
+    const access_token = res.data.data.accessToken;
+    const token_exp = res.data.data.tokenExp;
+    cookies.set("access_token", access_token, {
+      path: "/",
+      expires: new Date(Date.now() + 1000 * 60 * 15),
     });
+    cookies.set("refresh_token", refresh_token, {
+      path: "/",
+      expires: new Date(token_exp),
+    });
+    return {
+      data: { data: { login: true, tokenExp: token_exp } },
+    };
+  });
 };
 
 export const kakaoLogin = () => {

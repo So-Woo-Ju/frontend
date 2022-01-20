@@ -53,16 +53,18 @@ function Login() {
   };
 
   const _handleSubmit = () => {
-    dispatch(login(user)).then(() => {
-      if (isMounted.current) {
-        if (isLogin) {
+    dispatch(login(user))
+      .then(() => {
+        if (isMounted.current) {
           setErrorMsg("");
           navigate("/");
-        } else {
+        }
+      })
+      .catch((err) => {
+        if (err.message.includes("400")) {
           setErrorMsg("존재하지 않는 사용자입니다");
         }
-      }
-    });
+      });
   };
   const _handleGoogleLogin = () => {
     dispatch(googleLogin());

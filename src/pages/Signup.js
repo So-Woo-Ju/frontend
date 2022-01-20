@@ -53,10 +53,16 @@ function Signup() {
           message: "메일 인증번호가 전송되었습니다",
         });
       })
-      .catch(() => {
-        notification.open({
-          message: "이미 존재하는 이메일입니다",
-        });
+      .catch((err) => {
+        if (err.message.includes("400")) {
+          notification.open({
+            message: "이미 존재하는 이메일입니다",
+          });
+        } else if (err.message.includes("500")) {
+          notification.open({
+            message: "인증메일 전송 중 오류가 발생했습니다",
+          });
+        }
       });
   };
   const _checkNumber = () => {
