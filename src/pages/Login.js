@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Form, Input, Button } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, kakaoLogin, googleLogin } from "../modules/user";
 import styled from "styled-components";
@@ -41,9 +41,6 @@ const ErrorMessage = styled.p`
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLogin } = useSelector(({ user }) => ({
-    isLogin: user.login,
-  }));
 
   const isMounted = useRef(false);
 
