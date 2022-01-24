@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import MainPage from "./pages/MainPage";
@@ -9,26 +9,32 @@ import Signup from "./pages/Signup";
 import Mypage from "./pages/Mypage";
 import ErrorPage from "./pages/Errorpage";
 import { useSelector, useDispatch } from "react-redux";
-import { logout, renewalExpires } from "./modules/user";
-import { getAccessToken } from "./lib/api/user";
+import { logout, renewalExpires } from "modules/user";
+import { RootState } from "modules";
+import { getAccessToken } from "lib/api/user";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
+interface ResponseType {
+  message: string;
+  data?: string;
+}
+
 function App() {
   const dispatch = useDispatch();
-  const { login, tokenExp } = useSelector(({ user }) => ({
-    login: user.login,
-    tokenExp: user.tokenExp,
-  }));
+  const login = useSelector((state: RootState) => state.user.login);
+  const tokenExp = useSelector((state: RootState) => state.user.tokenExp);
 
-  const [response, setResponse] = useState("");
+  const [response, setResponse] = useState<ResponseType>({ message: "" });
 
   useEffect(() => {
-    setResponse(getAccessToken({ login, tokenExp }));
+    if (login) {
+      setResponse(getAccessToken(tokenExp));
+    }
   }, [cookies.get("access_token"), cookies.get("refresh_token")]);
   useEffect(() => {
-    if (response) {
+    if (response.message) {
       if (response.message.includes("expires")) {
         dispatch(logout());
       } else if (response.message.includes("renewal")) {

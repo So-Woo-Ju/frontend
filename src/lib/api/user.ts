@@ -136,14 +136,8 @@ export const checkNumber = ({
     });
 };
 
-export const getAccessToken = ({
-  login,
-  tokenExp,
-}: {
-  login: boolean;
-  tokenExp: string;
-}) => {
-  if (login && !cookies.get("access_token")) {
+export const getAccessToken = (tokenExp: string) => {
+  if (!cookies.get("access_token")) {
     const now = new Date();
     const two_weeks_later = new Date(now.setDate(now.getDate() + 14));
     if (tokenExp < new Date(two_weeks_later).toISOString().split(".")[0]) {
@@ -175,7 +169,9 @@ export const getAccessToken = ({
         cookies.set("access_token", res.data.data.accessToken, {
           expires: new Date(Date.now() + 1000 * 60 * 15),
         });
+        return { message: "access token" };
       });
     }
   }
+  return { message: "none" };
 };

@@ -1,4 +1,5 @@
-import { createReducer, createAction } from "typesafe-actions";
+import { createReducer } from "typesafe-actions";
+import { createAction } from "redux-actions";
 import * as userAPI from "lib/api/user";
 import createRequestThunk, {
   createRequestActionTypes,
@@ -28,7 +29,7 @@ export const checkNumber = createRequestThunk(
   CHECK_NUMBER,
   userAPI.checkNumber,
 );
-export const renewalExpires = createAction(RENEWAL_EXPIRES)();
+export const renewalExpires = createAction(RENEWAL_EXPIRES);
 export const kakaoLogin = createRequestThunk(KAKAO_LOGIN, userAPI.kakaoLogin);
 export const googleLogin = createRequestThunk(
   GOOGLE_LOGIN,
