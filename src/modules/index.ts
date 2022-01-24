@@ -16,4 +16,6 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persisConfig, rootReducer);
 
+export type RootState = ReturnType<typeof persistedReducer>;
+
 export default persistedReducer;

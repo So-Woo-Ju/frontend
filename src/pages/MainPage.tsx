@@ -93,7 +93,7 @@ const MainPage = () => {
           (type === 1 && uploadFile) ||
           (type === 2 && Url && UrlErrorMsg === "")
         ) {
-          dispatch(upload());
+          dispatch(upload({}));
           navigate("/loading");
         }
       }

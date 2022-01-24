@@ -69,6 +69,7 @@ const Signup = () => {
       });*/
   };
   const _checkNumber = () => {
+    console.log(user.email, number);
     dispatch(checkNumber({ email: user.email, code: number }));
     /*
       .then(() => {
