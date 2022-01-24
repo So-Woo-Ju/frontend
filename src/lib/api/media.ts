@@ -1,4 +1,16 @@
-export const load = (user) => {
+interface UserType {
+  email: string;
+}
+interface VideoType {
+  id: number;
+  src: string;
+  videoName: string;
+  videoUrl: string;
+  videoType: string;
+  videoLanguage: string;
+}
+
+export const load = (user: UserType) => {
   return {
     data: [
       {
@@ -68,7 +80,7 @@ export const load = (user) => {
   };
 };
 
-export const upload = ({ video }) => {
+export const upload = (video: VideoType) => {
   return {
     data: null,
   };

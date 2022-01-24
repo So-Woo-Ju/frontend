@@ -3,7 +3,12 @@ import client from "./client";
 
 const cookies = new Cookies();
 
-export const login = async (user) => {
+interface UserType {
+  email: string;
+  password: string;
+}
+
+export const login = async (user: UserType) => {
   return client({
     url: "/auth/login",
     method: "post",
@@ -26,7 +31,7 @@ export const login = async (user) => {
   });
 };
 
-export const kakaoLogin = (token) => {
+export const kakaoLogin = (token: string) => {
   return client({
     url: "/auth/kakao",
     method: "post",
@@ -40,7 +45,7 @@ export const kakaoLogin = (token) => {
     });
 };
 
-export const googleLogin = (token) => {
+export const googleLogin = (token: string) => {
   return client({
     url: "/auth/google",
     method: "post",
@@ -54,7 +59,7 @@ export const googleLogin = (token) => {
     });
 };
 
-export const mailCheck = ({ email }) => {
+export const mailCheck = ({ email }: { email: string }) => {
   return client({
     url: "/auth/send-email",
     method: "post",
@@ -62,7 +67,7 @@ export const mailCheck = ({ email }) => {
   });
 };
 
-export const signup = (user) => {
+export const signup = (user: UserType) => {
   return client({
     url: "/auth/signup",
     method: "post",
@@ -76,7 +81,13 @@ export const logout = () => {
   return { data: { data: false } };
 };
 
-export const checkNumber = ({ email, code }) => {
+export const checkNumber = ({
+  email,
+  code,
+}: {
+  email: string;
+  code: string;
+}) => {
   return client({
     url: "/auth/verify-code",
     method: "post",
@@ -84,7 +95,13 @@ export const checkNumber = ({ email, code }) => {
   });
 };
 
-export const getAccessToken = ({ login, tokenExp }) => {
+export const getAccessToken = ({
+  login,
+  tokenExp,
+}: {
+  login: boolean;
+  tokenExp: string;
+}) => {
   if (login && !cookies.get("access_token")) {
     const now = new Date();
     const two_weeks_later = new Date(now.setDate(now.getDate() + 14));

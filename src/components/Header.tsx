@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +7,7 @@ import { Button } from "antd";
 import { AiFillHome } from "react-icons/ai";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { RootState } from "modules";
 
 const Container = styled.div`
   height: 50px;
@@ -40,7 +42,7 @@ const StyledLogout = styled(Button)`
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { login } = useSelector(({ user }) => ({ login: user.login }));
+  const login = useSelector((state: RootState) => state.user.login);
 
   const _handleLogout = () => {
     dispatch(logout());

@@ -10,9 +10,11 @@ const client = axios.create({
 });
 
 client.interceptors.request.use((config) => {
-  config.headers.common["Authorization"] = `Bearer ${cookies.get(
-    "refresh_token",
-  )}`;
+  const token = cookies.get("refresh_token");
+  if (config.headers) {
+    config.headers.Authorization = token ? `Bearer ${token}` : "";
+  }
+
   return config;
 });
 
