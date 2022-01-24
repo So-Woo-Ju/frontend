@@ -9,9 +9,9 @@ import Signup from "./pages/Signup";
 import Mypage from "./pages/Mypage";
 import ErrorPage from "./pages/Errorpage";
 import { useSelector, useDispatch } from "react-redux";
-import { logout, renewalExpires } from "modules/user";
-import { RootState } from "modules";
-import { getAccessToken } from "lib/api/user";
+import { logout, renewalExpires } from "./modules/user";
+import { RootState } from "./modules";
+import { getAccessToken } from "./lib/api/user";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();

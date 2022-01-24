@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Form, Input, Button, notification } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { signup, mailCheck, checkNumber } from "modules/user";
+import { signup, mailCheck, checkNumber } from "../modules/user";
 import styled from "styled-components";
-import { RootState } from "modules";
+import { RootState } from "../modules";
 
 const Container = styled.div`
   height: 80%;

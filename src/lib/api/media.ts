@@ -1,4 +1,4 @@
-import { VideoType } from "interfaces/interfaces";
+import { VideoType } from "../../interfaces/interfaces";
 
 export const load = (email: string) => {
   return {

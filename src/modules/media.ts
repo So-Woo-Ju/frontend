@@ -1,9 +1,9 @@
 import { createReducer } from "typesafe-actions";
-import * as mediaAPI from "lib/api/media";
-import { VideoType } from "interfaces/interfaces";
+import * as mediaAPI from "../lib/api/media";
+import { VideoType } from "../interfaces/interfaces";
 import createRequestThunk, {
   createRequestActionTypes,
-} from "lib/createRequestThunk";
+} from "../lib/createRequestThunk";
 
 const [LOAD, LOAD_SUCCESS, LOAD_FAILURE] =
   createRequestActionTypes("media/LOAD");

@@ -2,10 +2,10 @@ import { Col, Row } from "antd";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { load } from "modules/media";
+import { load } from "../modules/media";
 import styled from "styled-components";
-import { RootState } from "modules";
-import { VideoType } from "interfaces/interfaces";
+import { RootState } from "../modules";
+import { VideoType } from "../interfaces/interfaces";
 
 const Container = styled.div`
   width: 100%;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { upload } from "modules/media";
+import { upload } from "../modules/media";
 import { Radio, Upload, Button, Input, message, RadioChangeEvent } from "antd";
 import styled from "styled-components";
 import { UploadOutlined } from "@ant-design/icons";

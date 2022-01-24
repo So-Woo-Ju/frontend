@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login, kakaoLogin, googleLogin } from "modules/user";
+import { login, kakaoLogin, googleLogin } from "../modules/user";
 import styled from "styled-components";
 import GoogleLogin from "react-google-login";
 import KakaoLogin from "react-kakao-login";
-import * as config from "config";
-import { RootState } from "modules";
+import * as config from "../config";
+import { RootState } from "../modules";
 
 const Container = styled.div`
   height: 80%;
