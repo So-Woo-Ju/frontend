@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../modules/user";
+import { logout } from "modules/user";
 import { Button } from "antd";
 import { AiFillHome } from "react-icons/ai";
 import { Avatar } from "antd";

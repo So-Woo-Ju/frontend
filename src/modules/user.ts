@@ -1,8 +1,8 @@
 import { createReducer, createAction } from "typesafe-actions";
-import * as userAPI from "../lib/api/user";
+import * as userAPI from "lib/api/user";
 import createRequestThunk, {
   createRequestActionTypes,
-} from "../lib/createRequestThunk";
+} from "lib/createRequestThunk";
 
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
   createRequestActionTypes("user/LOGIN");
