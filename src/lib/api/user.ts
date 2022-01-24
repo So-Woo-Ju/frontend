@@ -13,22 +13,24 @@ export const login = async (user: UserType) => {
     url: "/auth/login",
     method: "post",
     data: user,
-  }).then((res) => {
-    const refresh_token = res.data.data.refreshToken;
-    const access_token = res.data.data.accessToken;
-    const token_exp = res.data.data.tokenExp;
-    cookies.set("access_token", access_token, {
-      path: "/",
-      expires: new Date(Date.now() + 1000 * 60 * 15),
+  })
+    .then((res) => {
+      const refresh_token = res.data.data.refreshToken;
+      const access_token = res.data.data.accessToken;
+      const token_exp = res.data.data.tokenExp;
+      cookies.set("access_token", access_token, {
+        path: "/",
+        expires: new Date(Date.now() + 1000 * 60 * 15),
+      });
+      cookies.set("refresh_token", refresh_token, {
+        path: "/",
+        expires: new Date(token_exp),
+      });
+      return { login: true, tokenExp: token_exp };
+    })
+    .catch(() => {
+      return { login: false };
     });
-    cookies.set("refresh_token", refresh_token, {
-      path: "/",
-      expires: new Date(token_exp),
-    });
-    return {
-      data: { data: { login: true, tokenExp: token_exp } },
-    };
-  });
 };
 
 export const kakaoLogin = (token: string) => {
@@ -38,10 +40,21 @@ export const kakaoLogin = (token: string) => {
     data: { kakaoToken: token },
   })
     .then((res) => {
-      console.log(res);
+      const refresh_token = res.data.data.refreshToken;
+      const access_token = res.data.data.accessToken;
+      const token_exp = res.data.data.tokenExp;
+      cookies.set("access_token", access_token, {
+        path: "/",
+        expires: new Date(Date.now() + 1000 * 60 * 15),
+      });
+      cookies.set("refresh_token", refresh_token, {
+        path: "/",
+        expires: new Date(token_exp),
+      });
+      return { login: true, tokenExp: token_exp };
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
+      return { login: false };
     });
 };
 
@@ -52,19 +65,39 @@ export const googleLogin = (token: string) => {
     data: { googleToken: token },
   })
     .then((res) => {
-      console.log(res);
+      const refresh_token = res.data.data.refreshToken;
+      const access_token = res.data.data.accessToken;
+      const token_exp = res.data.data.tokenExp;
+      cookies.set("access_token", access_token, {
+        path: "/",
+        expires: new Date(Date.now() + 1000 * 60 * 15),
+      });
+      cookies.set("refresh_token", refresh_token, {
+        path: "/",
+        expires: new Date(token_exp),
+      });
+      return { login: true, tokenExp: token_exp };
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
+      return { login: false };
     });
 };
 
-export const mailCheck = ({ email }: { email: string }) => {
+export const mailCheck = (email: string) => {
   return client({
     url: "/auth/send-email",
     method: "post",
     data: { email },
-  });
+  })
+    .then(() => {
+      return true;
+    })
+    .catch((err) => {
+      if (err.message.includes("400")) {
+        return false;
+      }
+      return null;
+    });
 };
 
 export const signup = (user: UserType) => {
@@ -72,13 +105,15 @@ export const signup = (user: UserType) => {
     url: "/auth/signup",
     method: "post",
     data: user,
+  }).catch(() => {
+    return false;
   });
 };
 
 export const logout = () => {
   cookies.remove("access_token");
   cookies.remove("refresh_token");
-  return { data: { data: false } };
+  return false;
 };
 
 export const checkNumber = ({
@@ -92,7 +127,13 @@ export const checkNumber = ({
     url: "/auth/verify-code",
     method: "post",
     data: { email, code },
-  });
+  })
+    .then(() => {
+      return true;
+    })
+    .catch(() => {
+      return false;
+    });
 };
 
 export const getAccessToken = ({

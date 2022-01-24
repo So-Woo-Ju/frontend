@@ -38,7 +38,8 @@ export const googleLogin = createRequestThunk(
 interface UserReducer {
   email: string;
   login: boolean;
-  isSend: boolean;
+  signup: boolean;
+  isSend: boolean | null;
   isVerify: boolean;
   tokenExp: string;
   error: string | null;
@@ -47,6 +48,7 @@ interface UserReducer {
 const initialState: UserReducer = {
   email: "",
   login: false,
+  signup: false,
   isSend: false,
   isVerify: false,
   tokenExp: "",
@@ -65,16 +67,17 @@ export default createReducer<UserReducer>(initialState, {
     login: false,
     error,
   }),
-  [SIGNUP_SUCCESS]: (state) => ({
+  [SIGNUP_SUCCESS]: (state, { payload: signup }) => ({
     ...state,
+    signup,
     error: null,
   }),
   [SIGNUP_FAILURE]: (state, { payload: error }) => ({
     ...state,
-    login: false,
+    signup: false,
     error,
   }),
-  [MAILCHECK_SUCCESS]: (state, { payload: { isSend } }) => ({
+  [MAILCHECK_SUCCESS]: (state, { payload: isSend }) => ({
     ...state,
     isSend,
     error: null,
@@ -84,7 +87,7 @@ export default createReducer<UserReducer>(initialState, {
     isSend: false,
     error,
   }),
-  [CHECK_NUMBER_SUCCESS]: (state, { payload: { isVerify } }) => ({
+  [CHECK_NUMBER_SUCCESS]: (state, { payload: isVerify }) => ({
     ...state,
     isVerify,
     error: null,

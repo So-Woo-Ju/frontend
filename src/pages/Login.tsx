@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, kakaoLogin, googleLogin } from "modules/user";
 import styled from "styled-components";
 import GoogleLogin from "react-google-login";
 import KakaoLogin from "react-kakao-login";
 import * as config from "config";
+import { RootState } from "modules";
 
 const Container = styled.div`
   height: 80%;
@@ -41,6 +42,7 @@ const ErrorMessage = styled.p`
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isLogin = useSelector((state: RootState) => state.user.login);
 
   const [user, setUser] = useState({ email: "", password: "" });
   const [errorMsg, setErrorMsg] = useState("");
@@ -49,10 +51,14 @@ const Login = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const _handleSubmit = () => {
-    dispatch(login(user));
-    setErrorMsg("");
-    navigate("/");
+  const _handleSubmit = async () => {
+    await dispatch(login(user));
+    if (isLogin) {
+      setErrorMsg("");
+      navigate("/");
+    } else {
+      setErrorMsg("로그인에 실패했습니다");
+    }
   };
   const _handleGoogleSuccess = (res: any) => {
     dispatch(googleLogin(res.tokenObj.id_token));
