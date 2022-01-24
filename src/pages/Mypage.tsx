@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { load } from "../modules/media";
@@ -20,12 +20,24 @@ const StyledLink = styled(Link)`
   }
 `;
 
+interface MediaType {
+  id: number;
+  src: string;
+  videoName: string;
+  videoUrl: string;
+  videoType: string;
+  videoLanguage: string;
+}
+
 function Mypage() {
   const dispatch = useDispatch();
+  /*
   const { media, user } = useSelector(({ media, user }) => ({
     media: media.media,
     user: user.user,
-  }));
+  }));*/
+  const media: MediaType[] = [];
+  const user: any = {};
 
   useEffect(() => {
     dispatch(load(user));
@@ -36,11 +48,14 @@ function Mypage() {
       <h2 style={{ fontWeight: "bold" }}>자막이 생성된 미디어</h2>
       <Row gutter={[16, 16]} style={{ marginTop: "30px" }}>
         {media &&
-          media.map((video) => (
+          media.map((video: MediaType) => (
             <StyledLink to="/result" key={video.id}>
-              <Col id={video.id} style={{ display: "flex", width: 460 }}>
+              <Col
+                id={String(video.id)}
+                style={{ display: "flex", width: 460 }}
+              >
                 <img
-                  alt={video.id}
+                  alt={String(video.id)}
                   height="160"
                   src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fvckff%2FbtqCjeJmBHM%2FtMVpe4aUIMfH4nKS4aO3tK%2Fimg.jpg"
                 />
