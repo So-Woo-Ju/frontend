@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -38,50 +38,34 @@ const ErrorMessage = styled.p`
   color: red;
 `;
 
-function Login() {
+const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const isMounted = useRef(false);
 
   const [user, setUser] = useState({ email: "", password: "" });
   const [errorMsg, setErrorMsg] = useState("");
 
-  const _handleChange = (e) => {
+  const _handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const _handleSubmit = () => {
-    dispatch(login(user))
-      .then(() => {
-        if (isMounted.current) {
-          setErrorMsg("");
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        if (err.message.includes("400")) {
-          setErrorMsg("존재하지 않는 사용자입니다");
-        }
-      });
+    dispatch(login(user));
+    setErrorMsg("");
+    navigate("/");
   };
-  const _handleGoogleSuccess = (res) => {
+  const _handleGoogleSuccess = (res: any) => {
     dispatch(googleLogin(res.tokenObj.id_token));
   };
   const _handleGoogleFailure = () => {
     setErrorMsg("로그인에 실패했습니다");
   };
-  const _handleKakaoSuccess = (res) => {
+  const _handleKakaoSuccess = (res: any) => {
     dispatch(kakaoLogin(res.response.access_token));
   };
   const _handleKakaoFailure = () => {
     setErrorMsg("로그인에 실패했습니다");
   };
-
-  useEffect(() => {
-    isMounted.current = true;
-    return () => (isMounted.current = false);
-  }, []);
 
   return (
     <Container>
@@ -167,6 +151,6 @@ function Login() {
       </Form>
     </Container>
   );
-}
+};
 
 export default Login;

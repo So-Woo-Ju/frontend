@@ -37,7 +37,7 @@ const StyledLogout = styled(Button)`
   padding: 7px 7px 0 15px;
 `;
 
-function Header() {
+const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { login } = useSelector(({ user }) => ({ login: user.login }));
@@ -66,6 +66,6 @@ function Header() {
       </RightBox>
     </Container>
   );
-}
+};
 
 export default Header;

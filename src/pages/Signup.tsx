@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, notification } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -29,25 +29,28 @@ const ErrorMessage = styled.p`
   color: red;
 `;
 
-function Signup() {
+const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  /*
   const { isVerify } = useSelector(({ user }) => ({
     isVerify: user.isVerify,
-  }));
+  }));*/
+  const isVerify = true;
   const [user, setUser] = useState({ email: "", password: "" });
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [errorMsg, setErrorMessage] = useState("");
   const [number, setNumber] = useState("");
 
-  const _handleChange = (e) => {
+  const _handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-  const _handlePwdChange = (e) => {
+  const _handlePwdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordConfirm(e.target.value);
   };
   const _handleEmailCheck = () => {
-    dispatch(mailCheck({ email: user.email }))
+    dispatch(mailCheck({ email: user.email }));
+    /*
       .then(() => {
         notification.open({
           message: "메일 인증번호가 전송되었습니다",
@@ -63,10 +66,11 @@ function Signup() {
             message: "인증메일 전송 중 오류가 발생했습니다",
           });
         }
-      });
+      });*/
   };
   const _checkNumber = () => {
-    dispatch(checkNumber({ email: user.email, code: number }))
+    dispatch(checkNumber({ email: user.email, code: number }));
+    /*
       .then(() => {
         notification.open({
           message: "메일 인증이 완료되었습니다",
@@ -76,15 +80,17 @@ function Signup() {
         notification.open({
           message: "유효하지 않은 번호입니다",
         });
-      });
+      });*/
   };
-  const _handleNumberChange = (e) => {
+  const _handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNumber(e.target.value);
   };
 
   const _handleSubmit = () => {
     if (isVerify === true) {
-      dispatch(signup(user))
+      dispatch(signup(user));
+      navigate("/login");
+      /*
         .then(() => {
           navigate("/login");
         })
@@ -93,7 +99,7 @@ function Signup() {
             message: "회원가입에 실패했습니다",
             description: "다시 시도해주세요",
           });
-        });
+        });*/
     } else {
       setErrorMessage("메일 인증을 완료해주세요");
     }
@@ -199,6 +205,6 @@ function Signup() {
       </Form>
     </Container>
   );
-}
+};
 
 export default Signup;
