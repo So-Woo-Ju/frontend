@@ -71,7 +71,5 @@ export const load = (email: string) => {
 };
 
 export const upload = (video: VideoType) => {
-  return {
-    data: null,
-  };
+  return null;
 };

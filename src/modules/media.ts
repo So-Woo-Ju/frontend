@@ -26,7 +26,7 @@ const initialState: MediaReducer = {
 };
 
 export default createReducer<MediaReducer>(initialState, {
-  [LOAD_SUCCESS]: (state, { payload: media }) => ({
+  [LOAD_SUCCESS]: (state, { payload: { media } }) => ({
     ...state,
     media,
     error: null,
