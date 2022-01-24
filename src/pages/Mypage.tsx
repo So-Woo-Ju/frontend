@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { load } from "../modules/media";
 import styled from "styled-components";
+import { RootState } from "modules";
+import { VideoType } from "interfaces/interfaces";
 
 const Container = styled.div`
   width: 100%;
@@ -20,35 +22,20 @@ const StyledLink = styled(Link)`
   }
 `;
 
-interface MediaType {
-  id: number;
-  src: string;
-  videoName: string;
-  videoUrl: string;
-  videoType: string;
-  videoLanguage: string;
-}
-
 function Mypage() {
   const dispatch = useDispatch();
-  /*
-  const { media, user } = useSelector(({ media, user }) => ({
-    media: media.media,
-    user: user.user,
-  }));*/
-  const media: MediaType[] = [];
-  const user: any = {};
+  const media = useSelector((state: RootState) => state.media.media);
 
   useEffect(() => {
-    dispatch(load(user));
-  }, [dispatch, user]);
+    dispatch(load(""));
+  }, [dispatch]);
 
   return (
     <Container>
       <h2 style={{ fontWeight: "bold" }}>자막이 생성된 미디어</h2>
       <Row gutter={[16, 16]} style={{ marginTop: "30px" }}>
         {media &&
-          media.map((video: MediaType) => (
+          media.map((video: VideoType) => (
             <StyledLink to="/result" key={video.id}>
               <Col
                 id={String(video.id)}

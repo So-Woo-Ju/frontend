@@ -1,16 +1,6 @@
-interface UserType {
-  email: string;
-}
-interface VideoType {
-  id: number;
-  src: string;
-  videoName: string;
-  videoUrl: string;
-  videoType: string;
-  videoLanguage: string;
-}
+import { VideoType } from "interfaces/interfaces";
 
-export const load = (user: UserType) => {
+export const load = (email: string) => {
   return {
     data: [
       {

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signup, mailCheck, checkNumber } from "../modules/user";
 import styled from "styled-components";
+import { RootState } from "modules";
 
 const Container = styled.div`
   height: 80%;
@@ -32,11 +33,8 @@ const ErrorMessage = styled.p`
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  /*
-  const { isVerify } = useSelector(({ user }) => ({
-    isVerify: user.isVerify,
-  }));*/
-  const isVerify = true;
+  const isVerify = useSelector((state: RootState) => state.user.isVerify);
+
   const [user, setUser] = useState({ email: "", password: "" });
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [errorMsg, setErrorMessage] = useState("");

@@ -36,6 +36,7 @@ export const googleLogin = createRequestThunk(
 );
 
 interface UserReducer {
+  email: string;
   login: boolean;
   isSend: boolean;
   isVerify: boolean;
@@ -44,6 +45,7 @@ interface UserReducer {
 }
 
 const initialState: UserReducer = {
+  email: "",
   login: false,
   isSend: false,
   isVerify: false,
