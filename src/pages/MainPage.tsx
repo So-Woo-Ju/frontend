@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { upload } from "../modules/media";
-import { Radio, Upload, Button, Input, message } from "antd";
+import { Radio, Upload, Button, Input, message, RadioChangeEvent } from "antd";
 import styled from "styled-components";
 import { UploadOutlined } from "@ant-design/icons";
 
@@ -29,11 +29,11 @@ const StyledError = styled.p`
   color: red;
 `;
 
-function MainPage() {
+const MainPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [uploadFile, setUploadFile] = useState("");
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [lang, setLang] = useState(1);
   const [type, setType] = useState(1);
   const [Url, setUrl] = useState("");
@@ -44,7 +44,7 @@ function MainPage() {
     /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 
   const props = {
-    beforeUpload: (file) => {
+    beforeUpload: (file: File) => {
       if (file.type !== "video/mp4") {
         message.error("Please upload video(mp4) file");
       } else {
@@ -54,14 +54,14 @@ function MainPage() {
     },
   };
 
-  const _handleChangeLanguage = (e) => {
+  const _handleChangeLanguage = (e: RadioChangeEvent) => {
     setLang(e.target.value);
   };
-  const _handleChangeType = (e) => {
+  const _handleChangeType = (e: RadioChangeEvent) => {
     setType(e.target.value);
   };
 
-  const _handleChangeUrl = (e) => {
+  const _handleChangeUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!regex.test(e.target.value)) {
       if (lang === 1) {
         setUrlErrorMsg("정확한 URL을 입력해주세요");
@@ -152,6 +152,6 @@ function MainPage() {
       </StyledButton>
     </Container>
   );
-}
+};
 
 export default MainPage;

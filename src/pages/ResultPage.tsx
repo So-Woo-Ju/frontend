@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -30,29 +30,37 @@ const VideoTitle = styled.p`
   font-size: 20px;
 `;
 
-function ResultPage() {
-  const ref = useRef();
+const ResultPage = () => {
+  const ref = useRef<HTMLVideoElement>(null);
   const [youtubeSrc, setYoutubeSrc] = useState("");
   const [youtubeTime, setYoutubeTime] = useState(0);
   const [videoSrc, setVideoSrc] = useState("");
   const [title, setTitle] = useState("");
-  const [scriptText, setScriptText] = useState([]);
+  const [scriptText, setScriptText] = useState<
+    { time: string; text: string }[]
+  >([]);
 
-  const _handleTimeline = (e) => {
-    const timeArr = e.target.innerText.split(":");
-    if (timeArr.length === 3) {
-      const hour = Number(timeArr[0]) * 3600;
-      const min = Number(timeArr[1]) * 60;
-      const sec = Number(timeArr[2]);
-      ref.current.currentTime = hour + min + sec;
-    } else {
-      const min = Number(timeArr[0]) * 60;
-      const sec = Number(timeArr[1]);
-      ref.current.currentTime = min + sec;
+  const _handleTimeline = (e: React.MouseEvent<HTMLParagraphElement>) => {
+    const input = e.target as HTMLElement;
+    const timeArr = input.innerText.split(":");
+    if (ref.current) {
+      if (timeArr.length === 3) {
+        const hour = Number(timeArr[0]) * 3600;
+        const min = Number(timeArr[1]) * 60;
+        const sec = Number(timeArr[2]);
+        ref.current.currentTime = hour + min + sec;
+      } else {
+        const min = Number(timeArr[0]) * 60;
+        const sec = Number(timeArr[1]);
+        ref.current.currentTime = min + sec;
+      }
     }
   };
-  const _handleYoutubeTimeline = (e) => {
-    const timeArr = e.target.innerText.split(":");
+  const _handleYoutubeTimeline = (
+    e: React.MouseEvent<HTMLParagraphElement>,
+  ) => {
+    const input = e.target as HTMLElement;
+    const timeArr = input.innerText.split(":");
     if (timeArr.length === 3) {
       const hour = Number(timeArr[0]) * 3600;
       const min = Number(timeArr[1]) * 60;
@@ -100,9 +108,7 @@ function ResultPage() {
           height="100%"
           src={`https://www.youtube.com/embed/${youtubeSrc}?autoplay=1&start=${youtubeTime}`}
           title="YouTube video player"
-          frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
         ></iframe>
       ) : (
         <video controls width="75%" height="100%" ref={ref}>
@@ -124,6 +130,6 @@ function ResultPage() {
       </Script>
     </Container>
   );
-}
+};
 
 export default ResultPage;

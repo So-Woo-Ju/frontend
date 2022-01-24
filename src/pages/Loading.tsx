@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Spin } from "antd";
 import styled from "styled-components";
@@ -11,7 +11,7 @@ const Container = styled.div`
   align-items: center;
 `;
 
-function Loading() {
+const Loading = () => {
   const navigate = useNavigate();
   useEffect(() => {
     setTimeout(() => {
@@ -27,6 +27,6 @@ function Loading() {
       />
     </Container>
   );
-}
+};
 
 export default Loading;

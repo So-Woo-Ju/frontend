@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { AiFillWarning } from "react-icons/ai";
 
 const Container = styled.div`
@@ -15,7 +15,7 @@ const StyledErrorMsg = styled.p`
   padding: 15px;
 `;
 
-function ErrorPage() {
+const ErrorPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
     setErrorMessage("동영상을 불러올 수 없습니다");
@@ -27,6 +27,6 @@ function ErrorPage() {
       <StyledErrorMsg>{errorMessage}</StyledErrorMsg>
     </Container>
   );
-}
+};
 
 export default ErrorPage;
