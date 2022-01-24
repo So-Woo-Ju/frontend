@@ -111,20 +111,26 @@ export default createReducer<UserReducer>(initialState, {
     ...state,
     tokenExp,
   }),
-  [KAKAO_LOGIN_SUCCESS]: (state) => ({
+  [KAKAO_LOGIN_SUCCESS]: (state, { payload: data }) => ({
     ...state,
+    login: data.login,
+    tokenExp: data.tokenExp,
     error: null,
   }),
   [KAKAO_LOGIN_FAILURE]: (state, { payload: error }) => ({
     ...state,
+    login: false,
     error,
   }),
-  [GOOGLE_LOGIN_SUCCESS]: (state) => ({
+  [GOOGLE_LOGIN_SUCCESS]: (state, { payload: data }) => ({
     ...state,
+    login: data.login,
+    tokenExp: data.tokenExp,
     error: null,
   }),
   [GOOGLE_LOGIN_FAILURE]: (state, { payload: error }) => ({
     ...state,
+    login: false,
     error,
   }),
 });
