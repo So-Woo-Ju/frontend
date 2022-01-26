@@ -21,7 +21,7 @@ interface ResponseType {
   data?: string;
 }
 
-function App() {
+const App = () => {
   const dispatch = useDispatch();
   const login = useSelector((state: RootState) => state.user.login);
   const tokenExp = useSelector((state: RootState) => state.user.tokenExp);
@@ -98,6 +98,6 @@ function App() {
       </Routes>
     </div>
   );
-}
+};
 
 export default App;

@@ -22,7 +22,7 @@ const StyledLink = styled(Link)`
   }
 `;
 
-function Mypage() {
+const Mypage = () => {
   const dispatch = useDispatch();
   const media = useSelector((state: RootState) => state.media.media);
 
@@ -53,6 +53,6 @@ function Mypage() {
       </Row>
     </Container>
   );
-}
+};
 
 export default Mypage;
