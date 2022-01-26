@@ -4,11 +4,10 @@ import { Link } from "react-router-dom";
 import { load } from "../lib/api/media";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { VideoType } from "../interfaces/interfaces";
 import { useCallback } from "react";
 import ErrorPage from "./Errorpage";
+import Loading from "components/Loading";
 
 const Container = styled.div`
   width: 100%;
@@ -24,13 +23,6 @@ const StyledLink = styled(Link)`
     color: gray;
   }
 `;
-const LoadingContainer = styled.div`
-  height: 80%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
 
 const Mypage = () => {
   const { status, data } = useQuery(["loadMedia"], () => load(""));
@@ -38,14 +30,7 @@ const Mypage = () => {
   const renderByStatus = useCallback(() => {
     switch (status) {
       case "loading":
-        return (
-          <LoadingContainer>
-            <Spin
-              tip="Loading..."
-              indicator={<LoadingOutlined style={{ fontSize: 50 }} />}
-            />
-          </LoadingContainer>
-        );
+        return <Loading />;
       case "error":
         return <ErrorPage />;
       default:
