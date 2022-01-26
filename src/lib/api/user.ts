@@ -33,16 +33,7 @@ export const mailCheck = (email: string) => {
     url: "/auth/send-email",
     method: "post",
     data: { email },
-  })
-    .then(() => {
-      return true;
-    })
-    .catch((err) => {
-      if (err.message.includes("400")) {
-        return false;
-      }
-      return null;
-    });
+  });
 };
 
 export const signup = (user: UserType) => {
@@ -50,8 +41,6 @@ export const signup = (user: UserType) => {
     url: "/auth/signup",
     method: "post",
     data: user,
-  }).catch(() => {
-    return false;
   });
 };
 
@@ -71,13 +60,7 @@ export const checkNumber = ({
     url: "/auth/verify-code",
     method: "post",
     data: { email, code },
-  })
-    .then(() => {
-      return true;
-    })
-    .catch(() => {
-      return false;
-    });
+  });
 };
 
 export const getAccessToken = (tokenExp: string) => {

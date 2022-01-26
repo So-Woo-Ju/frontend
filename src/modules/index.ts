@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import user from "./user";
 import media from "./media";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -10,7 +9,6 @@ const persisConfig = {
 };
 
 const rootReducer = combineReducers({
-  user,
   media,
 });
 

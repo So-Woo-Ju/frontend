@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Form, Input, Button, notification } from "antd";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { signup, mailCheck, checkNumber } from "../modules/user";
+import { signup, mailCheck, checkNumber } from "../lib/api/user";
+import { useMutation } from "react-query";
 import styled from "styled-components";
-import { RootState } from "../modules";
+import { UserType } from "interfaces/interfaces";
 
 const Container = styled.div`
   height: 80%;
@@ -32,15 +32,17 @@ const ErrorMessage = styled.p`
 
 const Signup = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isVerify = useSelector((state: RootState) => state.user.isVerify);
-  const isSend = useSelector((state: RootState) => state.user.isSend);
-  const isSignup = useSelector((state: RootState) => state.user.signup);
+  const mutationMailCheck = useMutation((email: string) => mailCheck(email));
+  const mutationCheckNumber = useMutation(
+    (check: { email: string; code: string }) => checkNumber(check),
+  );
+  const mutationSignup = useMutation((user: UserType) => signup(user));
 
   const [user, setUser] = useState({ email: "", password: "" });
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [errorMsg, setErrorMessage] = useState("");
   const [number, setNumber] = useState("");
+  const [canSignup, setCanSignup] = useState(false);
 
   const _handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -48,50 +50,64 @@ const Signup = () => {
   const _handlePwdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordConfirm(e.target.value);
   };
-  const _handleEmailCheck = async () => {
-    await dispatch(mailCheck(user.email));
-    if (isSend === true) {
-      notification.open({
-        message: "메일 인증번호가 전송되었습니다",
+  const _handleEmailCheck = () => {
+    mutationMailCheck
+      .mutateAsync(user.email)
+      .then(() => {
+        notification.open({
+          message: "메일 인증번호가 전송되었습니다",
+        });
+      })
+      .catch((err) => {
+        if (err.message.includes("400")) {
+          notification.open({
+            message: "이미 존재하는 이메일입니다",
+          });
+        } else {
+          notification.open({
+            message: "인증메일 전송 중 오류가 발생했습니다",
+          });
+        }
       });
-    } else if (isSend === false) {
-      notification.open({
-        message: "이미 존재하는 이메일입니다",
-      });
-    } else {
-      notification.open({
-        message: "인증메일 전송 중 오류가 발생했습니다",
-      });
-    }
   };
-  const _checkNumber = async () => {
-    await dispatch(checkNumber({ email: user.email, code: number }));
-    if (isVerify) {
-      notification.open({
-        message: "메일 인증이 완료되었습니다",
+  const _checkNumber = () => {
+    mutationCheckNumber
+      .mutateAsync({ email: user.email, code: number })
+      .then(() => {
+        notification.open({
+          message: "메일 인증이 완료되었습니다",
+        });
+        setCanSignup(true);
+      })
+      .catch(() => {
+        notification.open({
+          message: "유효하지 않은 번호입니다",
+        });
+        setCanSignup(false);
       });
-    } else {
-      notification.open({
-        message: "유효하지 않은 번호입니다",
-      });
-    }
   };
   const _handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNumber(e.target.value);
   };
 
-  const _handleSubmit = async () => {
-    if (isVerify === true) {
-      await dispatch(signup(user));
-      if (isSignup) {
-        navigate("/login");
-      } else {
-        notification.open({
-          message: "회원가입에 실패했습니다",
-          description: "다시 시도해주세요",
+  const _handleSubmit = () => {
+    if (canSignup) {
+      mutationSignup
+        .mutateAsync(user)
+        .then(() => {
+          notification.open({
+            message: "회원가입에 성공했습니다",
+            description: "로그인을 진행해주세요",
+          });
+          navigate("/login");
+        })
+        .catch(() => {
+          notification.open({
+            message: "회원가입에 실패했습니다",
+            description: "다시 시도해주세요",
+          });
         });
-      }
-    } else {
+    } else if (!canSignup) {
       setErrorMessage("메일 인증을 완료해주세요");
     }
   };
