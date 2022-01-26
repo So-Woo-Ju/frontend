@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { Spin } from "antd";
 import styled from "styled-components";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -12,13 +11,6 @@ const Container = styled.div`
 `;
 
 const Loading = () => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    setTimeout(() => {
-      navigate("/result");
-    }, 3000);
-  });
-
   return (
     <Container>
       <Spin

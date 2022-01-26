@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import MainPage from "./pages/MainPage";
-import Loading from "./pages/Loading";
 import ResultPage from "./pages/ResultPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -69,12 +68,6 @@ const App = () => {
             path="/signup"
             element={
               isLogin === true ? <Navigate replace to="/" /> : <Signup />
-            }
-          />
-          <Route
-            path="/loading"
-            element={
-              isLogin === true ? <Loading /> : <Navigate replace to="/login" />
             }
           />
           <Route

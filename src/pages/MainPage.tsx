@@ -5,6 +5,7 @@ import { useMutation } from "react-query";
 import { Radio, Upload, Button, Input, message, RadioChangeEvent } from "antd";
 import styled from "styled-components";
 import { UploadOutlined } from "@ant-design/icons";
+import Loading from "components/Loading";
 
 const Container = styled.div`
   height: 80%;
@@ -31,7 +32,7 @@ const StyledError = styled.p`
 
 const MainPage = () => {
   const navigate = useNavigate();
-  //const mutationUpload = useMutation(() => upload())
+  const mutationUpload = useMutation(() => upload());
 
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [lang, setLang] = useState(1);
@@ -93,62 +94,78 @@ const MainPage = () => {
           (type === 1 && uploadFile) ||
           (type === 2 && Url && UrlErrorMsg === "")
         ) {
-          navigate("/loading");
+          _handleUpload();
         }
       }
     }
   };
+  const _handleUpload = () => {
+    mutationUpload
+      .mutateAsync()
+      .then(() => {
+        navigate("/result");
+      })
+      .catch(() => {});
+  };
 
   return (
     <Container>
-      <div>
-        <StyledLabel>Language</StyledLabel>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <Radio.Group onChange={_handleChangeLanguage} value={lang}>
-          <Radio value={1}>한국어</Radio>
-          <Radio value={2}>English</Radio>
-        </Radio.Group>
-      </div>
-      <br />
-      <div>
-        <StyledLabel>Type</StyledLabel>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <Radio.Group onChange={_handleChangeType} value={type}>
-          <Radio value={1}>File</Radio>
-          <Radio value={2}>URL</Radio>
-        </Radio.Group>
-      </div>
-      <div style={{ marginTop: 20 }}>
-        {type === 1 ? (
-          <Upload {...props} maxCount={1}>
-            <Button icon={<UploadOutlined />}>
-              {lang === 1 ? "업로드" : "Upload"}
-            </Button>
-          </Upload>
-        ) : (
-          <StyledInput
-            size="large"
-            value={Url}
-            onChange={_handleChangeUrl}
-            placeholder={
-              lang === 1 ? "URL을 입력해주세요" : "Please enter video URL"
-            }
-          />
-        )}
-        <StyledError>{UrlErrorMsg}</StyledError>
-      </div>
-      <div style={{ marginBottom: 20 }}>
-        <StyledInput
-          size="large"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder={
-            lang === 1 ? "영상 제목을 입력해주세요" : "Enter your video title"
-          }
-        />
-        <StyledError>{emptyErrorMsg}</StyledError>
-      </div>
-      <StyledButton type="primary" onClick={_handleSubmit}>
-        {lang === 1 ? "시작하기" : "Start"}
-      </StyledButton>
+      {mutationUpload.isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <div>
+            <StyledLabel>Language</StyledLabel>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <Radio.Group onChange={_handleChangeLanguage} value={lang}>
+              <Radio value={1}>한국어</Radio>
+              <Radio value={2}>English</Radio>
+            </Radio.Group>
+          </div>
+          <br />
+          <div>
+            <StyledLabel>Type</StyledLabel>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <Radio.Group onChange={_handleChangeType} value={type}>
+              <Radio value={1}>File</Radio>
+              <Radio value={2}>URL</Radio>
+            </Radio.Group>
+          </div>
+          <div style={{ marginTop: 20 }}>
+            {type === 1 ? (
+              <Upload {...props} maxCount={1}>
+                <Button icon={<UploadOutlined />}>
+                  {lang === 1 ? "업로드" : "Upload"}
+                </Button>
+              </Upload>
+            ) : (
+              <StyledInput
+                size="large"
+                value={Url}
+                onChange={_handleChangeUrl}
+                placeholder={
+                  lang === 1 ? "URL을 입력해주세요" : "Please enter video URL"
+                }
+              />
+            )}
+            <StyledError>{UrlErrorMsg}</StyledError>
+          </div>
+          <div style={{ marginBottom: 20 }}>
+            <StyledInput
+              size="large"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder={
+                lang === 1
+                  ? "영상 제목을 입력해주세요"
+                  : "Enter your video title"
+              }
+            />
+            <StyledError>{emptyErrorMsg}</StyledError>
+          </div>
+          <StyledButton type="primary" onClick={_handleSubmit}>
+            {lang === 1 ? "시작하기" : "Start"}
+          </StyledButton>
+        </>
+      )}
     </Container>
   );
 };

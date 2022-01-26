@@ -68,6 +68,6 @@ export const load = (email: string) => {
   };
 };
 
-export const upload = () => {
-  return null;
+export const upload = async () => {
+  return { data: "" };
 };
