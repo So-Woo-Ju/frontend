@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { upload } from "../modules/media";
+import { upload } from "../lib/api/media";
+import { useMutation } from "react-query";
 import { Radio, Upload, Button, Input, message, RadioChangeEvent } from "antd";
 import styled from "styled-components";
 import { UploadOutlined } from "@ant-design/icons";
@@ -30,8 +30,8 @@ const StyledError = styled.p`
 `;
 
 const MainPage = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  //const mutationUpload = useMutation(() => upload())
 
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [lang, setLang] = useState(1);
@@ -93,7 +93,6 @@ const MainPage = () => {
           (type === 1 && uploadFile) ||
           (type === 2 && Url && UrlErrorMsg === "")
         ) {
-          dispatch(upload({}));
           navigate("/loading");
         }
       }

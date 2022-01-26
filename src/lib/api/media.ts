@@ -1,5 +1,3 @@
-import { VideoType } from "../../interfaces/interfaces";
-
 export const load = (email: string) => {
   return {
     data: [
@@ -70,6 +68,6 @@ export const load = (email: string) => {
   };
 };
 
-export const upload = (video: VideoType) => {
+export const upload = () => {
   return null;
 };
