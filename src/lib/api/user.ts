@@ -58,7 +58,6 @@ export const signup = (user: UserType) => {
 export const logout = () => {
   cookies.remove("access_token");
   cookies.remove("refresh_token");
-  return false;
 };
 
 export const checkNumber = ({

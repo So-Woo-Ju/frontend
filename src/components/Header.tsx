@@ -5,9 +5,7 @@ import { Button } from "antd";
 import { AiFillHome } from "react-icons/ai";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import Cookies from "universal-cookie";
-
-const cookies = new Cookies();
+import { logout } from "lib/api/user";
 
 const Container = styled.div`
   height: 50px;
@@ -49,8 +47,7 @@ const Header: React.FunctionComponent<HeaderType> = ({
   setIsLogin,
 }) => {
   const _handleLogout = () => {
-    cookies.remove("access_token");
-    cookies.remove("refresh_token");
+    logout();
     setIsLogin(false);
   };
 

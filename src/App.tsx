@@ -8,10 +8,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Mypage from "./pages/Mypage";
 import ErrorPage from "./pages/Errorpage";
-import { useSelector, useDispatch } from "react-redux";
-import { logout, renewalExpires } from "./modules/user";
-import { RootState } from "./modules";
-import { getAccessToken } from "./lib/api/user";
+import { getAccessToken, logout } from "./lib/api/user";
 import Cookies from "universal-cookie";
 import { QueryClientProvider, QueryClient } from "react-query";
 
@@ -24,11 +21,13 @@ interface ResponseType {
 }
 
 const App = () => {
-  const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(false);
-  const tokenExp = useSelector((state: RootState) => state.user.tokenExp);
+  const [tokenExp, setTokenExp] = useState("");
 
-  const [response, setResponse] = useState<ResponseType>({ message: "" });
+  const [response, setResponse] = useState<ResponseType>({
+    message: "",
+    data: "",
+  });
 
   useEffect(() => {
     if (isLogin) {
@@ -38,12 +37,12 @@ const App = () => {
   useEffect(() => {
     if (response.message) {
       if (response.message.includes("expires")) {
-        dispatch(logout());
-      } else if (response.message.includes("renewal")) {
-        dispatch(renewalExpires(response.data));
+        logout();
+      } else if (response.message.includes("renewal") && response.data) {
+        setTokenExp(response.data);
       }
     }
-  }, [dispatch, response]);
+  }, [response]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -62,7 +61,7 @@ const App = () => {
               isLogin === true ? (
                 <Navigate replace to="/" />
               ) : (
-                <Login setIsLogin={setIsLogin} />
+                <Login setIsLogin={setIsLogin} setTokenExp={setTokenExp} />
               )
             }
           />
