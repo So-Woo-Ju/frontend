@@ -1,13 +1,13 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../modules/user";
+import { Link } from "react-router-dom";
 import { Button } from "antd";
 import { AiFillHome } from "react-icons/ai";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { RootState } from "../modules";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 const Container = styled.div`
   height: 50px;
@@ -39,14 +39,19 @@ const StyledLogout = styled(Button)`
   padding: 7px 7px 0 15px;
 `;
 
-const Header = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const login = useSelector((state: RootState) => state.user.login);
+interface HeaderType {
+  isLogin: boolean;
+  setIsLogin: Dispatch<SetStateAction<boolean>>;
+}
 
+const Header: React.FunctionComponent<HeaderType> = ({
+  isLogin,
+  setIsLogin,
+}) => {
   const _handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
+    cookies.remove("access_token");
+    cookies.remove("refresh_token");
+    setIsLogin(false);
   };
 
   return (
@@ -55,7 +60,7 @@ const Header = () => {
         <AiFillHome size={40} />
       </LeftBox>
       <RightBox>
-        {login === true && (
+        {isLogin === true && (
           <>
             <UserBox to="/mypage">
               <Avatar icon={<UserOutlined />} />

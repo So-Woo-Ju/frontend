@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Form, Input, Button } from "antd";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login, kakaoLogin, googleLogin } from "../modules/user";
+import { googleLogin, kakaoLogin, login } from "lib/api/user";
 import styled from "styled-components";
 import GoogleLogin from "react-google-login";
 import KakaoLogin from "react-kakao-login";
 import * as config from "../config";
-import { RootState } from "../modules";
+import { useMutation } from "react-query";
+import { UserType } from "interfaces/interfaces";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 const Container = styled.div`
   height: 80%;
@@ -39,10 +42,15 @@ const ErrorMessage = styled.p`
   color: red;
 `;
 
-const Login = () => {
+interface LoginType {
+  setIsLogin: Dispatch<SetStateAction<boolean>>;
+}
+
+const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isLogin = useSelector((state: RootState) => state.user.login);
+  const mutationLogin = useMutation((user: UserType) => login(user));
+  const mutationGoogle = useMutation((token: string) => googleLogin(token));
+  const mutationKakao = useMutation((token: string) => kakaoLogin(token));
 
   const [user, setUser] = useState({ email: "", password: "" });
   const [errorMsg, setErrorMsg] = useState("");
@@ -51,23 +59,60 @@ const Login = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const _handleSubmit = async () => {
-    await dispatch(login(user));
-    if (isLogin) {
-      setErrorMsg("");
-      navigate("/");
-    } else {
-      setErrorMsg("로그인에 실패했습니다");
-    }
+  const setToken = (data: any) => {
+    const refresh_token = data.refreshToken;
+    const access_token = data.accessToken;
+    const token_exp = data.tokenExp;
+    cookies.set("access_token", access_token, {
+      path: "/",
+      expires: new Date(Date.now() + 1000 * 60 * 15),
+    });
+    cookies.set("refresh_token", refresh_token, {
+      path: "/",
+      expires: new Date(token_exp),
+    });
   };
-  const _handleGoogleSuccess = (res: any) => {
-    dispatch(googleLogin(res.tokenObj.id_token));
+  const _handleSubmit = () => {
+    mutationLogin
+      .mutateAsync(user)
+      .then((res) => {
+        if (res.data.success) {
+          setIsLogin(true);
+          setToken(res.data.data);
+        }
+      })
+      .catch(() => {
+        setErrorMsg("로그인에 실패했습니다");
+      });
+  };
+  const _handleGoogleSuccess = (token: any) => {
+    mutationGoogle
+      .mutateAsync(token.tokenObj.id_token)
+      .then((res) => {
+        if (res.data.success) {
+          setIsLogin(true);
+          setToken(res.data.data);
+        }
+      })
+      .catch(() => {
+        setErrorMsg("로그인에 실패했습니다");
+      });
   };
   const _handleGoogleFailure = () => {
     setErrorMsg("로그인에 실패했습니다");
   };
-  const _handleKakaoSuccess = (res: any) => {
-    dispatch(kakaoLogin(res.response.access_token));
+  const _handleKakaoSuccess = (token: any) => {
+    mutationKakao
+      .mutateAsync(token.response.access_token)
+      .then((res) => {
+        if (res.data.success) {
+          setIsLogin(true);
+          setToken(res.data.data);
+        }
+      })
+      .catch(() => {
+        setErrorMsg("로그인에 실패했습니다");
+      });
   };
   const _handleKakaoFailure = () => {
     setErrorMsg("로그인에 실패했습니다");

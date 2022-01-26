@@ -13,8 +13,10 @@ import { logout, renewalExpires } from "./modules/user";
 import { RootState } from "./modules";
 import { getAccessToken } from "./lib/api/user";
 import Cookies from "universal-cookie";
+import { QueryClientProvider, QueryClient } from "react-query";
 
 const cookies = new Cookies();
+const queryClient = new QueryClient();
 
 interface ResponseType {
   message: string;
@@ -23,13 +25,13 @@ interface ResponseType {
 
 const App = () => {
   const dispatch = useDispatch();
-  const login = useSelector((state: RootState) => state.user.login);
+  const [isLogin, setIsLogin] = useState(false);
   const tokenExp = useSelector((state: RootState) => state.user.tokenExp);
 
   const [response, setResponse] = useState<ResponseType>({ message: "" });
 
   useEffect(() => {
-    if (login) {
+    if (isLogin) {
       setResponse(getAccessToken(tokenExp));
     }
   }, [cookies.get("access_token"), cookies.get("refresh_token")]);
@@ -44,59 +46,77 @@ const App = () => {
   }, [dispatch, response]);
 
   return (
-    <div style={{ height: window.innerHeight }}>
-      <Header />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            login === true ? <MainPage /> : <Navigate replace to="/login" />
-          }
-        />
-        <Route
-          path="/login"
-          element={login === true ? <Navigate replace to="/" /> : <Login />}
-        />
-        <Route
-          path="/signup"
-          element={login === true ? <Navigate replace to="/" /> : <Signup />}
-        />
-        <Route
-          path="/loading"
-          element={
-            login === true ? <Loading /> : <Navigate replace to="/login" />
-          }
-        />
-        <Route
-          path="/result"
-          element={
-            login === true ? <ResultPage /> : <Navigate replace to="/login" />
-          }
-        />
-        <Route
-          path="/mypage"
-          element={
-            login === true ? <Mypage /> : <Navigate replace to="/login" />
-          }
-        />
-        <Route
-          path="/error"
-          element={
-            login === true ? <ErrorPage /> : <Navigate replace to="/login" />
-          }
-        />
-        <Route
-          path="*"
-          element={
-            login === true ? (
-              <Navigate replace to="/" />
-            ) : (
-              <Navigate replace to="/login" />
-            )
-          }
-        />
-      </Routes>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div style={{ height: window.innerHeight }}>
+        <Header isLogin={isLogin} setIsLogin={setIsLogin} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              isLogin === true ? <MainPage /> : <Navigate replace to="/login" />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              isLogin === true ? (
+                <Navigate replace to="/" />
+              ) : (
+                <Login setIsLogin={setIsLogin} />
+              )
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              isLogin === true ? <Navigate replace to="/" /> : <Signup />
+            }
+          />
+          <Route
+            path="/loading"
+            element={
+              isLogin === true ? <Loading /> : <Navigate replace to="/login" />
+            }
+          />
+          <Route
+            path="/result"
+            element={
+              isLogin === true ? (
+                <ResultPage />
+              ) : (
+                <Navigate replace to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/mypage"
+            element={
+              isLogin === true ? <Mypage /> : <Navigate replace to="/login" />
+            }
+          />
+          <Route
+            path="/error"
+            element={
+              isLogin === true ? (
+                <ErrorPage />
+              ) : (
+                <Navigate replace to="/login" />
+              )
+            }
+          />
+          <Route
+            path="*"
+            element={
+              isLogin === true ? (
+                <Navigate replace to="/" />
+              ) : (
+                <Navigate replace to="/login" />
+              )
+            }
+          />
+        </Routes>
+      </div>
+    </QueryClientProvider>
   );
 };
 

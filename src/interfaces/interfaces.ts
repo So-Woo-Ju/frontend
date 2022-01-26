@@ -6,3 +6,8 @@ export interface VideoType {
   videoType: string;
   videoLanguage: string;
 }
+
+export interface UserType {
+  email: string;
+  password: string;
+}
