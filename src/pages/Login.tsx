@@ -44,13 +44,9 @@ const ErrorMessage = styled.p`
 
 interface LoginType {
   setIsLogin: Dispatch<SetStateAction<boolean>>;
-  setTokenExp: Dispatch<SetStateAction<string>>;
 }
 
-const Login: React.FunctionComponent<LoginType> = ({
-  setIsLogin,
-  setTokenExp,
-}) => {
+const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
   const navigate = useNavigate();
   const mutationLogin = useMutation((user: UserType) => login(user));
   const mutationGoogle = useMutation((token: string) => googleLogin(token));
@@ -67,7 +63,9 @@ const Login: React.FunctionComponent<LoginType> = ({
     const refresh_token = data.refreshToken;
     const access_token = data.accessToken;
     const token_exp = data.tokenExp;
-    setTokenExp(token_exp);
+    cookies.set("token_exp", token_exp, {
+      path: "/",
+    });
     cookies.set("access_token", access_token, {
       path: "/",
       expires: new Date(Date.now() + 1000 * 60 * 15),

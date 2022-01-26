@@ -21,27 +21,19 @@ interface ResponseType {
 
 const App = () => {
   const [isLogin, setIsLogin] = useState(false);
-  const [tokenExp, setTokenExp] = useState("");
-
-  const [response, setResponse] = useState<ResponseType>({
-    message: "",
-    data: "",
-  });
 
   useEffect(() => {
-    if (isLogin) {
-      setResponse(getAccessToken(tokenExp));
-    }
-  }, [cookies.get("access_token"), cookies.get("refresh_token")]);
-  useEffect(() => {
-    if (response.message) {
-      if (response.message.includes("expires")) {
+    if (cookies.get("access_token")) {
+      setIsLogin(true);
+    } else {
+      const res = getAccessToken();
+      if (res.includes("expires")) {
         logout();
-      } else if (response.message.includes("renewal") && response.data) {
-        setTokenExp(response.data);
+      } else {
+        setIsLogin(true);
       }
     }
-  }, [response]);
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -60,7 +52,7 @@ const App = () => {
               isLogin === true ? (
                 <Navigate replace to="/" />
               ) : (
-                <Login setIsLogin={setIsLogin} setTokenExp={setTokenExp} />
+                <Login setIsLogin={setIsLogin} />
               )
             }
           />
