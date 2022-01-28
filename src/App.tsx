@@ -14,11 +14,6 @@ import { QueryClientProvider, QueryClient } from "react-query";
 const cookies = new Cookies();
 const queryClient = new QueryClient();
 
-interface ResponseType {
-  message: string;
-  data?: string;
-}
-
 const App = () => {
   const [isLogin, setIsLogin] = useState(false);
 
