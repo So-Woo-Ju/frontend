@@ -77,15 +77,11 @@ export const getAccessToken = () => {
       const refresh_token = res.data.data.refreshToken;
       const access_token = res.data.data.accessToken;
       token_exp = res.data.data.tokenExp;
-      cookies.set("token_exp", token_exp, {
-        path: "/",
-      });
+      cookies.set("token_exp", token_exp);
       cookies.set("access_token", access_token, {
-        path: "/",
         expires: new Date(Date.now() + 1000 * 60 * 15),
       });
       cookies.set("refresh_token", refresh_token, {
-        path: "/",
         expires: new Date(token_exp),
       });
     });
