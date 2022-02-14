@@ -1,3 +1,5 @@
+import client from "./client";
+
 export const load = (email: string) => {
   return {
     data: [
@@ -68,6 +70,25 @@ export const load = (email: string) => {
   };
 };
 
-export const upload = async () => {
+export const upload = async (type: Number, file: File | null, url: string) => {
+  /*if (type === 1) {
+    const { preSignedUrl } = await client({
+      url: "/media/get-presigned-url",
+      method: "post",
+      data: { file },
+    });
+    const imageUrl;
+    const res = await fetch(preSignedUrl, {
+      method: "PUT",
+      body: file,
+    });
+  } else {
+    const res = await client({
+      url: "/media/upload",
+      method: "post",
+      data: { url },
+    });
+  }*/
+
   return { data: "" };
 };

@@ -32,7 +32,7 @@ const StyledError = styled.p`
 
 const MainPage = () => {
   const navigate = useNavigate();
-  const mutationUpload = useMutation(() => upload());
+  const mutationUpload = useMutation(() => upload(type, uploadFile, Url));
 
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [lang, setLang] = useState(1);
