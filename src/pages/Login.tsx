@@ -98,7 +98,7 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
       });
   };
   const _handleGoogleFailure = () => {
-    setErrorMsg("로그인에 실패했습니다");
+    console.log("Google Login Failure");
   };
   const _handleKakaoSuccess = (token: any) => {
     mutationKakao
@@ -114,7 +114,7 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
       });
   };
   const _handleKakaoFailure = () => {
-    setErrorMsg("로그인에 실패했습니다");
+    console.log("Kakao Login Failure");
   };
 
   return (
