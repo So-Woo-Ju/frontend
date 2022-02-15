@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
+import * as config from "../config";
 
 const Container = styled.div`
   display: flex;
@@ -35,6 +36,7 @@ const ResultPage = () => {
   const [youtubeSrc, setYoutubeSrc] = useState("");
   const [youtubeTime, setYoutubeTime] = useState(0);
   const [videoSrc, setVideoSrc] = useState("");
+  const [vttSrc, setVttSrc] = useState("");
   const [title, setTitle] = useState("");
   const [scriptText, setScriptText] = useState<
     { time: string; text: string }[]
@@ -76,7 +78,8 @@ const ResultPage = () => {
   useEffect(() => {
     //setYoutubeSrc("2SIGU1sC8-Q");
     setTitle("Video Title");
-    setVideoSrc("/video.mp4");
+    setVideoSrc(config.TMP_VIDEO_SRC);
+    setVttSrc(config.TMP_VTT_SRC);
     setScriptText([
       { time: "0:00", text: "시작해요?" },
       { time: "0:03", text: "어... 안녕, 안녕하세요. 제 이름은 최웅이에요." },
@@ -111,14 +114,13 @@ const ResultPage = () => {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         ></iframe>
       ) : (
-        <video controls width="75%" height="100%" ref={ref}>
+        <video controls width="50%" height="100%" ref={ref}>
           <source src={videoSrc} type="video/mp4" />
           <track
             kind="captions"
             src="/closed_caption.vtt"
             label="폐쇄형 자막"
             default={true}
-            style={{ backgroundColor: "white" }}
           ></track>
         </video>
       )}
