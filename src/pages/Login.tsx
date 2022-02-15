@@ -5,7 +5,7 @@ import { googleLogin, kakaoLogin, login } from "lib/api/user";
 import styled from "styled-components";
 import GoogleLogin from "react-google-login";
 import KakaoLogin from "react-kakao-login";
-import * as config from "../config";
+import * as config from "../lib/config";
 import { useMutation } from "react-query";
 import { UserType } from "interfaces/interfaces";
 import Cookies from "universal-cookie";

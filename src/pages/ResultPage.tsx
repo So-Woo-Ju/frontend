@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import * as config from "../config";
+import * as config from "../lib/config";
 
 const Container = styled.div`
   display: flex;
