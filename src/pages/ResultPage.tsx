@@ -74,9 +74,9 @@ const ResultPage = () => {
   };
 
   useEffect(() => {
-    setYoutubeSrc("2SIGU1sC8-Q");
+    //setYoutubeSrc("2SIGU1sC8-Q");
     setTitle("Video Title");
-    //setVideoSrc("/video.mp4");
+    setVideoSrc("/video.mp4");
     setScriptText([
       { time: "0:00", text: "시작해요?" },
       { time: "0:03", text: "어... 안녕, 안녕하세요. 제 이름은 최웅이에요." },
@@ -113,6 +113,13 @@ const ResultPage = () => {
       ) : (
         <video controls width="75%" height="100%" ref={ref}>
           <source src={videoSrc} type="video/mp4" />
+          <track
+            kind="captions"
+            src="/closed_caption.vtt"
+            label="폐쇄형 자막"
+            default={true}
+            style={{ backgroundColor: "white" }}
+          ></track>
         </video>
       )}
       <Script>

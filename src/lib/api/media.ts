@@ -75,13 +75,12 @@ export const upload = async (type: Number, file: File | null, url: string) => {
     const { preSignedUrl } = await client({
       url: "/media/get-presigned-url",
       method: "post",
-      data: { file },
     });
-    const imageUrl;
     const res = await fetch(preSignedUrl, {
       method: "PUT",
       body: file,
     });
+    console.log(res);
   } else {
     const res = await client({
       url: "/media/upload",
