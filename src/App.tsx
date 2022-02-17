@@ -10,6 +10,7 @@ import ErrorPage from "./pages/Errorpage";
 import { getAccessToken, logout } from "./lib/api/user";
 import Cookies from "universal-cookie";
 import { QueryClientProvider, QueryClient } from "react-query";
+import About from "pages/About";
 
 const cookies = new Cookies();
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => {
               isLogin === true ? <MainPage /> : <Navigate replace to="/login" />
             }
           />
+          <Route path="/about" element={<About />} />
           <Route
             path="/login"
             element={

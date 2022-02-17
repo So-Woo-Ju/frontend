@@ -2,32 +2,37 @@ import React, { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Button } from "antd";
-import { AiFillHome } from "react-icons/ai";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { logout } from "lib/api/user";
 
 const Container = styled.div`
-  height: 50px;
+  display: flex;
+  height: 70px;
   border-bottom: 1px solid lightgrey;
 `;
-const LeftBox = styled(Link)`
-  color: black;
-  margin: 5px;
-  cursor: pointer;
+const LeftBox = styled.div`
+  margin-top: 20px;
+  margin-left: 35px;
+`;
+const BoxContent = styled(Link)`
+  font-weight: bold;
+  font-size: 17px;
+  color: gray;
   :hover {
-    color: gray;
+    color: darkgray;
+  }
+  & + & {
+    margin-left: 25px;
   }
 `;
 const RightBox = styled.div`
-  display: flex;
-  float: right;
-  margin: 7px 10px -7px 0;
-  cursor: pointer;
+  position: absolute;
+  right: 0;
+  margin: 17px 20px;
 `;
 const UserBox = styled(Link)`
   color: black;
-  display: flex;
   :hover {
     color: gray;
   }
@@ -53,8 +58,9 @@ const Header: React.FunctionComponent<HeaderType> = ({
 
   return (
     <Container>
-      <LeftBox to="/">
-        <AiFillHome size={40} />
+      <LeftBox>
+        <BoxContent to="/">Home</BoxContent>
+        <BoxContent to="/about">About</BoxContent>
       </LeftBox>
       <RightBox>
         {isLogin === true && (
