@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
@@ -51,9 +51,12 @@ const Header: React.FunctionComponent<HeaderType> = ({
   isLogin,
   setIsLogin,
 }) => {
+  const navigate = useNavigate();
+
   const _handleLogout = () => {
     logout();
     setIsLogin(false);
+    navigate("/login");
   };
 
   return (
