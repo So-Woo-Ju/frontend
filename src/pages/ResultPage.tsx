@@ -121,7 +121,7 @@ const ResultPage = () => {
           <source src={videoSrc} type="video/mp4" />
           <track
             kind="captions"
-            src="/closed_caption.vtt"
+            src={vttSrc}
             label="폐쇄형 자막"
             default={true}
           ></track>
