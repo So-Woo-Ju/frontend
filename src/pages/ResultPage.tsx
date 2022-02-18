@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { TMP_VIDEO_SRC, TMP_VTT_SRC } from "../lib/config";
 
 const Container = styled.div`
   display: flex;
@@ -78,8 +77,12 @@ const ResultPage = () => {
   useEffect(() => {
     //setYoutubeSrc("2SIGU1sC8-Q");
     setTitle("Video Title");
-    setVideoSrc(TMP_VIDEO_SRC);
-    setVttSrc(TMP_VTT_SRC);
+    setVideoSrc(
+      "https://blog.kakaocdn.net/dn/cXHUJq/btrtrroaCnY/psJ35uwPuXqOwE0Qisd0lK/video.mp4?attach=1&knm=tfile.mp4",
+    );
+    setVttSrc(
+      "https://blog.kakaocdn.net/dn/b3PhBj/btrtlTT0dbz/yPEPCoU5qxdaQQt2IbsOaK/closed_caption.vtt?attach=1&knm=tfile.vtt",
+    );
     setScriptText([
       { time: "0:00", text: "시작해요?" },
       { time: "0:03", text: "어... 안녕, 안녕하세요. 제 이름은 최웅이에요." },
