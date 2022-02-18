@@ -5,7 +5,7 @@ import { googleLogin, kakaoLogin, login } from "lib/api/user";
 import styled from "styled-components";
 import GoogleLogin from "react-google-login";
 import KakaoLogin from "react-kakao-login";
-import * as config from "../lib/config";
+import { GOOGLE_CLIENT_ID, KAKAO_TOKEN } from "../lib/config";
 import { useMutation } from "react-query";
 import { UserType } from "interfaces/interfaces";
 import Cookies from "universal-cookie";
@@ -170,14 +170,14 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
             <SocialLoginButton>
               <GoogleLogin
                 buttonText="    Sign up with Google    "
-                clientId={config.GOOGLE_CLIENT_ID}
+                clientId={GOOGLE_CLIENT_ID}
                 onSuccess={_handleGoogleSuccess}
                 onFailure={_handleGoogleFailure}
               />
             </SocialLoginButton>
             <SocialLoginButton>
               <KakaoLogin
-                token={config.KAKAO_TOKEN}
+                token={KAKAO_TOKEN}
                 onSuccess={_handleKakaoSuccess}
                 onFail={_handleKakaoFailure}
                 render={({ onClick }) => (

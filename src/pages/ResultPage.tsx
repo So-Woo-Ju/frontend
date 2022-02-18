@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import * as config from "../lib/config";
+import { TMP_VIDEO_SRC, TMP_VTT_SRC } from "../lib/config";
 
 const Container = styled.div`
   display: flex;
@@ -78,8 +78,8 @@ const ResultPage = () => {
   useEffect(() => {
     //setYoutubeSrc("2SIGU1sC8-Q");
     setTitle("Video Title");
-    setVideoSrc(config.TMP_VIDEO_SRC);
-    setVttSrc(config.TMP_VTT_SRC);
+    setVideoSrc(TMP_VIDEO_SRC);
+    setVttSrc(TMP_VTT_SRC);
     setScriptText([
       { time: "0:00", text: "시작해요?" },
       { time: "0:03", text: "어... 안녕, 안녕하세요. 제 이름은 최웅이에요." },

@@ -1,10 +1,11 @@
 import Cookies from "universal-cookie";
 import axios from "axios";
+import { API_URL } from "lib/config";
 
 const cookies = new Cookies();
 
 const client = axios.create({
-  baseURL: "http://ec2-3-34-255-82.ap-northeast-2.compute.amazonaws.com/api/v1",
+  baseURL: API_URL,
   timeout: 10000,
   headers: { "Content-Type": "application/json" },
 });
