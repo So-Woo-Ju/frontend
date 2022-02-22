@@ -62,7 +62,9 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
     const refresh_token = data.refreshToken;
     const access_token = data.accessToken;
     const token_exp = data.tokenExp;
-    cookies.set("token_exp", token_exp);
+    cookies.set("token_exp", token_exp, {
+      expires: new Date(token_exp),
+    });
     cookies.set("access_token", access_token, {
       expires: new Date(Date.now() + 1000 * 60 * 15),
     });
