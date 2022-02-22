@@ -72,15 +72,17 @@ export const load = (email: string) => {
 
 export const upload = async (type: Number, file: File | null, url: string) => {
   if (type === 1) {
-    const res = await client({
+    const {
+      data: { data },
+    } = await client({
       url: "/media/video/presigned-url",
       method: "get",
     });
-    /*
-    const res = await fetch(preSignedUrl, {
+
+    const res = await fetch(data.videoS3Url, {
       method: "PUT",
       body: file,
-    });*/
+    });
     console.log(res);
   } else {
     /*const res = await client({
