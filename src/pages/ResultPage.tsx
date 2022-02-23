@@ -27,6 +27,7 @@ const StyledScriptTime = styled.p`
 `;
 const VideoTitle = styled.p`
   margin-top: 10px;
+  font-weight: bold;
   font-size: 20px;
 `;
 

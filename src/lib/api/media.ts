@@ -94,6 +94,6 @@ export const upload = async (type: Number, file: File | null, url: string) => {
       method: "post",
       data: { url },
     });*/
-    return { data: "" };
+    return { status: 200, url: "url" };
   }
 };
