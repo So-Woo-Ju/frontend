@@ -78,18 +78,22 @@ export const upload = async (type: Number, file: File | null, url: string) => {
       url: "/media/video/presigned-url",
       method: "get",
     });
-
-    const res = await fetch(data.videoS3Url, {
+    const { status, statusText, url } = await fetch(data.videoS3Url, {
       method: "PUT",
       body: file,
     });
-    console.log(res);
+    if (status === 200) {
+      // 머신러닝 작동 호출
+      return { status, url };
+    } else {
+      return { status, statusText };
+    }
   } else {
     /*const res = await client({
       url: "/media/upload",
       method: "post",
       data: { url },
     });*/
+    return { data: "" };
   }
-  return { data: "" };
 };

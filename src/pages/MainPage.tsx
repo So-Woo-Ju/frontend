@@ -102,10 +102,17 @@ const MainPage = () => {
   const _handleUpload = () => {
     mutationUpload
       .mutateAsync()
-      .then(() => {
-        navigate("/result");
+      .then((res) => {
+        const { status } = res;
+        if (status === 200) {
+          navigate("/result");
+        } else {
+          console.log(res.statusText);
+        }
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
