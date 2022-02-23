@@ -115,7 +115,11 @@ const Signup = () => {
   return (
     <Container>
       <Form onFinish={_handleSubmit} autoComplete="off">
-        <StyledCheckButton type="link" onClick={_handleEmailCheck}>
+        <StyledCheckButton
+          type="link"
+          onClick={_handleEmailCheck}
+          disabled={mutationMailCheck.isLoading}
+        >
           메일인증
         </StyledCheckButton>
         <Form.Item
@@ -136,7 +140,11 @@ const Signup = () => {
             size="large"
           />
         </Form.Item>
-        <StyledCheckButton type="link" onClick={_checkNumber}>
+        <StyledCheckButton
+          type="link"
+          onClick={_checkNumber}
+          disabled={mutationCheckNumber.isLoading}
+        >
           인증하기
         </StyledCheckButton>
         <Form.Item
@@ -201,10 +209,16 @@ const Signup = () => {
               type="link"
               size="large"
               onClick={() => navigate("/login")}
+              disabled={mutationSignup.isLoading}
             >
               로그인하기
             </StyledButton>
-            <StyledButton type="primary" htmlType="submit" size="large">
+            <StyledButton
+              type="primary"
+              htmlType="submit"
+              size="large"
+              disabled={mutationSignup.isLoading}
+            >
               회원가입
             </StyledButton>
           </ButtonBox>
