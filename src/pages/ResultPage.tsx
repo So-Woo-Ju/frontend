@@ -81,8 +81,7 @@ const ResultPage: React.FC = () => {
   useEffect(() => {
     const { type, title, url, script } = state as LocationType;
     if (type === 1) {
-      const src = url.split("?")[0];
-      setVideoSrc(src);
+      setVideoSrc(url);
       setVttSrc(
         "https://blog.kakaocdn.net/dn/b3PhBj/btrtlTT0dbz/yPEPCoU5qxdaQQt2IbsOaK/closed_caption.vtt?attach=1&knm=tfile.vtt",
       );

@@ -70,7 +70,11 @@ export const load = (email: string) => {
   };
 };
 
-export const upload = async (type: Number, file: File | null, url: string) => {
+export const upload = async (
+  type: Number,
+  file: File | null,
+  youtubeUrl: string,
+) => {
   if (type === 1) {
     const {
       data: { data },
@@ -104,7 +108,8 @@ export const upload = async (type: Number, file: File | null, url: string) => {
     ];
     if (status === 200) {
       // 머신러닝 작동 호출
-      return { status, url, script };
+      const src = url.split("?")[0];
+      return { status, url: src, script };
     } else {
       return { status, statusText };
     }
@@ -134,6 +139,7 @@ export const upload = async (type: Number, file: File | null, url: string) => {
       { time: "0:53", text: "최웅이 누구예요?" },
       { time: "0:54", text: "이번 달에도 걔가 1등이에요?" },
     ];
-    return { status: 200, url: "url", script };
+    const url = youtubeUrl.split("v=")[1];
+    return { status: 200, url, script };
   }
 };
