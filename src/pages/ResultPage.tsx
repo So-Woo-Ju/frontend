@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
+import { useLocation } from "react-router-dom";
+import { LocationType } from "interfaces/interfaces";
 
 const Container = styled.div`
   display: flex;
@@ -25,19 +27,20 @@ const StyledScriptTime = styled.p`
   color: #1890ff;
   cursor: pointer;
 `;
-const VideoTitle = styled.p`
+const StyledVideoTitle = styled.p`
   margin-top: 10px;
   font-weight: bold;
   font-size: 20px;
 `;
 
-const ResultPage = () => {
+const ResultPage: React.FC = () => {
+  const { state } = useLocation();
   const ref = useRef<HTMLVideoElement>(null);
   const [youtubeSrc, setYoutubeSrc] = useState("");
   const [youtubeTime, setYoutubeTime] = useState(0);
   const [videoSrc, setVideoSrc] = useState("");
   const [vttSrc, setVttSrc] = useState("");
-  const [title, setTitle] = useState("");
+  const [videoTitle, setVideoTitle] = useState("");
   const [scriptText, setScriptText] = useState<
     { time: string; text: string }[]
   >([]);
@@ -76,14 +79,18 @@ const ResultPage = () => {
   };
 
   useEffect(() => {
-    //setYoutubeSrc("2SIGU1sC8-Q");
-    setTitle("Video Title");
-    setVideoSrc(
-      "https://blog.kakaocdn.net/dn/cXHUJq/btrtrroaCnY/psJ35uwPuXqOwE0Qisd0lK/video.mp4?attach=1&knm=tfile.mp4",
-    );
-    setVttSrc(
-      "https://blog.kakaocdn.net/dn/b3PhBj/btrtlTT0dbz/yPEPCoU5qxdaQQt2IbsOaK/closed_caption.vtt?attach=1&knm=tfile.vtt",
-    );
+    const { type, title, url } = state as LocationType;
+    console.log(state);
+    if (type === 1) {
+      const src = url.split("?")[0];
+      setVideoSrc(src);
+      setVttSrc(
+        "https://blog.kakaocdn.net/dn/b3PhBj/btrtlTT0dbz/yPEPCoU5qxdaQQt2IbsOaK/closed_caption.vtt?attach=1&knm=tfile.vtt",
+      );
+    } else {
+      setYoutubeSrc(url);
+    }
+    setVideoTitle(title);
     setScriptText([
       { time: "0:00", text: "시작해요?" },
       { time: "0:03", text: "어... 안녕, 안녕하세요. 제 이름은 최웅이에요." },
@@ -108,7 +115,7 @@ const ResultPage = () => {
 
   return (
     <Container>
-      <VideoTitle>{title}</VideoTitle>
+      <StyledVideoTitle>{videoTitle}</StyledVideoTitle>
       {youtubeSrc ? (
         <iframe
           width="75%"

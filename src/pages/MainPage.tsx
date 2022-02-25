@@ -105,7 +105,7 @@ const MainPage = () => {
       .then((res) => {
         const { status } = res;
         if (status === 200) {
-          navigate("/result");
+          navigate("/result", { state: { type, title, url: res.url } });
         } else {
           console.log(res.statusText);
         }

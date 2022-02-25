@@ -11,3 +11,9 @@ export interface UserType {
   email: string;
   password: string;
 }
+
+export interface LocationType {
+  type: Number;
+  title: string;
+  url: string;
+}
