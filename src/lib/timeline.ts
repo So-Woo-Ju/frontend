@@ -1,4 +1,4 @@
-export const data = {
+export const my_script = {
   result: "SUCCEEDED",
   message: "Succeeded",
   token: "d4bec8aa5402479fb4f6e9786a7e21f4",

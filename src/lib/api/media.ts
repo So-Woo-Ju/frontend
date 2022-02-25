@@ -1,5 +1,5 @@
 import client from "./client";
-import { data } from "../timeline";
+import { my_script } from "../timeline";
 
 export const load = (email: string) => {
   return {
@@ -98,7 +98,7 @@ export const upload = async (
       method: "PUT",
       body: file,
     });
-    const script = convertScript(data.segments);
+    const script = convertScript(my_script.segments);
     if (status === 200) {
       // 머신러닝 작동 호출
       const src = url.split("?")[0];
@@ -112,7 +112,7 @@ export const upload = async (
       method: "post",
       data: { url },
     });*/
-    const script = convertScript(data.segments);
+    const script = convertScript(my_script.segments);
     const url = youtubeUrl.split("v=")[1];
     return { status: 200, url, script };
   }
