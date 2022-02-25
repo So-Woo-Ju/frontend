@@ -71,6 +71,17 @@ export const load = (email: string) => {
   };
 };
 
+function convertScript(data: Array<{ start: number; textEdited: string }>) {
+  return data.map((t: { start: number; textEdited: string }) => {
+    return {
+      time:
+        String(Math.floor(t.start / 1000 / 60)).padStart(2, "0") +
+        ":" +
+        String(Math.floor(t.start / 1000) % 60).padStart(2, "0"),
+      text: t.textEdited,
+    };
+  });
+}
 export const upload = async (
   type: Number,
   file: File | null,
@@ -87,16 +98,7 @@ export const upload = async (
       method: "PUT",
       body: file,
     });
-    const timeline = data.segments;
-    const script = timeline.map((t: { start: number; textEdited: string }) => {
-      return {
-        time:
-          String(Math.floor(t.start / 1000 / 60)).padStart(2, "0") +
-          ":" +
-          String(Math.floor(t.start / 1000) % 60).padStart(2, "0"),
-        text: t.textEdited,
-      };
-    });
+    const script = convertScript(data.segments);
     if (status === 200) {
       // 머신러닝 작동 호출
       const src = url.split("?")[0];
@@ -110,16 +112,7 @@ export const upload = async (
       method: "post",
       data: { url },
     });*/
-    const timeline = data.segments;
-    const script = timeline.map((t: { start: number; textEdited: string }) => {
-      return {
-        time:
-          String(Math.floor(t.start / 1000 / 60)).padStart(2, "0") +
-          ":" +
-          String(Math.floor(t.start / 1000) % 60).padStart(2, "0"),
-        text: t.textEdited,
-      };
-    });
+    const script = convertScript(data.segments);
     const url = youtubeUrl.split("v=")[1];
     return { status: 200, url, script };
   }

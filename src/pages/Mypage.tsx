@@ -22,6 +22,7 @@ const StyledLink = styled.div`
   :hover {
     color: gray;
   }
+  cursor: pointer;
 `;
 
 const Mypage = () => {
