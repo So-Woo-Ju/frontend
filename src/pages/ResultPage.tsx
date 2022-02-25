@@ -28,7 +28,7 @@ const StyledScriptTime = styled.p`
   cursor: pointer;
 `;
 const StyledVideoTitle = styled.p`
-  margin-top: 10px;
+  margin-top: 20px;
   font-weight: bold;
   font-size: 20px;
 `;
