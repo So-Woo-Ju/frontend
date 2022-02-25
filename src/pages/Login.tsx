@@ -62,7 +62,9 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
     const refresh_token = data.refreshToken;
     const access_token = data.accessToken;
     const token_exp = data.tokenExp;
-    cookies.set("token_exp", token_exp);
+    cookies.set("token_exp", token_exp, {
+      expires: new Date(token_exp),
+    });
     cookies.set("access_token", access_token, {
       expires: new Date(Date.now() + 1000 * 60 * 15),
     });
@@ -158,10 +160,16 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
               onClick={() => {
                 navigate("/signup");
               }}
+              disabled={mutationLogin.isLoading}
             >
               회원가입하기
             </StyledButton>
-            <StyledButton type="primary" htmlType="submit" size="large">
+            <StyledButton
+              type="primary"
+              htmlType="submit"
+              size="large"
+              disabled={mutationLogin.isLoading}
+            >
               로그인
             </StyledButton>
           </ButtonBox>
@@ -172,6 +180,7 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ""}
                 onSuccess={_handleGoogleSuccess}
                 onFailure={_handleGoogleFailure}
+                disabled={mutationLogin.isLoading}
               />
             </SocialLoginButton>
             <SocialLoginButton>
@@ -183,7 +192,9 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
                   <div
                     onClick={(e) => {
                       e.preventDefault();
-                      onClick();
+                      if (!mutationLogin.isLoading) {
+                        onClick();
+                      }
                     }}
                   >
                     <img

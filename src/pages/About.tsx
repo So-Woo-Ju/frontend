@@ -26,10 +26,12 @@ const ProcRef = styled.p`
 const About = () => {
   return (
     <div>
+      <br />
       <Title>배리어프리 자막 서비스</Title>
       <CcInfoBox />
       <hr style={{ margin: 20 }} />
       <div>
+        <br />
         <Title>서비스 처리 과정</Title>
         <InfoBox imgType="video">
           <ProcTitle>영상 입력</ProcTitle>

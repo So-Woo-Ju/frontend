@@ -33,7 +33,12 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div style={{ height: window.innerHeight }}>
+      <div
+        style={{
+          height: window.innerHeight,
+          fontFamily: "Noto Sans KR, sans-serif",
+        }}
+      >
         <Header isLogin={isLogin} setIsLogin={setIsLogin} />
         <Routes>
           <Route

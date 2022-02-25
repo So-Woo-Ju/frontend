@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Fade } from "react-awesome-reveal";
 
 const Container = styled.div`
   display: flex;
@@ -8,6 +9,9 @@ const Container = styled.div`
 `;
 const Content = styled.div`
   margin: 50px 30px;
+`;
+const Box = styled.div`
+  display: flex;
 `;
 
 interface BoxType {
@@ -23,17 +27,19 @@ const InfoBox: React.FC<BoxType> = ({ imgType, children }) => {
 
   return (
     <Container>
-      {imgType === "ai" ? (
-        <>
-          <Content>{children}</Content>
-          <img src={imgSrc} width={300} />
-        </>
-      ) : (
-        <>
-          <img src={imgSrc} width={300} />
-          <Content>{children}</Content>
-        </>
-      )}
+      <Fade>
+        {imgType === "ai" ? (
+          <Box>
+            <Content>{children}</Content>
+            <img src={imgSrc} width={300} />
+          </Box>
+        ) : (
+          <Box>
+            <img src={imgSrc} width={300} />
+            <Content>{children}</Content>
+          </Box>
+        )}
+      </Fade>
     </Container>
   );
 };
