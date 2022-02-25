@@ -1,6 +1,6 @@
 import { Col, Row } from "antd";
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { load } from "../lib/api/media";
 import { useQuery } from "react-query";
 import styled from "styled-components";
@@ -17,7 +17,7 @@ const VideoTitle = styled.p`
   font-size: 20px;
   margin-left: 20px;
 `;
-const StyledLink = styled(Link)`
+const StyledLink = styled.div`
   color: black;
   :hover {
     color: gray;
@@ -26,7 +26,13 @@ const StyledLink = styled(Link)`
 
 const Mypage = () => {
   const { status, data } = useQuery(["loadMedia"], () => load(""));
+  const navigate = useNavigate();
 
+  const _handleNavigate = () => {
+    navigate("/result", {
+      state: { type: 2, title: "title", url: "url", script: [] },
+    });
+  };
   const renderByStatus = useCallback(() => {
     switch (status) {
       case "loading":
@@ -37,7 +43,7 @@ const Mypage = () => {
         return (
           <Row gutter={[16, 16]} style={{ marginTop: "30px" }}>
             {data?.data?.map((video: VideoType) => (
-              <StyledLink to="/result" key={video.id}>
+              <StyledLink onClick={_handleNavigate} key={video.id}>
                 <Col
                   id={String(video.id)}
                   style={{ display: "flex", width: 460 }}

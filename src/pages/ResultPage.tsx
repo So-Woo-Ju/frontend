@@ -83,7 +83,7 @@ const ResultPage: React.FC = () => {
     if (type === 1) {
       setVideoSrc(url);
       setVttSrc(
-        "https://blog.kakaocdn.net/dn/b3PhBj/btrtlTT0dbz/yPEPCoU5qxdaQQt2IbsOaK/closed_caption.vtt?attach=1&knm=tfile.vtt",
+        "https://s3-sowooju-caption-an2.s3.ap-northeast-2.amazonaws.com/test.vtt",
       );
     } else {
       setYoutubeSrc(url);
@@ -104,7 +104,7 @@ const ResultPage: React.FC = () => {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         ></iframe>
       ) : (
-        <video controls width="50%" height="100%" ref={ref}>
+        <video controls width="50%" height="100%" ref={ref} crossOrigin="true">
           <source src={videoSrc} type="video/mp4" />
           <track
             kind="captions"
