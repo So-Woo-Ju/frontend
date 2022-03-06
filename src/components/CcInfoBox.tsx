@@ -6,7 +6,7 @@ const Container = styled.div`
   justify-content: center;
   margin-bottom: 30px;
   width: 100%;
-  padding: 0 300px;
+  padding: 0 15%;
 `;
 const Content = styled.p`
   font-size: 17px;
