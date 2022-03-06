@@ -15,7 +15,6 @@ const ProcTitle = styled.p`
   font-weight: bold;
 `;
 const ProcContent = styled.p`
-  width: 400px;
   font-size: 16px;
 `;
 const ProcRef = styled.p`
@@ -40,8 +39,7 @@ const About = () => {
         <InfoBox imgType="ai">
           <ProcTitle>인공지능 처리</ProcTitle>
           <ProcContent>
-            약 0분 간 인공지능을 사용해 입력된 영상에 따른 폐쇄형 자막이
-            생성됩니다
+            약 0분 간 인공지능을 사용해 폐쇄형 자막이 생성됩니다
           </ProcContent>
         </InfoBox>
         <InfoBox imgType="cc">
