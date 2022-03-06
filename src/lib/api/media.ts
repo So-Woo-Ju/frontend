@@ -113,7 +113,12 @@ export const upload = async (
       data: { url },
     });*/
     const script = convertScript(my_script.segments);
-    const url = youtubeUrl.split("v=")[1];
+    let url;
+    if (youtubeUrl.includes("watch")) {
+      url = youtubeUrl.split("v=")[1].split("&")[0];
+    } else {
+      url = youtubeUrl.split("/")[3];
+    }
     return { status: 200, url, script };
   }
 };
