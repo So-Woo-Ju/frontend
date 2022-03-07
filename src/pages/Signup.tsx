@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { UserType } from "interfaces/interfaces";
 
 const Container = styled.div`
-  height: 80%;
+  height: 85%;
   margin: 2% 10%;
   display: flex;
   justify-content: center;
