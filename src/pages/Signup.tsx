@@ -8,6 +8,7 @@ import { UserType } from "interfaces/interfaces";
 
 const Container = styled.div`
   height: 80%;
+  margin: 2% 10%;
   display: flex;
   justify-content: center;
   align-items: center;

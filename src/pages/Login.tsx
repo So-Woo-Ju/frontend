@@ -13,6 +13,7 @@ const cookies = new Cookies();
 
 const Container = styled.div`
   height: 80%;
+  margin: 2% 10%;
   display: flex;
   justify-content: center;
   align-items: center;
