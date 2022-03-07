@@ -19,6 +19,7 @@ const ButtonBox = styled.div`
 `;
 const StyledButton = styled(Button)`
   width: 130px;
+  margin-bottom: -5%;
 `;
 const StyledCheckButton = styled(Button)`
   float: right;
@@ -52,40 +53,56 @@ const Signup = () => {
     setPasswordConfirm(e.target.value);
   };
   const _handleEmailCheck = () => {
-    mutationMailCheck
-      .mutateAsync(user.email)
-      .then(() => {
-        notification.open({
-          message: "메일 인증번호가 전송되었습니다",
-        });
-      })
-      .catch((err) => {
-        if (err.message.includes("400")) {
-          notification.open({
-            message: "이미 존재하는 이메일입니다",
-          });
-        } else {
-          notification.open({
-            message: "인증메일 전송 중 오류가 발생했습니다",
-          });
-        }
+    if (!user.email) {
+      notification.open({
+        message: "이메일을 입력해주세요",
       });
+    } else {
+      mutationMailCheck
+        .mutateAsync(user.email)
+        .then(() => {
+          notification.open({
+            message: "메일 인증번호가 전송되었습니다",
+          });
+        })
+        .catch((err) => {
+          if (err.message.includes("400")) {
+            notification.open({
+              message: "이미 존재하는 이메일입니다",
+            });
+          } else {
+            notification.open({
+              message: "인증메일 전송 중 오류가 발생했습니다",
+            });
+          }
+        });
+    }
   };
   const _checkNumber = () => {
-    mutationCheckNumber
-      .mutateAsync({ email: user.email, code: number })
-      .then(() => {
-        notification.open({
-          message: "메일 인증이 완료되었습니다",
-        });
-        setCanSignup(true);
-      })
-      .catch(() => {
-        notification.open({
-          message: "유효하지 않은 번호입니다",
-        });
-        setCanSignup(false);
+    if (!user.email) {
+      notification.open({
+        message: "이메일을 입력해주세요",
       });
+    } else if (!number) {
+      notification.open({
+        message: "인증 번호를 입력해주세요",
+      });
+    } else {
+      mutationCheckNumber
+        .mutateAsync({ email: user.email, code: number })
+        .then(() => {
+          notification.open({
+            message: "메일 인증이 완료되었습니다",
+          });
+          setCanSignup(true);
+        })
+        .catch(() => {
+          notification.open({
+            message: "유효하지 않은 번호입니다",
+          });
+          setCanSignup(false);
+        });
+    }
   };
   const _handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNumber(e.target.value);
