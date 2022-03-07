@@ -10,8 +10,8 @@ import ErrorPage from "./Errorpage";
 import Loading from "components/Loading";
 
 const Container = styled.div`
-  width: 100%;
-  margin: 5%;
+  width: 90%;
+  margin: 4% 5%;
 `;
 const VideoTitle = styled.p`
   font-size: 20px;
