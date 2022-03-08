@@ -101,7 +101,6 @@ const ResultPage: React.FC = () => {
           height="100%"
           src={`https://www.youtube.com/embed/${youtubeSrc}?autoplay=1&start=${youtubeTime}`}
           title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         ></iframe>
       ) : (
         <video controls width="50%" height="100%" ref={ref} crossOrigin="true">
