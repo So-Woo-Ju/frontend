@@ -22,7 +22,9 @@ const Script = styled.div`
 const ScriptBox = styled.div`
   display: flex;
 `;
-const StyledScriptText = styled.p``;
+const StyledScriptText = styled.p<{ isNon: boolean }>`
+  color: ${({ isNon }) => isNon && "#1890ff"};
+`;
 const StyledScriptTime = styled.p`
   color: #1890ff;
   cursor: pointer;
@@ -122,7 +124,9 @@ const ResultPage: React.FC = () => {
               {script.time}
             </StyledScriptTime>
             &nbsp;&nbsp;
-            <StyledScriptText>{script.text}</StyledScriptText>
+            <StyledScriptText isNon={script.text.startsWith("(")}>
+              {script.text}
+            </StyledScriptText>
           </ScriptBox>
         ))}
       </Script>
