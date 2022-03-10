@@ -16,5 +16,5 @@ export interface LocationType {
   type: Number;
   title: string;
   url: string;
-  script: Array<{ time: string; text: string }>;
+  script: Array<{ start: string; end: string; text: string }>;
 }

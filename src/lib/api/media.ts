@@ -71,13 +71,19 @@ export const load = (email: string) => {
   };
 };
 
-function convertScript(data: Array<{ start: number; textEdited: string }>) {
-  return data.map((t: { start: number; textEdited: string }) => {
+function convertScript(
+  data: Array<{ start: number; end: number; textEdited: string }>,
+) {
+  return data.map((t: { start: number; end: number; textEdited: string }) => {
     return {
-      time:
+      start:
         String(Math.floor(t.start / 1000 / 60)).padStart(2, "0") +
         ":" +
         String(Math.floor(t.start / 1000) % 60).padStart(2, "0"),
+      end:
+        String(Math.floor(t.end / 1000 / 60)) +
+        ":" +
+        String(Math.floor(t.end / 1000) % 60).padStart(2, "0"),
       text: t.textEdited,
     };
   });

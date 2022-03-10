@@ -68,7 +68,7 @@ export const my_script = {
       diarization: { label: "3" },
       speaker: { label: "3", name: "C", edited: false },
       words: [[17831, 18410, "수학"]],
-      textEdited: "수학",
+      textEdited: "(박수소리)",
     },
     {
       start: 18590,
@@ -81,7 +81,7 @@ export const my_script = {
         [18591, 19670, "그리고"],
         [19740, 20370, "재밌고"],
       ],
-      textEdited: "그리고 재밌고",
+      textEdited: "재밌고",
     },
     {
       start: 20530,
