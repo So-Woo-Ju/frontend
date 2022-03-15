@@ -13,7 +13,6 @@ export interface UserType {
 }
 
 export interface LocationType {
-  type: Number;
   title: string;
   url: string;
   script: Array<{ start: string; end: string; text: string }>;

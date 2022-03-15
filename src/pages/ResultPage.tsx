@@ -44,8 +44,6 @@ const ResultPage: React.FC = () => {
   const { state } = useLocation();
   const ref = useRef<HTMLVideoElement>(null);
   const [currentTime, setCurrentTime] = useState<number | undefined>(0);
-  const [youtubeSrc, setYoutubeSrc] = useState("");
-  const [youtubeTime, setYoutubeTime] = useState(0);
   const [videoSrc, setVideoSrc] = useState("");
   const [vttSrc, setVttSrc] = useState("");
   const [videoTitle, setVideoTitle] = useState("");
@@ -72,13 +70,6 @@ const ResultPage: React.FC = () => {
       ref.current.currentTime = convertTime(timeArr);
     }
   };
-  const _handleYoutubeTimeline = (
-    e: React.MouseEvent<HTMLParagraphElement>,
-  ) => {
-    const input = e.target as HTMLElement;
-    const timeArr = input.innerText.split(":");
-    setYoutubeTime(convertTime(timeArr));
-  };
   const _setHighlight = (
     curTime: number | undefined,
     start: string,
@@ -92,15 +83,11 @@ const ResultPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const { type, title, url, script } = state as LocationType;
-    if (type === 1) {
-      setVideoSrc(url);
-      setVttSrc(
-        "https://s3-sowooju-caption-an2.s3.ap-northeast-2.amazonaws.com/test.vtt",
-      );
-    } else {
-      setYoutubeSrc(url);
-    }
+    const { title, url, script } = state as LocationType;
+    setVideoSrc(url);
+    setVttSrc(
+      "https://s3-sowooju-caption-an2.s3.ap-northeast-2.amazonaws.com/test.vtt",
+    );
     setVideoTitle(title);
     setScriptText(script);
   }, []);
@@ -108,46 +95,32 @@ const ResultPage: React.FC = () => {
   return (
     <Container>
       <StyledVideoTitle>{videoTitle}</StyledVideoTitle>
-      {youtubeSrc ? (
-        <iframe
-          width="75%"
-          height="100%"
-          src={`https://www.youtube.com/embed/${youtubeSrc}?autoplay=1&start=${youtubeTime}`}
-          title="YouTube video player"
-        ></iframe>
-      ) : (
-        <video
-          controls
-          width="50%"
-          height="100%"
-          ref={ref}
-          crossOrigin="true"
-          onTimeUpdate={() => setCurrentTime(ref.current?.currentTime)}
-        >
-          <source src={videoSrc} type="video/mp4" />
-          <track
-            kind="captions"
-            src={vttSrc}
-            label="폐쇄형 자막"
-            default={true}
-          ></track>
-        </video>
-      )}
+
+      <video
+        controls
+        width="50%"
+        height="100%"
+        ref={ref}
+        crossOrigin="true"
+        onTimeUpdate={() => setCurrentTime(ref.current?.currentTime)}
+      >
+        <source src={videoSrc} type="video/mp4" />
+        <track
+          kind="captions"
+          src={vttSrc}
+          label="폐쇄형 자막"
+          default={true}
+        ></track>
+      </video>
       <Script>
         {scriptText.map((script) => (
           <ScriptBox key={script.start}>
-            <StyledScriptTime
-              onClick={youtubeSrc ? _handleYoutubeTimeline : _handleTimeline}
-            >
+            <StyledScriptTime onClick={_handleTimeline}>
               {script.start}
             </StyledScriptTime>
             &nbsp;&nbsp;
             <StyledScriptText
-              isHighlight={
-                youtubeSrc
-                  ? false
-                  : _setHighlight(currentTime, script.start, script.end)
-              }
+              isHighlight={_setHighlight(currentTime, script.start, script.end)}
               isNonVerb={script.text.startsWith("(")}
             >
               {script.text}

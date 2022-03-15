@@ -116,15 +116,20 @@ export const upload = async (
     /*const res = await client({
       url: "/media/upload",
       method: "post",
-      data: { url },
+      data: { youtubeUrl },
     });*/
+    const { status, statusText, url } = {
+      status: 200,
+      statusText: "OK",
+      url: "https://s3-sowooju-video-an2.s3.ap-northeast-2.amazonaws.com/11-202203140939.mp4",
+    };
     const script = convertScript(my_script.segments);
-    let url;
-    if (youtubeUrl.includes("watch")) {
-      url = youtubeUrl.split("v=")[1].split("&")[0];
+    if (status === 200) {
+      // 머신러닝 작동 호출
+      const src = url.split("?")[0];
+      return { status, url: src, script };
     } else {
-      url = youtubeUrl.split("/")[3];
+      return { status, statusText };
     }
-    return { status: 200, url, script };
   }
 };
