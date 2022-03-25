@@ -5,8 +5,7 @@ import { LocationType } from "interfaces/interfaces";
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
-  height: 100%;
+  height: 90vh;
   justify-content: center;
   flex-direction: column;
   align-items: center;
@@ -101,7 +100,6 @@ const ResultPage: React.FC = () => {
       <video
         controls
         width="50%"
-        height="100%"
         ref={ref}
         crossOrigin="true"
         onTimeUpdate={() => setCurrentTime(ref.current?.currentTime)}

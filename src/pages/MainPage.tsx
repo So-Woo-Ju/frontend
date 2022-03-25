@@ -8,7 +8,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import Loading from "components/Loading";
 
 const Container = styled.div`
-  height: 80%;
+  height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
