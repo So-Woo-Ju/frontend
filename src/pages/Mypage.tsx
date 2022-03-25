@@ -1,11 +1,10 @@
 import { Col, Row } from "antd";
-import React from "react";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { load } from "../lib/api/media";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { VideoType } from "../interfaces/interfaces";
-import { useCallback } from "react";
 import ErrorPage from "./Errorpage";
 import Loading from "components/Loading";
 
@@ -34,11 +33,11 @@ const Mypage = () => {
   const { status, data } = useQuery(["loadMedia"], () => load(""));
   const navigate = useNavigate();
 
-  const _handleNavigate = () => {
+  const _handleNavigate = useCallback(() => {
     navigate("/result", {
       state: { type: 2, title: "title", url: "url", script: [] },
     });
-  };
+  }, [navigate]);
   const renderByStatus = useCallback(() => {
     switch (status) {
       case "loading":
@@ -62,7 +61,7 @@ const Mypage = () => {
           </Row>
         );
     }
-  }, [data?.data, status]);
+  }, [_handleNavigate, data?.data, status]);
 
   return (
     <Container>
@@ -72,4 +71,4 @@ const Mypage = () => {
   );
 };
 
-export default Mypage;
+export default React.memo(Mypage);

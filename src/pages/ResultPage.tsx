@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import { LocationType } from "interfaces/interfaces";
@@ -51,7 +51,7 @@ const ResultPage: React.FC = () => {
     { start: string; end: string; text: string }[]
   >([]);
 
-  const convertTime = (arr: Array<string>) => {
+  const convertTime = useCallback((arr: Array<string>) => {
     if (arr.length === 3) {
       const hour = Number(arr[0]) * 3600;
       const min = Number(arr[1]) * 60;
@@ -62,25 +62,27 @@ const ResultPage: React.FC = () => {
       const sec = Number(arr[1]);
       return min + sec;
     }
-  };
-  const _handleTimeline = (e: React.MouseEvent<HTMLParagraphElement>) => {
-    const input = e.target as HTMLElement;
-    const timeArr = input.innerText.split(":");
-    if (ref.current) {
-      ref.current.currentTime = convertTime(timeArr);
-    }
-  };
-  const _setHighlight = (
-    curTime: number | undefined,
-    start: string,
-    end: string,
-  ) => {
-    const timeArrStart = start.split(":");
-    const timeArrEnd = end.split(":");
-    let startTime = convertTime(timeArrStart);
-    let endTime = convertTime(timeArrEnd);
-    return endTime >= (curTime || 0) && startTime <= (curTime || 0);
-  };
+  }, []);
+  const _handleTimeline = useCallback(
+    (e: React.MouseEvent<HTMLParagraphElement>) => {
+      const input = e.target as HTMLElement;
+      const timeArr = input.innerText.split(":");
+      if (ref.current) {
+        ref.current.currentTime = convertTime(timeArr);
+      }
+    },
+    [convertTime],
+  );
+  const _setHighlight = useCallback(
+    (curTime: number | undefined, start: string, end: string) => {
+      const timeArrStart = start.split(":");
+      const timeArrEnd = end.split(":");
+      let startTime = convertTime(timeArrStart);
+      let endTime = convertTime(timeArrEnd);
+      return endTime >= (curTime || 0) && startTime <= (curTime || 0);
+    },
+    [convertTime],
+  );
 
   useEffect(() => {
     const { title, url, script } = state as LocationType;
@@ -132,4 +134,4 @@ const ResultPage: React.FC = () => {
   );
 };
 
-export default ResultPage;
+export default React.memo(ResultPage);

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useCallback } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "antd";
@@ -53,11 +53,11 @@ const Header: React.FunctionComponent<HeaderType> = ({
 }) => {
   const navigate = useNavigate();
 
-  const _handleLogout = () => {
+  const _handleLogout = useCallback(() => {
     logout();
     setIsLogin(false);
     navigate("/login");
-  };
+  }, [navigate, setIsLogin]);
 
   return (
     <Container>

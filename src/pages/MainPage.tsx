@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { upload } from "../lib/api/media";
 import { useMutation } from "react-query";
@@ -55,26 +55,46 @@ const MainPage = () => {
     },
   };
 
-  const _handleChangeLanguage = (e: RadioChangeEvent) => {
+  const _handleChangeLanguage = useCallback((e: RadioChangeEvent) => {
     setLang(e.target.value);
-  };
-  const _handleChangeType = (e: RadioChangeEvent) => {
+  }, []);
+  const _handleChangeType = useCallback((e: RadioChangeEvent) => {
     setType(e.target.value);
-  };
+  }, []);
 
-  const _handleChangeUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!regex.test(e.target.value)) {
-      if (lang === 1) {
-        setUrlErrorMsg("정확한 URL을 입력해주세요");
+  const _handleChangeUrl = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!regex.test(e.target.value)) {
+        if (lang === 1) {
+          setUrlErrorMsg("정확한 URL을 입력해주세요");
+        } else {
+          setUrlErrorMsg("Please enter correct URL");
+        }
       } else {
-        setUrlErrorMsg("Please enter correct URL");
+        setUrlErrorMsg("");
       }
-    } else {
-      setUrlErrorMsg("");
-    }
-    setUrl(e.target.value);
-  };
-  const _handleSubmit = () => {
+      setUrl(e.target.value);
+    },
+    [lang, regex],
+  );
+  const _handleUpload = useCallback(() => {
+    mutationUpload
+      .mutateAsync()
+      .then((res) => {
+        const { status } = res;
+        if (status === 200) {
+          navigate("/result", {
+            state: { title, url: res.url, script: res.script },
+          });
+        } else {
+          console.log(res.statusText);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [mutationUpload, navigate, title]);
+  const _handleSubmit = useCallback(() => {
     if (!title) {
       if (lang === 1) {
         setEmptyErrorMsg("제목을 입력해주세요");
@@ -98,24 +118,7 @@ const MainPage = () => {
         }
       }
     }
-  };
-  const _handleUpload = () => {
-    mutationUpload
-      .mutateAsync()
-      .then((res) => {
-        const { status } = res;
-        if (status === 200) {
-          navigate("/result", {
-            state: { title, url: res.url, script: res.script },
-          });
-        } else {
-          console.log(res.statusText);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  }, [Url, UrlErrorMsg, _handleUpload, lang, title, type, uploadFile]);
 
   return (
     <Container>
@@ -179,4 +182,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default React.memo(MainPage);

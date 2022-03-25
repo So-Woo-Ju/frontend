@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useState, useCallback } from "react";
 import { Form, Input, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { googleLogin, kakaoLogin, login } from "lib/api/user";
@@ -55,11 +55,14 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [errorMsg, setErrorMsg] = useState("");
 
-  const _handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
+  const _handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setUser({ ...user, [e.target.name]: e.target.value });
+    },
+    [user],
+  );
 
-  const setToken = (data: any) => {
+  const setToken = useCallback((data: any) => {
     const refresh_token = data.refreshToken;
     const access_token = data.accessToken;
     const token_exp = data.tokenExp;
@@ -72,8 +75,8 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
     cookies.set("refresh_token", refresh_token, {
       expires: new Date(token_exp),
     });
-  };
-  const _handleSubmit = () => {
+  }, []);
+  const _handleSubmit = useCallback(() => {
     mutationLogin
       .mutateAsync(user)
       .then((res) => {
@@ -85,39 +88,45 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
       .catch(() => {
         setErrorMsg("로그인에 실패했습니다");
       });
-  };
-  const _handleGoogleSuccess = (token: any) => {
-    mutationGoogle
-      .mutateAsync(token.tokenObj.id_token)
-      .then((res) => {
-        if (res.data.success) {
-          setIsLogin(true);
-          setToken(res.data.data);
-        }
-      })
-      .catch(() => {
-        setErrorMsg("로그인에 실패했습니다");
-      });
-  };
-  const _handleGoogleFailure = () => {
+  }, [mutationLogin, setIsLogin, setToken, user]);
+  const _handleGoogleSuccess = useCallback(
+    (token: any) => {
+      mutationGoogle
+        .mutateAsync(token.tokenObj.id_token)
+        .then((res) => {
+          if (res.data.success) {
+            setIsLogin(true);
+            setToken(res.data.data);
+          }
+        })
+        .catch(() => {
+          setErrorMsg("로그인에 실패했습니다");
+        });
+    },
+    [mutationGoogle, setIsLogin, setToken],
+  );
+  const _handleGoogleFailure = useCallback(() => {
     console.log("Google Login Failure");
-  };
-  const _handleKakaoSuccess = (token: any) => {
-    mutationKakao
-      .mutateAsync(token.response.access_token)
-      .then((res) => {
-        if (res.data.success) {
-          setIsLogin(true);
-          setToken(res.data.data);
-        }
-      })
-      .catch(() => {
-        setErrorMsg("로그인에 실패했습니다");
-      });
-  };
-  const _handleKakaoFailure = () => {
+  }, []);
+  const _handleKakaoSuccess = useCallback(
+    (token: any) => {
+      mutationKakao
+        .mutateAsync(token.response.access_token)
+        .then((res) => {
+          if (res.data.success) {
+            setIsLogin(true);
+            setToken(res.data.data);
+          }
+        })
+        .catch(() => {
+          setErrorMsg("로그인에 실패했습니다");
+        });
+    },
+    [mutationKakao, setIsLogin, setToken],
+  );
+  const _handleKakaoFailure = useCallback(() => {
     console.log("Kakao Login Failure");
-  };
+  }, []);
 
   return (
     <Container>
@@ -214,4 +223,4 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
   );
 };
 
-export default Login;
+export default React.memo(Login);

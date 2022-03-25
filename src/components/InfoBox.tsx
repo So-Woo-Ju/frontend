@@ -30,7 +30,7 @@ const InfoBox: React.FC<BoxType> = ({ imgType, children }) => {
 
   useEffect(() => {
     setImgSrc("/icon/" + imgType + ".png");
-  }, []);
+  }, [imgType]);
 
   return (
     <Container>
