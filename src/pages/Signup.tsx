@@ -6,32 +6,6 @@ import { useMutation } from "react-query";
 import styled from "styled-components";
 import { UserType } from "interfaces/interfaces";
 
-const Container = styled.div`
-  height: 85%;
-  margin: 2% 10%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const ButtonBox = styled.div`
-  display: flex;
-  justify-content: space-around;
-`;
-const StyledButton = styled(Button)`
-  width: 130px;
-  margin-bottom: -5%;
-`;
-const StyledCheckButton = styled(Button)`
-  float: right;
-`;
-const ErrorMessage = styled.p`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: -10px;
-  font-size: 13px;
-  color: red;
-`;
-
 const Signup = () => {
   const navigate = useNavigate();
   const mutationMailCheck = useMutation((email: string) => mailCheck(email));
@@ -254,5 +228,31 @@ const Signup = () => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  height: 85%;
+  margin: 2% 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+const StyledButton = styled(Button)`
+  width: 130px;
+  margin-bottom: -5%;
+`;
+const StyledCheckButton = styled(Button)`
+  float: right;
+`;
+const ErrorMessage = styled.p`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -10px;
+  font-size: 13px;
+  color: red;
+`;
 
 export default React.memo(Signup);

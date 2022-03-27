@@ -6,42 +6,6 @@ import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { logout } from "lib/api/user";
 
-const Container = styled.div`
-  display: flex;
-  height: 70px;
-  border-bottom: 1px solid lightgrey;
-`;
-const LeftBox = styled.div`
-  margin-top: 20px;
-  margin-left: 35px;
-`;
-const BoxContent = styled(Link)`
-  font-weight: bold;
-  font-size: 17px;
-  color: gray;
-  :hover {
-    color: darkgray;
-  }
-  & + & {
-    margin-left: 25px;
-  }
-`;
-const RightBox = styled.div`
-  position: absolute;
-  right: 0;
-  margin: 17px 20px;
-`;
-const UserBox = styled(Link)`
-  color: black;
-  :hover {
-    color: gray;
-  }
-`;
-const StyledLogout = styled(Button)`
-  font-size: 13px;
-  padding: 7px 7px 0 15px;
-`;
-
 interface HeaderType {
   isLogin: boolean;
   setIsLogin: Dispatch<SetStateAction<boolean>>;
@@ -80,5 +44,41 @@ const Header: React.FunctionComponent<HeaderType> = ({
     </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  height: 70px;
+  border-bottom: 1px solid lightgrey;
+`;
+const LeftBox = styled.div`
+  margin-top: 20px;
+  margin-left: 35px;
+`;
+const BoxContent = styled(Link)`
+  font-weight: bold;
+  font-size: 17px;
+  color: gray;
+  :hover {
+    color: darkgray;
+  }
+  & + & {
+    margin-left: 25px;
+  }
+`;
+const RightBox = styled.div`
+  position: absolute;
+  right: 0;
+  margin: 17px 20px;
+`;
+const UserBox = styled(Link)`
+  color: black;
+  :hover {
+    color: gray;
+  }
+`;
+const StyledLogout = styled(Button)`
+  font-size: 13px;
+  padding: 7px 7px 0 15px;
+`;
 
 export default Header;

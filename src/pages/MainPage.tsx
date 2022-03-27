@@ -7,29 +7,6 @@ import styled from "styled-components";
 import { UploadOutlined } from "@ant-design/icons";
 import Loading from "components/Loading";
 
-const Container = styled.div`
-  height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-const StyledLabel = styled.span`
-  font-size: 15px;
-`;
-const StyledButton = styled(Button)`
-  width: 200px;
-  height: 40px;
-  font-weight: bold;
-`;
-const StyledInput = styled(Input)`
-  width: 300px;
-`;
-const StyledError = styled.p`
-  font-size: 15px;
-  color: red;
-`;
-
 const MainPage = () => {
   const navigate = useNavigate();
   const mutationUpload = useMutation(() => upload(type, uploadFile, Url));
@@ -181,5 +158,28 @@ const MainPage = () => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+const StyledLabel = styled.span`
+  font-size: 15px;
+`;
+const StyledButton = styled(Button)`
+  width: 200px;
+  height: 40px;
+  font-weight: bold;
+`;
+const StyledInput = styled(Input)`
+  width: 300px;
+`;
+const StyledError = styled.p`
+  font-size: 15px;
+  color: red;
+`;
 
 export default React.memo(MainPage);

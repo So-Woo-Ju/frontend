@@ -3,42 +3,6 @@ import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import { LocationType } from "interfaces/interfaces";
 
-const Container = styled.div`
-  display: flex;
-  height: 90vh;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-`;
-const Script = styled.div`
-  width: 75%;
-  border-radius: 5px;
-  border: 1px solid lightgrey;
-  margin-top: 10px;
-  padding: 15px;
-  overflow: scroll;
-`;
-const ScriptBox = styled.div`
-  display: flex;
-`;
-const StyledScriptText = styled.p<{ isHighlight: boolean; isNonVerb: boolean }>`
-  border-bottom: ${({ isHighlight, isNonVerb }) =>
-    isHighlight && isNonVerb
-      ? "1px solid #1890ff"
-      : isHighlight && !isNonVerb && "1px solid black"};
-  font-weight: ${({ isHighlight }) => isHighlight && "bold"};
-  color: ${({ isNonVerb }) => isNonVerb && "#1890ff"};
-`;
-const StyledScriptTime = styled.p`
-  color: #1890ff;
-  cursor: pointer;
-`;
-const StyledVideoTitle = styled.p`
-  margin-top: 20px;
-  font-weight: bold;
-  font-size: 20px;
-`;
-
 const ResultPage: React.FC = () => {
   const { state } = useLocation();
   const ref = useRef<HTMLVideoElement>(null);
@@ -131,5 +95,41 @@ const ResultPage: React.FC = () => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  height: 90vh;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+const Script = styled.div`
+  width: 75%;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  margin-top: 10px;
+  padding: 15px;
+  overflow: scroll;
+`;
+const ScriptBox = styled.div`
+  display: flex;
+`;
+const StyledScriptText = styled.p<{ isHighlight: boolean; isNonVerb: boolean }>`
+  border-bottom: ${({ isHighlight, isNonVerb }) =>
+    isHighlight && isNonVerb
+      ? "1px solid #1890ff"
+      : isHighlight && !isNonVerb && "1px solid black"};
+  font-weight: ${({ isHighlight }) => isHighlight && "bold"};
+  color: ${({ isNonVerb }) => isNonVerb && "#1890ff"};
+`;
+const StyledScriptTime = styled.p`
+  color: #1890ff;
+  cursor: pointer;
+`;
+const StyledVideoTitle = styled.p`
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 20px;
+`;
 
 export default React.memo(ResultPage);

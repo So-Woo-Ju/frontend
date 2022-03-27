@@ -11,37 +11,6 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
-const Container = styled.div`
-  height: 80%;
-  margin: 2% 10%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const ButtonBox = styled.div`
-  display: flex;
-  justify-content: space-around;
-`;
-const StyledButton = styled(Button)`
-  width: 130px;
-`;
-const SocialLoginButton = styled.div`
-  cursor: pointer;
-  margin-top: 10px;
-`;
-const SocialButtons = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const ErrorMessage = styled.p`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: -10px;
-  font-size: 13px;
-  color: red;
-`;
-
 interface LoginType {
   setIsLogin: Dispatch<SetStateAction<boolean>>;
 }
@@ -222,5 +191,36 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  height: 80%;
+  margin: 2% 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+const StyledButton = styled(Button)`
+  width: 130px;
+`;
+const SocialLoginButton = styled.div`
+  cursor: pointer;
+  margin-top: 10px;
+`;
+const SocialButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const ErrorMessage = styled.p`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -10px;
+  font-size: 13px;
+  color: red;
+`;
 
 export default React.memo(Login);

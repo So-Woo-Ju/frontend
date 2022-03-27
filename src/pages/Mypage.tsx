@@ -8,27 +8,6 @@ import { VideoType } from "../interfaces/interfaces";
 import ErrorPage from "./Errorpage";
 import Loading from "components/Loading";
 
-const Container = styled.div`
-  width: 90%;
-  margin: 4% 5%;
-`;
-const VideoTitle = styled.div`
-  width: 50%;
-  font-size: 20px;
-  margin-left: 20px;
-`;
-const StyledLink = styled.div`
-  color: black;
-  display: flex;
-  :hover {
-    color: gray;
-  }
-  cursor: pointer;
-`;
-const StyledImg = styled.img`
-  width: 50%;
-`;
-
 const Mypage = () => {
   const { status, data } = useQuery(["loadMedia"], () => load(""));
   const navigate = useNavigate();
@@ -70,5 +49,26 @@ const Mypage = () => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  width: 90%;
+  margin: 4% 5%;
+`;
+const VideoTitle = styled.div`
+  width: 50%;
+  font-size: 20px;
+  margin-left: 20px;
+`;
+const StyledLink = styled.div`
+  color: black;
+  display: flex;
+  :hover {
+    color: gray;
+  }
+  cursor: pointer;
+`;
+const StyledImg = styled.img`
+  width: 50%;
+`;
 
 export default React.memo(Mypage);
