@@ -1,7 +1,6 @@
 import React from "react";
-import InfoBox from "../components/InfoBox";
+import { InfoBox, CcInfoBox } from "components";
 import styled from "styled-components";
-import CcInfoBox from "components/CcInfoBox";
 
 const About = () => {
   return (

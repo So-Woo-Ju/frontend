@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import { LocationType } from "interfaces/interfaces";
-import ScriptContainer from "components/ScriptContainer";
+import { ScriptContainer } from "components";
 
 const ResultPage: React.FC = () => {
   const { state } = useLocation();

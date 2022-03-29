@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Header from "./components/Header";
-import MainPage from "./pages/MainPage";
-import ResultPage from "./pages/ResultPage";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Mypage from "./pages/Mypage";
-import ErrorPage from "./pages/Errorpage";
-import { getAccessToken, logout } from "./lib/api/user";
+import { Header } from "./components";
+import { MainPage, ResultPage, Login, Signup, Mypage, ErrorPage } from "pages";
+import { getAccessToken, logout } from "lib/api/user";
 import Cookies from "universal-cookie";
 import { QueryClientProvider, QueryClient } from "react-query";
 import About from "pages/About";

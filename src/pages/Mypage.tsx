@@ -1,12 +1,12 @@
 import { Col, Row } from "antd";
 import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { load } from "../lib/api/media";
+import { load } from "lib/api/media";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { VideoType } from "../interfaces/interfaces";
-import ErrorPage from "./Errorpage";
-import Loading from "components/Loading";
+import { VideoType } from "interfaces/interfaces";
+import ErrorPage from "pages/Errorpage";
+import { Loading } from "components";
 
 const Mypage = () => {
   const { status, data } = useQuery(["loadMedia"], () => load(""));

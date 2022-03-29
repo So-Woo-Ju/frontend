@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Form, Input, Button, notification } from "antd";
 import { useNavigate } from "react-router-dom";
-import { signup, mailCheck, checkNumber } from "../lib/api/user";
+import { signup, mailCheck, checkNumber } from "lib/api/user";
 import { useMutation } from "react-query";
 import styled from "styled-components";
 import { UserType } from "interfaces/interfaces";

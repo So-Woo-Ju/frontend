@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { upload } from "../lib/api/media";
+import { upload } from "lib/api/media";
 import { useMutation } from "react-query";
 import { Radio, Upload, Button, Input, message, RadioChangeEvent } from "antd";
 import styled from "styled-components";
 import { UploadOutlined } from "@ant-design/icons";
-import Loading from "components/Loading";
+import { Loading } from "components";
 
 const MainPage = () => {
   const navigate = useNavigate();
