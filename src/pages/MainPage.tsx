@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { UploadOutlined } from "@ant-design/icons";
 import { Loading } from "components";
 
-const MainPage = () => {
+const MainPage: React.FC = () => {
   const navigate = useNavigate();
   const mutationUpload = useMutation(() => upload(type, uploadFile, Url));
 
@@ -32,15 +32,15 @@ const MainPage = () => {
     },
   };
 
-  const _handleChangeLanguage = useCallback((e: RadioChangeEvent) => {
+  const _handleChangeLanguage = useCallback((e: RadioChangeEvent): void => {
     setLang(e.target.value);
   }, []);
-  const _handleChangeType = useCallback((e: RadioChangeEvent) => {
+  const _handleChangeType = useCallback((e: RadioChangeEvent): void => {
     setType(e.target.value);
   }, []);
 
   const _handleChangeUrl = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement>): void => {
       if (!regex.test(e.target.value)) {
         if (lang === 1) {
           setUrlErrorMsg("정확한 URL을 입력해주세요");
@@ -54,7 +54,7 @@ const MainPage = () => {
     },
     [lang, regex],
   );
-  const _handleUpload = useCallback(() => {
+  const _handleUpload = useCallback((): void => {
     mutationUpload
       .mutateAsync()
       .then((res) => {
@@ -71,7 +71,7 @@ const MainPage = () => {
         console.log(err);
       });
   }, [mutationUpload, navigate, title]);
-  const _handleSubmit = useCallback(() => {
+  const _handleSubmit = useCallback((): void => {
     if (!title) {
       if (lang === 1) {
         setEmptyErrorMsg("제목을 입력해주세요");

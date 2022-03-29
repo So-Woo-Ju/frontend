@@ -6,7 +6,7 @@ import { useMutation } from "react-query";
 import styled from "styled-components";
 import { UserType } from "interfaces/interfaces";
 
-const Signup = () => {
+const Signup: React.FC = () => {
   const navigate = useNavigate();
   const mutationMailCheck = useMutation((email: string) => mailCheck(email));
   const mutationCheckNumber = useMutation(
@@ -21,18 +21,18 @@ const Signup = () => {
   const [canSignup, setCanSignup] = useState(false);
 
   const _handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement>): void => {
       setUser({ ...user, [e.target.name]: e.target.value });
     },
     [user],
   );
   const _handlePwdChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement>): void => {
       setPasswordConfirm(e.target.value);
     },
     [],
   );
-  const _handleEmailCheck = useCallback(() => {
+  const _handleEmailCheck = useCallback((): void => {
     if (!user.email) {
       notification.open({
         message: "이메일을 입력해주세요",
@@ -58,7 +58,7 @@ const Signup = () => {
         });
     }
   }, [mutationMailCheck, user.email]);
-  const _checkNumber = useCallback(() => {
+  const _checkNumber = useCallback((): void => {
     if (!user.email) {
       notification.open({
         message: "이메일을 입력해주세요",
@@ -85,13 +85,13 @@ const Signup = () => {
     }
   }, [mutationCheckNumber, number, user.email]);
   const _handleNumberChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement>): void => {
       setNumber(e.target.value);
     },
     [],
   );
 
-  const _handleSubmit = useCallback(() => {
+  const _handleSubmit = useCallback((): void => {
     if (canSignup) {
       mutationSignup
         .mutateAsync(user)

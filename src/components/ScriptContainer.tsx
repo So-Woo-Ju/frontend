@@ -2,14 +2,14 @@ import React, { useCallback } from "react";
 import { ScriptType } from "../interfaces/interfaces";
 import styled from "styled-components";
 
-const ScriptContainer: React.FunctionComponent<ScriptType> = ({
+const ScriptContainer: React.FC<ScriptType> = ({
   script,
   currentTime,
   handleTimeline,
   convertTime,
 }) => {
   const _setHighlight = useCallback(
-    (curTime: number | undefined, start: string, end: string) => {
+    (curTime: number | undefined, start: string, end: string): boolean => {
       const timeArrStart = start.split(":");
       const timeArrEnd = end.split(":");
       let startTime = convertTime(timeArrStart);

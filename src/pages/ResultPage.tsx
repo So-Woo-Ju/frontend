@@ -15,7 +15,7 @@ const ResultPage: React.FC = () => {
     { start: string; end: string; text: string }[]
   >([]);
 
-  const convertTime = useCallback((arr: Array<string>) => {
+  const convertTime = useCallback((arr: Array<string>): number => {
     if (arr.length === 3) {
       const hour = Number(arr[0]) * 3600;
       const min = Number(arr[1]) * 60;
@@ -28,7 +28,7 @@ const ResultPage: React.FC = () => {
     }
   }, []);
   const _handleTimeline = useCallback(
-    (e: React.MouseEvent<HTMLParagraphElement>) => {
+    (e: React.MouseEvent<HTMLParagraphElement>): void => {
       const input = e.target as HTMLElement;
       const timeArr = input.innerText.split(":");
       if (ref.current) {

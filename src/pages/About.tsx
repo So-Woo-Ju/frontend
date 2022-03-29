@@ -2,7 +2,7 @@ import React from "react";
 import { InfoBox, CcInfoBox } from "components";
 import styled from "styled-components";
 
-const About = () => {
+const About: React.FC = () => {
   return (
     <div>
       <br />

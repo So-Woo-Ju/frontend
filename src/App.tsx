@@ -11,7 +11,7 @@ import { LoginContext } from "contexts";
 const cookies = new Cookies();
 const queryClient = new QueryClient();
 
-const App = () => {
+const App: React.FC = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
 
   useEffect(() => {

@@ -17,7 +17,7 @@ interface SocialLoginType {
   isLoading: boolean;
 }
 
-const SocialLogin: React.FunctionComponent<SocialLoginType> = ({
+const SocialLogin: React.FC<SocialLoginType> = ({
   setToken,
   setErrorMsg,
   isLoading,
@@ -27,7 +27,7 @@ const SocialLogin: React.FunctionComponent<SocialLoginType> = ({
   const mutationKakao = useMutation((token: string) => kakaoLogin(token));
 
   const _handleGoogleSuccess = useCallback(
-    (token: any) => {
+    (token: any): void => {
       mutationGoogle
         .mutateAsync(token.tokenObj.id_token)
         .then((res) => {
@@ -42,11 +42,11 @@ const SocialLogin: React.FunctionComponent<SocialLoginType> = ({
     },
     [mutationGoogle, setErrorMsg, setIsLogin, setToken],
   );
-  const _handleGoogleFailure = useCallback(() => {
+  const _handleGoogleFailure = useCallback((): void => {
     console.log("Google Login Failure");
   }, []);
   const _handleKakaoSuccess = useCallback(
-    (token: any) => {
+    (token: any): void => {
       mutationKakao
         .mutateAsync(token.response.access_token)
         .then((res) => {
@@ -61,7 +61,7 @@ const SocialLogin: React.FunctionComponent<SocialLoginType> = ({
     },
     [mutationKakao, setErrorMsg, setIsLogin, setToken],
   );
-  const _handleKakaoFailure = useCallback(() => {
+  const _handleKakaoFailure = useCallback((): void => {
     console.log("Kakao Login Failure");
   }, []);
 

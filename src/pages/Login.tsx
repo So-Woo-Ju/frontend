@@ -11,7 +11,7 @@ import { LoginContext } from "contexts";
 
 const cookies = new Cookies();
 
-const Login = () => {
+const Login: React.FC = () => {
   const { setIsLogin } = useContext(LoginContext);
   const navigate = useNavigate();
   const mutationLogin = useMutation((user: UserType) => login(user));
@@ -20,13 +20,13 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const _handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement>): void => {
       setUser({ ...user, [e.target.name]: e.target.value });
     },
     [user],
   );
 
-  const setToken = useCallback((data: any) => {
+  const setToken = useCallback((data: any): void => {
     const refresh_token = data.refreshToken;
     const access_token = data.accessToken;
     const token_exp = data.tokenExp;
@@ -40,7 +40,7 @@ const Login = () => {
       expires: new Date(token_exp),
     });
   }, []);
-  const _handleSubmit = useCallback(() => {
+  const _handleSubmit = useCallback((): void => {
     mutationLogin
       .mutateAsync(user)
       .then((res) => {

@@ -2,8 +2,9 @@ import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import { AiFillWarning } from "react-icons/ai";
 
-const ErrorPage = () => {
+const ErrorPage: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
+
   useEffect(() => {
     setErrorMessage("동영상을 불러올 수 없습니다");
   }, []);

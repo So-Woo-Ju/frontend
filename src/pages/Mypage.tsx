@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import React, { useCallback } from "react";
+import React, { ReactElement, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { load } from "lib/api/media";
 import { useQuery } from "react-query";
@@ -8,16 +8,16 @@ import { VideoType } from "interfaces/interfaces";
 import ErrorPage from "pages/Errorpage";
 import { Loading } from "components";
 
-const Mypage = () => {
+const Mypage: React.FC = () => {
   const { status, data } = useQuery(["loadMedia"], () => load(""));
   const navigate = useNavigate();
 
-  const _handleNavigate = useCallback(() => {
+  const _handleNavigate = useCallback((): void => {
     navigate("/result", {
       state: { type: 2, title: "title", url: "url", script: [] },
     });
   }, [navigate]);
-  const renderByStatus = useCallback(() => {
+  const renderByStatus = useCallback((): ReactElement => {
     switch (status) {
       case "loading":
         return <Loading />;

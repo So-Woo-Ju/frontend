@@ -3,7 +3,7 @@ import { Spin } from "antd";
 import styled from "styled-components";
 import { LoadingOutlined } from "@ant-design/icons";
 
-const Loading = () => {
+const Loading: React.FC = () => {
   return (
     <Container>
       <Spin

@@ -7,11 +7,11 @@ import { UserOutlined } from "@ant-design/icons";
 import { logout } from "lib/api/user";
 import { LoginContext } from "contexts";
 
-const Header = () => {
+const Header: React.FC = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
   const navigate = useNavigate();
 
-  const _handleLogout = useCallback(() => {
+  const _handleLogout = useCallback((): void => {
     logout();
     setIsLogin(false);
     navigate("/login");
