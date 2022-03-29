@@ -3,5 +3,6 @@ import InfoBox from "./InfoBox";
 import Header from "./Header";
 import ScriptContainer from "./ScriptContainer";
 import Loading from "./Loading";
+import SocialLogin from "./SocialLogin";
 
-export { CcInfoBox, InfoBox, Header, ScriptContainer, Loading };
+export { CcInfoBox, InfoBox, Header, ScriptContainer, Loading, SocialLogin };

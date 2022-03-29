@@ -2,12 +2,12 @@ import React, { useCallback } from "react";
 import { ScriptType } from "../interfaces/interfaces";
 import styled from "styled-components";
 
-const ScriptContainer = ({
+const ScriptContainer: React.FunctionComponent<ScriptType> = ({
   script,
   currentTime,
   handleTimeline,
   convertTime,
-}: ScriptType) => {
+}) => {
   const _setHighlight = useCallback(
     (curTime: number | undefined, start: string, end: string) => {
       const timeArrStart = start.split(":");
@@ -51,4 +51,4 @@ const StyledScriptTime = styled.p`
   cursor: pointer;
 `;
 
-export default ScriptContainer;
+export default React.memo(ScriptContainer);
