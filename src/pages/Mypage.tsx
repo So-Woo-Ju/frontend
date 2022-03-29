@@ -1,45 +1,23 @@
 import { Col, Row } from "antd";
-import React from "react";
+import React, { ReactElement, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { load } from "../lib/api/media";
+import { load } from "lib/api/media";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { VideoType } from "../interfaces/interfaces";
-import { useCallback } from "react";
-import ErrorPage from "./Errorpage";
-import Loading from "components/Loading";
+import { VideoType } from "interfaces/interfaces";
+import ErrorPage from "pages/Errorpage";
+import { Loading } from "components";
 
-const Container = styled.div`
-  width: 90%;
-  margin: 4% 5%;
-`;
-const VideoTitle = styled.div`
-  width: 50%;
-  font-size: 20px;
-  margin-left: 20px;
-`;
-const StyledLink = styled.div`
-  color: black;
-  display: flex;
-  :hover {
-    color: gray;
-  }
-  cursor: pointer;
-`;
-const StyledImg = styled.img`
-  width: 50%;
-`;
-
-const Mypage = () => {
+const Mypage: React.FC = () => {
   const { status, data } = useQuery(["loadMedia"], () => load(""));
   const navigate = useNavigate();
 
-  const _handleNavigate = () => {
+  const _handleNavigate = useCallback((): void => {
     navigate("/result", {
       state: { type: 2, title: "title", url: "url", script: [] },
     });
-  };
-  const renderByStatus = useCallback(() => {
+  }, [navigate]);
+  const renderByStatus = useCallback((): ReactElement => {
     switch (status) {
       case "loading":
         return <Loading />;
@@ -62,7 +40,7 @@ const Mypage = () => {
           </Row>
         );
     }
-  }, [data?.data, status]);
+  }, [_handleNavigate, data?.data, status]);
 
   return (
     <Container>
@@ -72,4 +50,25 @@ const Mypage = () => {
   );
 };
 
-export default Mypage;
+const Container = styled.div`
+  width: 90%;
+  margin: 4% 5%;
+`;
+const VideoTitle = styled.div`
+  width: 50%;
+  font-size: 20px;
+  margin-left: 20px;
+`;
+const StyledLink = styled.div`
+  color: black;
+  display: flex;
+  :hover {
+    color: gray;
+  }
+  cursor: pointer;
+`;
+const StyledImg = styled.img`
+  width: 50%;
+`;
+
+export default React.memo(Mypage);

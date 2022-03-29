@@ -1,23 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-  width: 100%;
-  padding: 0 15%;
-`;
-const Content = styled.p`
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 35px;
-`;
-const StrongText = styled.strong`
-  border-bottom: 1px solid;
-`;
-
-const CcInfoBox = () => {
+const CcInfoBox: React.FC = () => {
   return (
     <Container>
       <Content>
@@ -40,5 +24,21 @@ const CcInfoBox = () => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  width: 100%;
+  padding: 0 15%;
+`;
+const Content = styled.p`
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 35px;
+`;
+const StrongText = styled.strong`
+  border-bottom: 1px solid;
+`;
 
 export default CcInfoBox;

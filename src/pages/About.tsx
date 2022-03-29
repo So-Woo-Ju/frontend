@@ -1,28 +1,8 @@
 import React from "react";
-import InfoBox from "../components/InfoBox";
+import { InfoBox, CcInfoBox } from "components";
 import styled from "styled-components";
-import CcInfoBox from "components/CcInfoBox";
 
-const Title = styled.p`
-  display: flex;
-  justify-content: center;
-  font-size: 25px;
-  font-weight: bold;
-  margin-top: 50px;
-`;
-const ProcTitle = styled.p`
-  font-size: 20px;
-  font-weight: bold;
-`;
-const ProcContent = styled.p`
-  font-size: 16px;
-`;
-const ProcRef = styled.p`
-  font-size: 13px;
-  color: gray;
-`;
-
-const About = () => {
+const About: React.FC = () => {
   return (
     <div>
       <br />
@@ -55,5 +35,24 @@ const About = () => {
     </div>
   );
 };
+
+const Title = styled.p`
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 50px;
+`;
+const ProcTitle = styled.p`
+  font-size: 20px;
+  font-weight: bold;
+`;
+const ProcContent = styled.p`
+  font-size: 16px;
+`;
+const ProcRef = styled.p`
+  font-size: 13px;
+  color: gray;
+`;
 
 export default About;

@@ -1,36 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { upload } from "../lib/api/media";
+import { upload } from "lib/api/media";
 import { useMutation } from "react-query";
 import { Radio, Upload, Button, Input, message, RadioChangeEvent } from "antd";
 import styled from "styled-components";
 import { UploadOutlined } from "@ant-design/icons";
-import Loading from "components/Loading";
+import { Loading } from "components";
 
-const Container = styled.div`
-  height: 80%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-const StyledLabel = styled.span`
-  font-size: 15px;
-`;
-const StyledButton = styled(Button)`
-  width: 200px;
-  height: 40px;
-  font-weight: bold;
-`;
-const StyledInput = styled(Input)`
-  width: 300px;
-`;
-const StyledError = styled.p`
-  font-size: 15px;
-  color: red;
-`;
-
-const MainPage = () => {
+const MainPage: React.FC = () => {
   const navigate = useNavigate();
   const mutationUpload = useMutation(() => upload(type, uploadFile, Url));
 
@@ -55,26 +32,46 @@ const MainPage = () => {
     },
   };
 
-  const _handleChangeLanguage = (e: RadioChangeEvent) => {
+  const _handleChangeLanguage = useCallback((e: RadioChangeEvent): void => {
     setLang(e.target.value);
-  };
-  const _handleChangeType = (e: RadioChangeEvent) => {
+  }, []);
+  const _handleChangeType = useCallback((e: RadioChangeEvent): void => {
     setType(e.target.value);
-  };
+  }, []);
 
-  const _handleChangeUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!regex.test(e.target.value)) {
-      if (lang === 1) {
-        setUrlErrorMsg("정확한 URL을 입력해주세요");
+  const _handleChangeUrl = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>): void => {
+      if (!regex.test(e.target.value)) {
+        if (lang === 1) {
+          setUrlErrorMsg("정확한 URL을 입력해주세요");
+        } else {
+          setUrlErrorMsg("Please enter correct URL");
+        }
       } else {
-        setUrlErrorMsg("Please enter correct URL");
+        setUrlErrorMsg("");
       }
-    } else {
-      setUrlErrorMsg("");
-    }
-    setUrl(e.target.value);
-  };
-  const _handleSubmit = () => {
+      setUrl(e.target.value);
+    },
+    [lang, regex],
+  );
+  const _handleUpload = useCallback((): void => {
+    mutationUpload
+      .mutateAsync()
+      .then((res) => {
+        const { status } = res;
+        if (status === 200) {
+          navigate("/result", {
+            state: { title, url: res.url, script: res.script },
+          });
+        } else {
+          console.log(res.statusText);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [mutationUpload, navigate, title]);
+  const _handleSubmit = useCallback((): void => {
     if (!title) {
       if (lang === 1) {
         setEmptyErrorMsg("제목을 입력해주세요");
@@ -98,24 +95,7 @@ const MainPage = () => {
         }
       }
     }
-  };
-  const _handleUpload = () => {
-    mutationUpload
-      .mutateAsync()
-      .then((res) => {
-        const { status } = res;
-        if (status === 200) {
-          navigate("/result", {
-            state: { type, title, url: res.url, script: res.script },
-          });
-        } else {
-          console.log(res.statusText);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  }, [Url, UrlErrorMsg, _handleUpload, lang, title, type, uploadFile]);
 
   return (
     <Container>
@@ -179,4 +159,27 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+const Container = styled.div`
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+const StyledLabel = styled.span`
+  font-size: 15px;
+`;
+const StyledButton = styled(Button)`
+  width: 200px;
+  height: 40px;
+  font-weight: bold;
+`;
+const StyledInput = styled(Input)`
+  width: 300px;
+`;
+const StyledError = styled.p`
+  font-size: 15px;
+  color: red;
+`;
+
+export default React.memo(MainPage);

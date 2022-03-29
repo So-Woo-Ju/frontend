@@ -1,10 +1,43 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { useCallback, useContext } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { logout } from "lib/api/user";
+import { LoginContext } from "contexts";
+
+const Header: React.FC = () => {
+  const { isLogin, setIsLogin } = useContext(LoginContext);
+  const navigate = useNavigate();
+
+  const _handleLogout = useCallback((): void => {
+    logout();
+    setIsLogin(false);
+    navigate("/login");
+  }, [navigate, setIsLogin]);
+
+  return (
+    <Container>
+      <LeftBox>
+        <BoxContent to="/">Home</BoxContent>
+        <BoxContent to="/about">About</BoxContent>
+      </LeftBox>
+      <RightBox>
+        {isLogin === true && (
+          <>
+            <UserBox to="/mypage">
+              <Avatar icon={<UserOutlined />} />
+            </UserBox>
+            <StyledLogout type="link" onClick={_handleLogout}>
+              logout
+            </StyledLogout>
+          </>
+        )}
+      </RightBox>
+    </Container>
+  );
+};
 
 const Container = styled.div`
   display: flex;
@@ -41,44 +74,5 @@ const StyledLogout = styled(Button)`
   font-size: 13px;
   padding: 7px 7px 0 15px;
 `;
-
-interface HeaderType {
-  isLogin: boolean;
-  setIsLogin: Dispatch<SetStateAction<boolean>>;
-}
-
-const Header: React.FunctionComponent<HeaderType> = ({
-  isLogin,
-  setIsLogin,
-}) => {
-  const navigate = useNavigate();
-
-  const _handleLogout = () => {
-    logout();
-    setIsLogin(false);
-    navigate("/login");
-  };
-
-  return (
-    <Container>
-      <LeftBox>
-        <BoxContent to="/">Home</BoxContent>
-        <BoxContent to="/about">About</BoxContent>
-      </LeftBox>
-      <RightBox>
-        {isLogin === true && (
-          <>
-            <UserBox to="/mypage">
-              <Avatar icon={<UserOutlined />} />
-            </UserBox>
-            <StyledLogout type="link" onClick={_handleLogout}>
-              logout
-            </StyledLogout>
-          </>
-        )}
-      </RightBox>
-    </Container>
-  );
-};
 
 export default Header;

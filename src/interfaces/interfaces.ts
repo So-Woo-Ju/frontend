@@ -13,8 +13,18 @@ export interface UserType {
 }
 
 export interface LocationType {
-  type: Number;
   title: string;
   url: string;
   script: Array<{ start: string; end: string; text: string }>;
+}
+
+export interface ScriptType {
+  script: {
+    start: string;
+    end: string;
+    text: string;
+  };
+  currentTime: number | undefined;
+  handleTimeline: (e: React.MouseEvent<HTMLParagraphElement>) => void;
+  convertTime: (arr: Array<string>) => number;
 }

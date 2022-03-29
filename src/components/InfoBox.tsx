@@ -3,24 +3,6 @@ import styled from "styled-components";
 import { Fade } from "react-awesome-reveal";
 import { Row, Col } from "antd";
 
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  padding-bottom: 30px;
-`;
-const Content = styled.div`
-  margin: 50px 30px;
-`;
-const StyledCol = styled(Col)`
-  width: 50%;
-  min-width: 300px;
-`;
-const StyledImg = styled.img`
-  width: 50%;
-  min-width: 300px;
-  margin: 0 30px;
-`;
-
 interface BoxType {
   imgType: string;
 }
@@ -30,7 +12,7 @@ const InfoBox: React.FC<BoxType> = ({ imgType, children }) => {
 
   useEffect(() => {
     setImgSrc("/icon/" + imgType + ".png");
-  }, []);
+  }, [imgType]);
 
   return (
     <Container>
@@ -58,5 +40,23 @@ const InfoBox: React.FC<BoxType> = ({ imgType, children }) => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-bottom: 30px;
+`;
+const Content = styled.div`
+  margin: 50px 30px;
+`;
+const StyledCol = styled(Col)`
+  width: 50%;
+  min-width: 300px;
+`;
+const StyledImg = styled.img`
+  width: 50%;
+  min-width: 300px;
+  margin: 0 30px;
+`;
 
 export default InfoBox;

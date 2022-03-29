@@ -1,38 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Form, Input, Button, notification } from "antd";
 import { useNavigate } from "react-router-dom";
-import { signup, mailCheck, checkNumber } from "../lib/api/user";
+import { signup, mailCheck, checkNumber } from "lib/api/user";
 import { useMutation } from "react-query";
 import styled from "styled-components";
 import { UserType } from "interfaces/interfaces";
 
-const Container = styled.div`
-  height: 85%;
-  margin: 2% 10%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const ButtonBox = styled.div`
-  display: flex;
-  justify-content: space-around;
-`;
-const StyledButton = styled(Button)`
-  width: 130px;
-  margin-bottom: -5%;
-`;
-const StyledCheckButton = styled(Button)`
-  float: right;
-`;
-const ErrorMessage = styled.p`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: -10px;
-  font-size: 13px;
-  color: red;
-`;
-
-const Signup = () => {
+const Signup: React.FC = () => {
   const navigate = useNavigate();
   const mutationMailCheck = useMutation((email: string) => mailCheck(email));
   const mutationCheckNumber = useMutation(
@@ -46,13 +20,19 @@ const Signup = () => {
   const [number, setNumber] = useState("");
   const [canSignup, setCanSignup] = useState(false);
 
-  const _handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
-  const _handlePwdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordConfirm(e.target.value);
-  };
-  const _handleEmailCheck = () => {
+  const _handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>): void => {
+      setUser({ ...user, [e.target.name]: e.target.value });
+    },
+    [user],
+  );
+  const _handlePwdChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>): void => {
+      setPasswordConfirm(e.target.value);
+    },
+    [],
+  );
+  const _handleEmailCheck = useCallback((): void => {
     if (!user.email) {
       notification.open({
         message: "이메일을 입력해주세요",
@@ -77,8 +57,8 @@ const Signup = () => {
           }
         });
     }
-  };
-  const _checkNumber = () => {
+  }, [mutationMailCheck, user.email]);
+  const _checkNumber = useCallback((): void => {
     if (!user.email) {
       notification.open({
         message: "이메일을 입력해주세요",
@@ -103,12 +83,15 @@ const Signup = () => {
           setCanSignup(false);
         });
     }
-  };
-  const _handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNumber(e.target.value);
-  };
+  }, [mutationCheckNumber, number, user.email]);
+  const _handleNumberChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>): void => {
+      setNumber(e.target.value);
+    },
+    [],
+  );
 
-  const _handleSubmit = () => {
+  const _handleSubmit = useCallback((): void => {
     if (canSignup) {
       mutationSignup
         .mutateAsync(user)
@@ -128,7 +111,7 @@ const Signup = () => {
     } else if (!canSignup) {
       setErrorMessage("메일 인증을 완료해주세요");
     }
-  };
+  }, [canSignup, mutationSignup, navigate, user]);
 
   return (
     <Container>
@@ -246,4 +229,30 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+const Container = styled.div`
+  height: 85%;
+  margin: 2% 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+const StyledButton = styled(Button)`
+  width: 130px;
+  margin-bottom: -5%;
+`;
+const StyledCheckButton = styled(Button)`
+  float: right;
+`;
+const ErrorMessage = styled.p`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -10px;
+  font-size: 13px;
+  color: red;
+`;
+
+export default React.memo(Signup);
