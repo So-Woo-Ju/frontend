@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { Form, Input, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { login } from "lib/api/user";
@@ -7,14 +7,12 @@ import { useMutation } from "react-query";
 import { UserType } from "interfaces/interfaces";
 import { SocialLogin } from "components";
 import Cookies from "universal-cookie";
+import { LoginContext } from "contexts";
 
 const cookies = new Cookies();
 
-interface LoginType {
-  setIsLogin: Dispatch<SetStateAction<boolean>>;
-}
-
-const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
+const Login = () => {
+  const { setIsLogin } = useContext(LoginContext);
   const navigate = useNavigate();
   const mutationLogin = useMutation((user: UserType) => login(user));
 
@@ -112,7 +110,6 @@ const Login: React.FunctionComponent<LoginType> = ({ setIsLogin }) => {
             </StyledButton>
           </ButtonBox>
           <SocialLogin
-            setIsLogin={setIsLogin}
             setToken={setToken}
             setErrorMsg={setErrorMsg}
             isLoading={mutationLogin.isLoading}

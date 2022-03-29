@@ -1,20 +1,14 @@
-import React, { Dispatch, SetStateAction, useCallback } from "react";
+import React, { useCallback, useContext } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { logout } from "lib/api/user";
+import { LoginContext } from "contexts";
 
-interface HeaderType {
-  isLogin: boolean;
-  setIsLogin: Dispatch<SetStateAction<boolean>>;
-}
-
-const Header: React.FunctionComponent<HeaderType> = ({
-  isLogin,
-  setIsLogin,
-}) => {
+const Header = () => {
+  const { isLogin, setIsLogin } = useContext(LoginContext);
   const navigate = useNavigate();
 
   const _handleLogout = useCallback(() => {

@@ -1,23 +1,28 @@
-import React, { useCallback, Dispatch, SetStateAction } from "react";
+import React, {
+  useCallback,
+  Dispatch,
+  SetStateAction,
+  useContext,
+} from "react";
 import { useMutation } from "react-query";
 import { googleLogin, kakaoLogin } from "lib/api/user";
 import GoogleLogin from "react-google-login";
 import KakaoLogin from "react-kakao-login";
 import styled from "styled-components";
+import { LoginContext } from "contexts";
 
 interface SocialLoginType {
-  setIsLogin: Dispatch<SetStateAction<boolean>>;
   setToken: (data: any) => void;
   setErrorMsg: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
 }
 
 const SocialLogin: React.FunctionComponent<SocialLoginType> = ({
-  setIsLogin,
   setToken,
   setErrorMsg,
   isLoading,
 }) => {
+  const { setIsLogin } = useContext(LoginContext);
   const mutationGoogle = useMutation((token: string) => googleLogin(token));
   const mutationKakao = useMutation((token: string) => kakaoLogin(token));
 

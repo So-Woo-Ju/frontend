@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Header } from "./components";
 import { MainPage, ResultPage, Login, Signup, Mypage, ErrorPage } from "pages";
@@ -6,12 +6,13 @@ import { getAccessToken, logout } from "lib/api/user";
 import Cookies from "universal-cookie";
 import { QueryClientProvider, QueryClient } from "react-query";
 import About from "pages/About";
+import { LoginContext } from "contexts";
 
 const cookies = new Cookies();
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const { isLogin, setIsLogin } = useContext(LoginContext);
 
   useEffect(() => {
     if (cookies.get("access_token")) {
@@ -34,7 +35,7 @@ const App = () => {
           fontFamily: "Noto Sans KR, sans-serif",
         }}
       >
-        <Header isLogin={isLogin} setIsLogin={setIsLogin} />
+        <Header />
         <Routes>
           <Route
             path="/"
@@ -45,13 +46,7 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route
             path="/login"
-            element={
-              isLogin === true ? (
-                <Navigate replace to="/" />
-              ) : (
-                <Login setIsLogin={setIsLogin} />
-              )
-            }
+            element={isLogin === true ? <Navigate replace to="/" /> : <Login />}
           />
           <Route
             path="/signup"
