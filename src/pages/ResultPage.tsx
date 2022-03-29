@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import { LocationType } from "interfaces/interfaces";
+import ScriptContainer from "components/ScriptContainer";
 
 const ResultPage: React.FC = () => {
   const { state } = useLocation();
@@ -33,16 +34,6 @@ const ResultPage: React.FC = () => {
       if (ref.current) {
         ref.current.currentTime = convertTime(timeArr);
       }
-    },
-    [convertTime],
-  );
-  const _setHighlight = useCallback(
-    (curTime: number | undefined, start: string, end: string) => {
-      const timeArrStart = start.split(":");
-      const timeArrEnd = end.split(":");
-      let startTime = convertTime(timeArrStart);
-      let endTime = convertTime(timeArrEnd);
-      return endTime >= (curTime || 0) && startTime <= (curTime || 0);
     },
     [convertTime],
   );
@@ -78,18 +69,12 @@ const ResultPage: React.FC = () => {
       </video>
       <Script>
         {scriptText.map((script) => (
-          <ScriptBox key={script.start}>
-            <StyledScriptTime onClick={_handleTimeline}>
-              {script.start}
-            </StyledScriptTime>
-            &nbsp;&nbsp;
-            <StyledScriptText
-              isHighlight={_setHighlight(currentTime, script.start, script.end)}
-              isNonVerb={script.text.startsWith("(")}
-            >
-              {script.text}
-            </StyledScriptText>
-          </ScriptBox>
+          <ScriptContainer
+            script={script}
+            currentTime={currentTime}
+            handleTimeline={_handleTimeline}
+            convertTime={convertTime}
+          />
         ))}
       </Script>
     </Container>
@@ -110,21 +95,6 @@ const Script = styled.div`
   margin-top: 10px;
   padding: 15px;
   overflow: scroll;
-`;
-const ScriptBox = styled.div`
-  display: flex;
-`;
-const StyledScriptText = styled.p<{ isHighlight: boolean; isNonVerb: boolean }>`
-  border-bottom: ${({ isHighlight, isNonVerb }) =>
-    isHighlight && isNonVerb
-      ? "1px solid #1890ff"
-      : isHighlight && !isNonVerb && "1px solid black"};
-  font-weight: ${({ isHighlight }) => isHighlight && "bold"};
-  color: ${({ isNonVerb }) => isNonVerb && "#1890ff"};
-`;
-const StyledScriptTime = styled.p`
-  color: #1890ff;
-  cursor: pointer;
 `;
 const StyledVideoTitle = styled.p`
   margin-top: 20px;
