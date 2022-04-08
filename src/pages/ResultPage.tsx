@@ -46,7 +46,7 @@ const ResultPage: React.FC = () => {
     );
     setVideoTitle(title);
     setScriptText(script);
-  }, []);
+  }, [state]);
 
   return (
     <Container>

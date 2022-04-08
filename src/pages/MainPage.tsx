@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { upload } from "lib/api/media";
@@ -19,7 +20,7 @@ const MainPage: React.FC = () => {
   const [UrlErrorMsg, setUrlErrorMsg] = useState("");
   const [emptyErrorMsg, setEmptyErrorMsg] = useState("");
   const regex =
-    /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+    /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
 
   const props = {
     beforeUpload: (file: File) => {
