@@ -62,7 +62,12 @@ const MainPage: React.FC = () => {
         const { status } = res;
         if (status === 200) {
           navigate("/result", {
-            state: { title, url: res.url, script: res.script },
+            state: {
+              title,
+              url: res.url,
+              script: res.script,
+              vtt: "https://s3-sowooju-caption-an2.s3.ap-northeast-2.amazonaws.com/test.vtt",
+            },
           });
         } else {
           console.log(res.statusText);

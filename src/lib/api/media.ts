@@ -1,74 +1,11 @@
 import client from "./client";
 import { my_script } from "../timeline";
 
-export const load = (email: string) => {
-  return {
-    data: [
-      {
-        id: 1,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-      {
-        id: 2,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-      {
-        id: 3,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-      {
-        id: 4,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-      {
-        id: 5,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-      {
-        id: 6,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-      {
-        id: 7,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-    ],
-  };
+export const load = () => {
+  return client({
+    url: "/media/my",
+    method: "get",
+  });
 };
 
 function convertScript(

@@ -39,11 +39,9 @@ const ResultPage: React.FC = () => {
   );
 
   useEffect(() => {
-    const { title, url, script } = state as LocationType;
+    const { title, url, script, vtt } = state as LocationType;
     setVideoSrc(url);
-    setVttSrc(
-      "https://s3-sowooju-caption-an2.s3.ap-northeast-2.amazonaws.com/test.vtt",
-    );
+    setVttSrc(vtt);
     setVideoTitle(title);
     setScriptText(script);
   }, [state]);
@@ -54,7 +52,7 @@ const ResultPage: React.FC = () => {
 
       <video
         controls
-        width="50%"
+        width="40%"
         ref={ref}
         crossOrigin="true"
         onTimeUpdate={() => setCurrentTime(ref.current?.currentTime)}

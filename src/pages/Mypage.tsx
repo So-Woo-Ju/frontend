@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import React, { ReactElement, useCallback } from "react";
+import React, { ReactElement, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { load } from "lib/api/media";
 import { useQuery } from "react-query";
@@ -9,38 +9,45 @@ import ErrorPage from "pages/Errorpage";
 import { Loading } from "components";
 
 const Mypage: React.FC = () => {
-  const { status, data } = useQuery(["loadMedia"], () => load(""));
+  const { status, data } = useQuery(["loadMedia"], () => load());
   const navigate = useNavigate();
 
-  const _handleNavigate = useCallback((): void => {
-    navigate("/result", {
-      state: { type: 2, title: "title", url: "url", script: [] },
-    });
-  }, [navigate]);
+  const _handleNavigate = useCallback(
+    (idx): void => {
+      const media = data?.data.data.medias[idx];
+      navigate("/result", {
+        state: {
+          url: media.videoUrl,
+          script: [],
+          title: media.videoName,
+          vtt: media.captionUrl,
+        },
+      });
+    },
+    [data?.data.data.medias, navigate],
+  );
   const renderByStatus = useCallback((): ReactElement => {
     switch (status) {
       case "loading":
         return <Loading />;
-      case "error":
-        return <ErrorPage />;
-      default:
+      case "success":
+        const medias = data?.data.data.medias;
         return (
           <Row gutter={[16, 16]} style={{ marginTop: "30px" }}>
-            {data?.data?.map((video: VideoType) => (
-              <Col id={String(video.id)} xs={24} md={12} lg={8}>
-                <StyledLink onClick={_handleNavigate} key={video.id}>
-                  <StyledImg
-                    alt={String(video.id)}
-                    src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fvckff%2FbtqCjeJmBHM%2FtMVpe4aUIMfH4nKS4aO3tK%2Fimg.jpg"
-                  />
+            {medias.map((video: VideoType, idx: number) => (
+              <Col key={video.id} xs={24} md={12} lg={8}>
+                <StyledLink onClick={() => _handleNavigate(idx)} key={video.id}>
+                  <StyledImg alt={String(video.id)} src={video.thumbnailUrl} />
                   <VideoTitle>{video.videoName}</VideoTitle>
                 </StyledLink>
               </Col>
             ))}
           </Row>
         );
+      default:
+        return <ErrorPage />;
     }
-  }, [_handleNavigate, data?.data, status]);
+  }, [_handleNavigate, data?.data.data.medias, status]);
 
   return (
     <Container>
