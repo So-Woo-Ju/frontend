@@ -66,7 +66,7 @@ const MainPage: React.FC = () => {
               title,
               url: res.url,
               script: res.script,
-              vtt: "https://s3-sowooju-caption-an2.s3.ap-northeast-2.amazonaws.com/test.vtt",
+              vtt: res.vtt,
             },
           });
         } else {

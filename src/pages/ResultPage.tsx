@@ -12,7 +12,7 @@ const ResultPage: React.FC = () => {
   const [vttSrc, setVttSrc] = useState("");
   const [videoTitle, setVideoTitle] = useState("");
   const [scriptText, setScriptText] = useState<
-    { start: string; end: string; text: string }[]
+    { id: number; start: string; end: string; text: string }[]
   >([]);
 
   const convertTime = useCallback((arr: Array<string>): number => {
@@ -68,6 +68,7 @@ const ResultPage: React.FC = () => {
       <Script>
         {scriptText.map((script) => (
           <ScriptContainer
+            key={script.id}
             script={script}
             currentTime={currentTime}
             handleTimeline={_handleTimeline}
