@@ -1,10 +1,12 @@
 export interface VideoType {
   id: number;
-  src: string;
   videoName: string;
   videoUrl: string;
   videoType: string;
   videoLanguage: string;
+  textUrl: string;
+  thumbnailUrl: string;
+  captionUrl: string;
 }
 
 export interface UserType {
@@ -15,7 +17,8 @@ export interface UserType {
 export interface LocationType {
   title: string;
   url: string;
-  script: Array<{ start: string; end: string; text: string }>;
+  script: Array<{ id: number; start: string; end: string; text: string }>;
+  vtt: string;
 }
 
 export interface ScriptType {

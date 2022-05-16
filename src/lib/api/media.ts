@@ -1,92 +1,32 @@
 import client from "./client";
 import { my_script } from "../timeline";
 
-export const load = (email: string) => {
-  return {
-    data: [
-      {
-        id: 1,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-      {
-        id: 2,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-      {
-        id: 3,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-      {
-        id: 4,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-      {
-        id: 5,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-      {
-        id: 6,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-      {
-        id: 7,
-        src: "",
-        userId: "",
-        videoName: "제목제목",
-        videoUrl: "",
-        videoType: "",
-        videoLanguage: "",
-      },
-    ],
-  };
+export const load = () => {
+  return client({
+    url: "/media/my",
+    method: "get",
+  });
 };
 
 function convertScript(
   data: Array<{ start: number; end: number; textEdited: string }>,
 ) {
-  return data.map((t: { start: number; end: number; textEdited: string }) => {
-    return {
-      start:
-        String(Math.floor(t.start / 1000 / 60)).padStart(2, "0") +
-        ":" +
-        String(Math.floor(t.start / 1000) % 60).padStart(2, "0"),
-      end:
-        String(Math.floor(t.end / 1000 / 60)) +
-        ":" +
-        String(Math.floor(t.end / 1000) % 60).padStart(2, "0"),
-      text: t.textEdited,
-    };
-  });
+  return data.map(
+    (t: { start: number; end: number; textEdited: string }, idx) => {
+      return {
+        id: idx,
+        start:
+          String(Math.floor(t.start / 1000 / 60)).padStart(2, "0") +
+          ":" +
+          String(Math.floor(t.start / 1000) % 60).padStart(2, "0"),
+        end:
+          String(Math.floor(t.end / 1000 / 60)) +
+          ":" +
+          String(Math.floor(t.end / 1000) % 60).padStart(2, "0"),
+        text: t.textEdited,
+      };
+    },
+  );
 }
 export const upload = async (
   type: Number,
@@ -108,7 +48,12 @@ export const upload = async (
     if (status === 200) {
       // 머신러닝 작동 호출
       const src = url.split("?")[0];
-      return { status, url: src, script };
+      return {
+        status,
+        url: src,
+        script,
+        vtt: "https://s3-sowooju-caption-an2.s3.ap-northeast-2.amazonaws.com/test.vtt",
+      };
     } else {
       return { status, statusText };
     }
@@ -118,16 +63,17 @@ export const upload = async (
       method: "post",
       data: { youtubeUrl },
     });*/
-    const { status, statusText, url } = {
+    const { status, statusText, url, vtt } = {
       status: 200,
       statusText: "OK",
       url: "https://s3-sowooju-video-an2.s3.ap-northeast-2.amazonaws.com/11-202203140939.mp4",
+      vtt: "https://s3-sowooju-caption-an2.s3.ap-northeast-2.amazonaws.com/test.vtt",
     };
     const script = convertScript(my_script.segments);
     if (status === 200) {
       // 머신러닝 작동 호출
       const src = url.split("?")[0];
-      return { status, url: src, script };
+      return { status, url: src, script, vtt };
     } else {
       return { status, statusText };
     }

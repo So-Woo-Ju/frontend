@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { upload } from "lib/api/media";
@@ -19,7 +20,7 @@ const MainPage: React.FC = () => {
   const [UrlErrorMsg, setUrlErrorMsg] = useState("");
   const [emptyErrorMsg, setEmptyErrorMsg] = useState("");
   const regex =
-    /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+    /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
 
   const props = {
     beforeUpload: (file: File) => {
@@ -61,7 +62,12 @@ const MainPage: React.FC = () => {
         const { status } = res;
         if (status === 200) {
           navigate("/result", {
-            state: { title, url: res.url, script: res.script },
+            state: {
+              title,
+              url: res.url,
+              script: res.script,
+              vtt: res.vtt,
+            },
           });
         } else {
           console.log(res.statusText);

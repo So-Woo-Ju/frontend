@@ -12,7 +12,7 @@ const ResultPage: React.FC = () => {
   const [vttSrc, setVttSrc] = useState("");
   const [videoTitle, setVideoTitle] = useState("");
   const [scriptText, setScriptText] = useState<
-    { start: string; end: string; text: string }[]
+    { id: number; start: string; end: string; text: string }[]
   >([]);
 
   const convertTime = useCallback((arr: Array<string>): number => {
@@ -39,14 +39,12 @@ const ResultPage: React.FC = () => {
   );
 
   useEffect(() => {
-    const { title, url, script } = state as LocationType;
+    const { title, url, script, vtt } = state as LocationType;
     setVideoSrc(url);
-    setVttSrc(
-      "https://s3-sowooju-caption-an2.s3.ap-northeast-2.amazonaws.com/test.vtt",
-    );
+    setVttSrc(vtt);
     setVideoTitle(title);
     setScriptText(script);
-  }, []);
+  }, [state]);
 
   return (
     <Container>
@@ -54,7 +52,7 @@ const ResultPage: React.FC = () => {
 
       <video
         controls
-        width="50%"
+        width="40%"
         ref={ref}
         crossOrigin="true"
         onTimeUpdate={() => setCurrentTime(ref.current?.currentTime)}
@@ -70,6 +68,7 @@ const ResultPage: React.FC = () => {
       <Script>
         {scriptText.map((script) => (
           <ScriptContainer
+            key={script.id}
             script={script}
             currentTime={currentTime}
             handleTimeline={_handleTimeline}
