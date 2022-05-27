@@ -7,24 +7,26 @@ import styled from "styled-components";
 import { VideoType } from "interfaces/interfaces";
 import ErrorPage from "pages/Errorpage";
 import { Loading } from "components";
+import convertScript from "util/convertScript";
 
 const Mypage: React.FC = () => {
   const { status, data } = useQuery(["loadMedia"], () => load());
   const navigate = useNavigate();
 
   const _handleNavigate = useCallback(
-    (idx): void => {
+    async (idx): Promise<void> => {
       const media = data?.data.data.medias[idx];
+      const script = await (await fetch(media.textUrl)).json();
       navigate("/result", {
         state: {
           url: media.videoUrl,
-          script: [],
+          script: convertScript(script),
           title: media.videoName,
           vtt: media.captionUrl,
         },
       });
     },
-    [data?.data.data.medias, navigate],
+    [data?.data.data.medias, navigate]
   );
   const renderByStatus = useCallback((): ReactElement => {
     switch (status) {
