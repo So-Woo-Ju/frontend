@@ -10,7 +10,9 @@ import { Loading } from "components";
 
 const MainPage: React.FC = () => {
   const navigate = useNavigate();
-  const mutationUpload = useMutation(() => upload(type, uploadFile, Url));
+  const mutationUpload = useMutation(() =>
+    upload(title, lang, type, uploadFile, Url)
+  );
 
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [lang, setLang] = useState(1);
@@ -53,7 +55,7 @@ const MainPage: React.FC = () => {
       }
       setUrl(e.target.value);
     },
-    [lang, regex],
+    [lang, regex]
   );
   const _handleUpload = useCallback((): void => {
     mutationUpload

@@ -9,7 +9,7 @@ export const load = () => {
 };
 
 function convertScript(
-  data: Array<{ start: number; end: number; textEdited: string }>,
+  data: Array<{ start: number; end: number; textEdited: string }>
 ) {
   return data.map(
     (t: { start: number; end: number; textEdited: string }, idx) => {
@@ -25,34 +25,49 @@ function convertScript(
           String(Math.floor(t.end / 1000) % 60).padStart(2, "0"),
         text: t.textEdited,
       };
-    },
+    }
   );
 }
 export const upload = async (
+  title: string,
+  lang: number,
   type: Number,
   file: File | null,
-  youtubeUrl: string,
+  youtubeUrl: string
 ) => {
   if (type === 1) {
     const {
-      data: { data },
+      data: {
+        data: { videoS3Url, fileName },
+      },
     } = await client({
       url: "/media/video/presigned-url",
       method: "get",
     });
-    const { status, statusText, url } = await fetch(data.videoS3Url, {
+    const { status, statusText } = await fetch(videoS3Url, {
       method: "PUT",
       body: file,
     });
-    const script = convertScript(my_script.segments);
     if (status === 200) {
-      // 머신러닝 작동 호출
-      const src = url.split("?")[0];
+      const {
+        data: { data },
+      } = await client({
+        url: "/media/result",
+        method: "post",
+        data: {
+          videoName: title,
+          videoType: "LOCAL",
+          videoLanguage: lang === 1 ? "KOR" : "ENG",
+          fileName: fileName,
+        },
+      });
+      const script = convertScript(my_script.segments);
+      const src = data.videoUrl.split("?")[0];
       return {
         status,
         url: src,
         script,
-        vtt: "https://s3-sowooju-caption-an2.s3.ap-northeast-2.amazonaws.com/test.vtt",
+        vtt: data.captionUrl,
       };
     } else {
       return { status, statusText };
