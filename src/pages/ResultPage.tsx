@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import { LocationType } from "interfaces/interfaces";
 import { ScriptContainer } from "components";
+import convertTime from "util/convertTime";
 
 const ResultPage: React.FC = () => {
   const { state } = useLocation();
@@ -15,18 +16,6 @@ const ResultPage: React.FC = () => {
     { id: number; start: string; end: string; text: string }[]
   >([]);
 
-  const convertTime = useCallback((arr: Array<string>): number => {
-    if (arr.length === 3) {
-      const hour = Number(arr[0]) * 3600;
-      const min = Number(arr[1]) * 60;
-      const sec = Number(arr[2]);
-      return hour + min + sec;
-    } else {
-      const min = Number(arr[0]) * 60;
-      const sec = Number(arr[1]);
-      return min + sec;
-    }
-  }, []);
   const _handleTimeline = useCallback(
     (e: React.MouseEvent<HTMLParagraphElement>): void => {
       const input = e.target as HTMLElement;
@@ -35,7 +24,7 @@ const ResultPage: React.FC = () => {
         ref.current.currentTime = convertTime(timeArr);
       }
     },
-    [convertTime],
+    [convertTime]
   );
 
   useEffect(() => {
