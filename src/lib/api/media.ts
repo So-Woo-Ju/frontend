@@ -54,27 +54,20 @@ export const upload = async (
       return { status, statusText };
     }
   } else {
-    /*const res = await client({
-      url: "/media/upload",
-      method: "post",
-      data: { youtubeUrl },
-    });*/
     const { status, statusText, url, vtt } = {
       status: 200,
       statusText: "OK",
-      url: "https://s3-sowooju-video-an2.s3.ap-northeast-2.amazonaws.com/11-202203140939.mp4",
-      vtt: "https://s3-sowooju-caption-an2.s3.ap-northeast-2.amazonaws.com/test.vtt",
+      url: "https://s3-sowooju-video-an2.s3.ap-northeast-2.amazonaws.com/1-202205303005.mp4",
+      vtt: "https://s3-sowooju-caption-an2.s3.ap-northeast-2.amazonaws.com/1-202205303005.vtt",
     };
 
     const script = await (
       await fetch(
-        "https://s3-sowooju-text-an2.s3.ap-northeast-2.amazonaws.com/1-202205274931.json"
+        "https://s3-sowooju-text-an2.s3.ap-northeast-2.amazonaws.com/1-202205303005.json"
       )
     ).json();
     if (status === 200) {
-      // 머신러닝 작동 호출
-      const src = url.split("?")[0];
-      return { status, url: src, script, vtt };
+      return { status, url, script: convertScript(script), vtt };
     } else {
       return { status, statusText };
     }
